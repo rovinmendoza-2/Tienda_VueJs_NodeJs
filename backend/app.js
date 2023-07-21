@@ -4,7 +4,7 @@ const bodyparser = require("body-parser");
 const app = express();
 
 const client_router = require("./routes/client");
-const usuario_router = require("./routes/usuario");
+const users_router = require("./routes/users");
 
 app.use(bodyparser.urlencoded({ limit: "50mb", extended: true }));
 app.use(bodyparser.json({ limit: "50mb", extended: true }));
@@ -36,6 +36,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/api", client_router);
-app.use("/api", usuario_router);
+app.use("/api", users_router);
 
 module.exports = app;

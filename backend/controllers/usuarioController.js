@@ -1,4 +1,4 @@
-const Usuario = require("../models/usuario");
+const Users = require("../models/users");
 const bcrypt = require("bcrypt-nodejs");
 
 const register_user_admin = async (req, res) => {
@@ -6,10 +6,10 @@ const register_user_admin = async (req, res) => {
 
   const data = req.body;
 
-  const usuarios = await Usuario.find({ email: data.email });
+  const users = await Users.find({ email: data.email });
 
-  console.log(usuarios);
-  if (usuarios.length >= 1) {
+  console.log(users);
+  if (users.length >= 1) {
     res
       .status(200)
       .send({ data: undefined, message: "El correo electronico ya existe" });
