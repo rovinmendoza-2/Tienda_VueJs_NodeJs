@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 
+const client_router = require('./routes/client');
+
 const port = process.env.port || 4200;
 
 //Conexion a base de datos
@@ -16,6 +18,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/tienda')
     console.error('Error al conectar a la base de datos:', error);
   });
 
+app.use('/api', client_router);
 
 
 
