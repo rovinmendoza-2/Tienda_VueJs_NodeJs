@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 
 Vue.config.productionTip = false
+Vue.prototype.$url = 'http://localhost:4200/api';
 
 new Vue({
   router,
