@@ -79,6 +79,25 @@
 <script>
 export default {
     name: 'LoginPage',
+    data(){
+        return{
+            email: '',
+            password: '',
+            msm_error: ''
+        }
+    },
+    methods: {
+        validar(){
+            if(!this.email){
+                this.msm_error = 'Ingrese un correo electronico';
+            }else if(!this.password){
+                this.msm_error = 'Ingrese un password';
+            }else{
+                this.msm_error = '';
+            }
+            console.log(this.msm_error);
+        }
+    }
 }
 </script>
   
