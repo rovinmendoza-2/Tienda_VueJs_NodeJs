@@ -8,7 +8,7 @@ Vue.use(VueRouter)
 
 const routes = [
   { path: '/', name: 'login', component: LoginApp},
-  { path: '/collaborator/register', name: 'register', component: RegisterPage},
+  { path: '/register_admin', name: 'register', component: RegisterPage},
   { path: '/', name: 'home', component: HomeView},
 ]
 

@@ -51,10 +51,6 @@
                     </div>
 
                     <!-- Form -->
-                    <form>
-
-                
-
                     <div class="row">
                         <div class="col-12 col-md-6">
 
@@ -67,7 +63,7 @@
                             </label>
 
                             <!-- Input -->
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" v-model="collaborator.name" placeholder="Nombre">
 
                         </div>
 
@@ -83,7 +79,7 @@
                             </label>
 
                             <!-- Input -->
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" v-model="collaborator.lastName" placeholder="Apellido">
 
                         </div>
 
@@ -104,7 +100,7 @@
                             </small>
 
                             <!-- Input -->
-                            <input type="email" class="form-control">
+                            <input type="email" class="form-control" v-model="collaborator.email" placeholder="Email">
 
                         </div>
 
@@ -121,7 +117,8 @@
                             </label>
 
                             <!-- Input -->
-                            <select name="" class="form-select" id="">
+                            <select name="" class="form-select" v-model="collaborator.role">
+                                <option value="" disabled selected>Seleccionar</option>
                                 <option value="Administrador">Administrador</option>
                                 <option value="Vendedor">Vendedor</option>
                                 <option value="Inventariado">Inventariado</option>
@@ -131,28 +128,13 @@
                         </div>
 
                     </div> <!-- / .row -->
-
-                    <!-- Divider -->
-                    
-
-        
-
                     <hr class="my-5">
-
                     <!-- Button -->
-                    <button class="btn btn-primary">
-                        Save changes
-                    </button>
-
-
-                    </form>
-
+                    <button type="button" class="btn btn-primary" v-on:click="validar()">Registrarse</button>
                     <br><br>
-
                 </div>
                 </div> <!-- / .row -->
             </div>
-
         </div>
     </div>
 </template>
@@ -161,9 +143,64 @@
 // @ is an alias to /src
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
+import axios from "axios";
 
 export default {
-  name: 'RegisterCollaborator',
+  name: 'RegisterPage',
+  data(){
+    return {
+        collaborator: {
+            role: ''
+        }
+    }
+  },
+  methods: {
+    validar(){
+        if(!this.collaborator.name){
+            this.$notify({
+            group: 'foo',
+            title: 'ERROR',
+            text: 'Ingrese los nombre',
+            type: 'error'
+        });
+        }else if(!this.collaborator.lastName){
+            this.$notify({
+            group: 'foo',
+            title: 'ERROR',
+            text: 'Ingrese los apellidos',
+            type: 'error'
+        });
+        }else if(!this.collaborator.email){
+            this.$notify({
+            group: 'foo',
+            title: 'ERROR',
+            text: 'Ingrese el email',
+            type: 'error'
+        });
+        }else if(!this.collaborator.role){
+            this.$notify({
+            group: 'foo',
+            title: 'ERROR',
+            text: 'Seleccione un rol',
+            type: 'error'
+        });
+        }else{
+            this.registerUsers();
+        }
+    },
+    registerUsers(){
+    axios.post(this.$url+'/register_user_admin', this.collaborator, {
+        headers: {
+            "Content-Type": 'application/json',
+            "Authorization": this.$token
+        }}).then( (result) =>{
+            console.log(result);
+        }).catch( (err) => {
+            console.log(err);
+        })
+    },
+  },
+  
   components: {
     SidebarPage,
     TopNavPage
