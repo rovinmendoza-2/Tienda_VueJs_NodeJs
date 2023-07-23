@@ -62,7 +62,18 @@ const login_users = async (req, res) => {
       .send({ data: undefined, message: "No se encontro el correo" });
   }
 };
+
+const list_users = async(req, res) =>{
+  if(req.user){
+    let users = await Users.find();
+    res.status(200).send(users);
+  }else{
+    res.status(500).send({data:undefined, message: 'Error token'})
+  }
+};
+
 module.exports = {
   register_user_admin,
   login_users,
+  list_users
 };
