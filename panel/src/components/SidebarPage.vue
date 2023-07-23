@@ -81,9 +81,9 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " href="./widgets.html">
-                            <i class="fe fe-grid"></i> Widgets
-                        </a>
+                        <router-link to="/collaborator_index" class="nav-link ">
+                            <i class="fe fe-user"></i> Colaboradores
+                        </router-link>
                     </li>
 
                 </ul>
