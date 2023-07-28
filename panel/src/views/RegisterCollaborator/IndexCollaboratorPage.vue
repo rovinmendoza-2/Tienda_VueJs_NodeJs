@@ -102,15 +102,20 @@
 
                             <!-- Dropdown -->
                             <div class="dropdown">
-                              <a class="dropdown-ellipses dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fe fe-more-vertical"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-end">
-                                <a href="#!" class="dropdown-item">Action</a>
-                                <a href="#!" class="dropdown-item">Another action</a>
-                                <a href="#!" class="dropdown-item">Something else here</a>
-                              </div>
+                              <a class="dropdown-ellipses dropdown-toggle" href="#"
+                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <i class="fe fe-more-vertical"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <router-link :to="{name:'edit', params:{id:item._id}}" class="dropdown-item">Editar</router-link>
+                                    <a style="cursor: :pointer" class="dropdown-item">
+                                        <span v-if="item.state">Desactivar</span>
+                                        <span v-if="!item.state">Activar</span>
+                                    </a>
+                                </div>
                             </div>
+
                           </td>
                         </tr>
                         </paginate>
@@ -184,16 +189,16 @@ export default {
       onLangsPageChange(toPage, fromPage) {
             this.currentPage = toPage;
         },
-        goPrev() {
+      goPrev() {
             if (this.currentPage >= 2) {
-                this.$refs.users.goToPage(this.currentPage - 1);
+                this.$refs.users.goToPage(this.currentPage--);
             } else {
                 this.$refs.users.goToPage(1);
             }
         },
     goNext() {
         if (this.currentPage <= Math.ceil(this.users.length / this.perPage)) {
-            this.$refs.users.goToPage(this.currentPage + 1);
+            this.$refs.users.goToPage(this.currentPage++);
         } else {
             this.$refs.users.goToPage(Math.ceil(this.users.length / this.perPage));
         }

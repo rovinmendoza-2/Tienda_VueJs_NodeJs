@@ -63,6 +63,7 @@ const login_users = async (req, res) => {
   }
 };
 
+//Metodo para listar usuarios
 const list_users = async(req, res) =>{
   if(req.user){
     let filtro = req.params['filter'];
@@ -80,8 +81,46 @@ const list_users = async(req, res) =>{
   }
 };
 
+//Metodo para obtener el id de un usuario
+const get_user_admin = async(req, res) => {
+  if(req.user){
+    let id = req.params['id'];
+
+    try {
+      let user = await Users.findById({_id: id});
+      res.status(200).send(user);
+      console.log("esto", user);
+    } catch (error) {
+      res.status(200).send(undefined);
+    }
+    
+  }else{
+    res.status(500).send({data:undefined, message: 'Error token'})
+  }
+};
+
+//Metodo para actualizar un usuario
+const update_user_admin = async( req, res)=> {
+  if(req.user){
+    let id = req.params['id'];
+    let data = req.body;
+
+    let user =  await Users.findByIdAndUpdate({_id:id}, {
+      name: data.name,
+      lastName: data.lastName,
+      role: data.role,
+      email: data.email
+  });
+  res.status(200).send({user: user, message: 'Solicitud exitosa'});
+  }else{
+    res.status(500).send({data:undefined, message: 'Error token'})
+  }
+}
+
 module.exports = {
   register_user_admin,
   login_users,
-  list_users
+  list_users,
+  get_user_admin,
+  update_user_admin
 };
