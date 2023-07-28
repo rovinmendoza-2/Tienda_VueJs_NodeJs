@@ -78,7 +78,7 @@
                         </tr>
                       </thead>
                       <paginate tag="tbody" ref="users" name="users" :list="users" :per="perPage" class="list">
-                        <tr v-for="item in paginated('users')">
+                        <tr  v-if="!load_date" v-for="item in paginated('users')">
                           <td>
                             <!-- Avatar -->
                             <div class="avatar avatar-xs align-middle me-2">
@@ -114,6 +114,13 @@
                           </td>
                         </tr>
                         </paginate>
+                        <tr v-if="load_date">
+                            <td colspan="5" class="text-center">
+                                                    <div class="spinner-border mt-5 mb-5 text-info" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </td>
+                        </tr>
                     </table>
                   </div>
                   <div class="card-footer d-flex justify-content-between">
@@ -195,24 +202,12 @@ export default {
     filtrar(){
             let terms = new RegExp(this.filter, 'i');
             //this.users = this.users_const.filter(item => terms.test(item.nombres) || terms.test(item.apellidos) || terms.test(item.email));
-            this.init_date();
+            this.init_date();+
+             
             console.log(this.filter);
         },
     init_date(){
-            // this.load_date = true;
-            // axios.get(this.$url + '/obtener_usuario_admin/'+this.filtro, {
-            // headers: {
-            //     'Content-Type': 'application/json',
-            //     'Authorization': this.$store.state.token
-            // }
-            // }).then((result) => {
-            // this.colaboradores = result.data;
-            // this.users_const = this.users;
-            // this.load_date = false;
-            // console.log(this.users);
-            // }).catch((err) => {
-            // console.log(err);
-            // })
+             this.load_date = true;
         axios.get(this.$url+'/list_users/'+this.filter, {
         headers: {
             'Content-Type': "application/json",
@@ -220,6 +215,8 @@ export default {
         }
         }).then( (result) => {
             this.users = result.data
+            this.users_const = this.users;
+            this.load_date = false;
             console.log(this.users);
         }).catch( (err) => {
             console.log(err);

@@ -23,7 +23,7 @@
                     <a href="#" id="sidebarIcon" class="dropdown-toggle" role="button" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <div class="avatar avatar-sm avatar-online">
-                            <img src="/assets/img/avatars/profiles/avatar-1.jpg" class="avatar-img rounded-circle"
+                            <img src="/assets/img/avatar-1.jpg" class="avatar-img rounded-circle"
                                 alt="...">
                         </div>
                     </a>
@@ -109,7 +109,7 @@
                         <a href="#" id="sidebarIconCopy" class="dropdown-toggle" role="button" data-bs-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-sm avatar-online">
-                                <img src="/assets/img/avatars/profiles/avatar-1.jpg" class="avatar-img rounded-circle"
+                                <img src='/assets/img/avatar-1.jpg' class="avatar-img rounded-circle"
                                     alt="...">
                             </div>
                         </a>
