@@ -65,7 +65,15 @@ const login_users = async (req, res) => {
 
 const list_users = async(req, res) =>{
   if(req.user){
-    let users = await Users.find();
+    let filtro = req.params['filter'];
+
+    let users = await Users.find({
+            $or:[
+                {name: new RegExp(filtro, 'i')},
+                {lastName: new RegExp(filtro, 'i')},
+                {email: new RegExp(filtro, 'i')}
+            ]
+        });
     res.status(200).send(users);
   }else{
     res.status(500).send({data:undefined, message: 'Error token'})

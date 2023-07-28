@@ -45,7 +45,7 @@
                         <!-- Form -->
                         <form>
                           <div class="input-group input-group-flush input-group-merge input-group-reverse">
-                            <input class="form-control list-search" type="search" placeholder="Search">
+                            <input class="form-control list-search" type="search" v-model="filter" placeholder="Buscar usuario">
                             <span class="input-group-text">
                               <i class="fe fe-search"></i>
                             </span>
@@ -54,7 +54,7 @@
                       </div>
                       <div class="col-auto">
                         <!-- Dropdown -->
-                        <button class="btn btn-sm btn-white" type="button">
+                        <button class="btn btn-sm btn-white" type="button" v-on:click="filtrar()">
                           <i class="fe fe-sliders me-1"></i> Filter <span class="badge bg-primary ms-1 d-none">0</span>
                         </button>
 
@@ -165,9 +165,12 @@ export default {
     data(){
         return {
             users: [],
+            users_const: [],
             paginate: ['users'],
             currentPage: 1,
             perPage: 2,
+            filter: '',
+            load_date: false
         }
     },
     methods: {
@@ -188,25 +191,47 @@ export default {
             this.$refs.users.goToPage(Math.ceil(this.users.length / this.perPage));
         }
     },
-    },
-    
-
-    components: {
-        SidebarPage,
-        TopNavPage
-    },
-    beforeMount(){
-        axios.get(this.$url+'/list_users', {
-            headers: {
-                'Content-Type': "application/json",
-                'Authorization': this.$token
-            }
+    //Fitrar usuario por busqueda
+    filtrar(){
+            let terms = new RegExp(this.filter, 'i');
+            //this.users = this.users_const.filter(item => terms.test(item.nombres) || terms.test(item.apellidos) || terms.test(item.email));
+            this.init_date();
+            console.log(this.filter);
+        },
+    init_date(){
+            // this.load_date = true;
+            // axios.get(this.$url + '/obtener_usuario_admin/'+this.filtro, {
+            // headers: {
+            //     'Content-Type': 'application/json',
+            //     'Authorization': this.$store.state.token
+            // }
+            // }).then((result) => {
+            // this.colaboradores = result.data;
+            // this.users_const = this.users;
+            // this.load_date = false;
+            // console.log(this.users);
+            // }).catch((err) => {
+            // console.log(err);
+            // })
+        axios.get(this.$url+'/list_users/'+this.filter, {
+        headers: {
+            'Content-Type': "application/json",
+            'Authorization': this.$token
+        }
         }).then( (result) => {
             this.users = result.data
             console.log(this.users);
         }).catch( (err) => {
             console.log(err);
         })
+        },
+    },
+    components: {
+        SidebarPage,
+        TopNavPage
+    },
+    beforeMount(){
+      this.init_date();
     }
 }
 </script>
