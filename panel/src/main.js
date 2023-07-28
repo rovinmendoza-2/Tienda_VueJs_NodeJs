@@ -2,8 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Notifications from 'vue-notification'
+import Notifications from 'vue-notification';
+import VuePaginate from 'vue-paginate';
 
+Vue.use(VuePaginate);
 Vue.use(Notifications)
 Vue.config.productionTip = false
 
