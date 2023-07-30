@@ -10,8 +10,15 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
+    setToken(state, token){{
+      state.token = token;
+    }}
   },
   actions: {
+    saveToken({commit}, token){
+      commit('setToken', token);
+      localStorage.setItem('token', token);
+    }
   },
   modules: {
   }

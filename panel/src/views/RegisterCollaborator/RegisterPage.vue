@@ -143,6 +143,7 @@
 // @ is an alias to /src
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
+import store from '@/store/index';
 import axios from "axios";
 
 export default {
@@ -192,7 +193,7 @@ export default {
     axios.post(this.$url+'/register_user_admin', this.collaborator, {
         headers: {
             "Content-Type": 'application/json',
-            "Authorization": this.$token
+            "Authorization": this.$store.state.token
         }}).then( (result) =>{
             if(!result.data.data === undefined){
                 this.$notify({

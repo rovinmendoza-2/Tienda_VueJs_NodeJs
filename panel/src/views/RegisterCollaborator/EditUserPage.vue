@@ -168,7 +168,7 @@ export default {
             axios.get(this.$url+'/get_user_admin/'+this.id, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': this.$token
+                    'Authorization': this.$store.state.token
                 }
             }).then((result) => {
                 console.log("result", result);
@@ -223,7 +223,7 @@ export default {
             axios.put(this.$url+'/update_user_admin/'+this.id, this.user, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': this.$token
+                    'Authorization': this.$store.state.token
                 }
             }).then( (result)=>{
                 this.$notify({

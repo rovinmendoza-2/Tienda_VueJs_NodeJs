@@ -117,10 +117,9 @@ export default {
                     this.msm_error = result.data.message;
                 }
                 if(result.data.token){
-                    localStorage.setItem('token', result.data.token);
-                    localStorage.setItem('user', JSON.stringify(result.data));
+                    this.$store.dispatch('saveToken', result.data.token);
                     console.log(result)
-                    this.$router.push({ name: 'dashboard' });
+                    this.$router.push({ name: 'home' });
                 }
             }).catch( (err)=> {
                 console.log(err);

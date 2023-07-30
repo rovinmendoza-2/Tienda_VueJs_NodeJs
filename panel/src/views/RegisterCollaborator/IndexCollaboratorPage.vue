@@ -223,7 +223,7 @@ export default {
           axios.get(this.$url+'/list_users/'+this.filter, {
           headers: {
               'Content-Type': "application/json",
-              'Authorization': this.$token
+              'Authorization': this.$store.state.token
           }
           }).then( (result) => {
               this.users = result.data
@@ -238,7 +238,7 @@ export default {
         axios.put(this.$url+'/change_status_to_user/'+id, {state: state}, {
           headers: {
             'Content-Type': "application/json",
-            'Authorization': this.$token
+            'Authorization': this.$store.state.token
           }
         }).then( (result)=>{
           this.init_data();
