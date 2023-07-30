@@ -120,8 +120,9 @@ export default {
                     localStorage.setItem('token', result.data.token);
                     localStorage.setItem('user', JSON.stringify(result.data));
                     console.log(result)
+                    this.$router.push({ name: 'home' });
                 }
-                this.$router.push({name: 'home'});
+                
                 
             }).catch( (err)=> {
                 console.log(err);

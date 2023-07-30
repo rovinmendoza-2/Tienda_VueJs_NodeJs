@@ -38,24 +38,30 @@ const register_user_admin = async (req, res) => {
 //Funcion para iniciar sesion
 const login_users = async (req, res) => {
   const data = req.body;
-  console.log(data);
 
   const users = await Users.find({ email: data.email });
   if (users.length >= 1) {
-    //El correo existe
-    bcrypt.compare(data.password, users[0].password, async (err, check) => {
-      console.log(check);
-      if (check) {
-        //generamos token de acceso jwt
-        res
-          .status(200)
-          .send({ token: jwt.createToken(users[0]), userLog: users[0] });
-      } else {
-        res
-          .status(200)
-          .send({ data: undefined, message: "El password es incorrecto" });
-      }
-    });
+    //Validando rol de usuario y acceso
+    if(users[0].state){
+      //El correo existe
+      bcrypt.compare(data.password, users[0].password, async (err, check) => {
+        console.log(check);
+        if (check) {
+          //generamos token de acceso jwt
+          res
+            .status(200)
+            .send({ token: jwt.createToken(users[0]), userLog: users[0] });
+        } else {
+          res
+            .status(200)
+            .send({ data: undefined, message: "El password es incorrecto" });
+        }
+      });
+    }else{
+      res
+      .status(200)
+      .send({ data: undefined, message: "Su cuenta esta desactivada" });
+    }
   } else {
     res
       .status(200)
