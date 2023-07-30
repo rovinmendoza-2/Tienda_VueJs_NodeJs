@@ -111,15 +111,18 @@
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <router-link :to="{name:'edit', params:{id:item._id}}" class="dropdown-item">Editar</router-link>
                                     <a style="cursor: :pointer" class="dropdown-item"
-                                      v-b-modal="'delete-'+item._id">Desactivar
+                                      v-b-modal="'delete-'+item._id">
+                                      <span v-if="item.state">Desactivar</span>
+                                      <span v-if="!item.state">Activar</span>
                                     </a>
                                 </div>
                             </div>
                             <b-modal :id="'delete-'+item._id" title="BootstrapVue"
-                              title-html="<h4 class='card-header-title'><b>Agregrar Miembros</b></h4>">
-                              <p class="my-4">{{ item._id }}</p>
+                              title-html="<h4 class='card-header-title'><b>Agregrar Miembros</b></h4>"
+                              @ok="updateState(item._id, item.state)">
+                                  <p class="my-4">{{ item._id }}</p>
                             </b-modal>
-
+                              
                           </td>
                         </tr>
                         </paginate>
@@ -200,44 +203,63 @@ export default {
                 this.$refs.users.goToPage(1);
             }
         },
-    goNext() {
-        if (this.currentPage <= Math.ceil(this.users.length / this.perPage)) {
-            this.$refs.users.goToPage(this.currentPage++);
-        } else {
-            this.$refs.users.goToPage(Math.ceil(this.users.length / this.perPage));
-        }
-    },
-    //Fitrar usuario por busqueda
-    filtrar(){
-            let terms = new RegExp(this.filter, 'i');
-            //this.users = this.users_const.filter(item => terms.test(item.nombres) || terms.test(item.apellidos) || terms.test(item.email));
-            this.init_date();+
-             
-            console.log(this.filter);
-        },
-    init_date(){
-             this.load_date = true;
-        axios.get(this.$url+'/list_users/'+this.filter, {
-        headers: {
+      goNext() {
+          if (this.currentPage <= Math.ceil(this.users.length / this.perPage)) {
+              this.$refs.users.goToPage(this.currentPage++);
+          } else {
+              this.$refs.users.goToPage(Math.ceil(this.users.length / this.perPage));
+          }
+      },
+      //Fitrar usuario por busqueda
+      filtrar(){
+              let terms = new RegExp(this.filter, 'i');
+              //this.users = this.users_const.filter(item => terms.test(item.nombres) || terms.test(item.apellidos) || terms.test(item.email));
+              this.init_data();+
+              
+              console.log(this.filter);
+          },
+      init_data(){
+              this.load_date = true;
+          axios.get(this.$url+'/list_users/'+this.filter, {
+          headers: {
+              'Content-Type': "application/json",
+              'Authorization': this.$token
+          }
+          }).then( (result) => {
+              this.users = result.data
+              this.users_const = this.users;
+              this.load_date = false;
+              console.log(this.users);
+          }).catch( (err) => {
+              console.log(err);
+          })
+          },
+        updateState(id, state){
+        axios.put(this.$url+'/change_status_to_user/'+id, {state: state}, {
+          headers: {
             'Content-Type': "application/json",
             'Authorization': this.$token
-        }
-        }).then( (result) => {
-            this.users = result.data
-            this.users_const = this.users;
-            this.load_date = false;
-            console.log(this.users);
-        }).catch( (err) => {
-            console.log(err);
+          }
+        }).then( (result)=>{
+          this.init_data();
+          this.$notify({
+                    group: 'foo',
+                    title: 'SUCCESSS',
+                    text: 'Se actualizo el estado de usuerio',
+                    type: 'success'
+                });
+          console.log("para cambiar estaod", result);
+        }).catch( (err)=> {
+          console.log(err);
         })
-        },
+      }
     },
     components: {
         SidebarPage,
         TopNavPage
     },
     beforeMount(){
-      this.init_date();
+      this.init_data();
     }
 }
 </script>

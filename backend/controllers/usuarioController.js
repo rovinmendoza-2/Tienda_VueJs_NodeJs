@@ -115,6 +115,27 @@ const update_user_admin = async( req, res)=> {
   }else{
     res.status(500).send({data:undefined, message: 'Error token'})
   }
+};
+
+const change_status_to_user = async(req, res)=> {
+  if(req.user){
+    let id = req.params['id'];
+    let data = req.body;
+    let new_state = false;
+
+    if(data.state){
+      new_state = false;
+    }else{
+      new_state = true
+    }
+    const user = await Users.findByIdAndUpdate({ _id: id}, {
+      state: new_state
+    });
+    res.status(200).send(user);
+  }else{
+    res.status(500).send({data:undefined, message: 'Error token'})
+  }
+
 }
 
 module.exports = {
@@ -122,5 +143,6 @@ module.exports = {
   login_users,
   list_users,
   get_user_admin,
-  update_user_admin
+  update_user_admin,
+  change_status_to_user
 };
