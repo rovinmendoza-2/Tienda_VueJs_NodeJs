@@ -34,8 +34,9 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="tab-content">
-                    <div class="tab-pane fade show active" id="contactsListPane" role="tabpanel" aria-labelledby="contactsListTab">
+                        <div class="tab-pane fade show active" id="contactsListPane" role="tabpanel" aria-labelledby="contactsListTab">
 
                 <!-- Card -->
                 <div class="card" data-list='{"valueNames": ["item-name", "item-title", "item-email", "item-phone", "item-score", "item-company"], "page": 10, "pagination": {"paginationClass": "list-pagination"}}' id="contactsList">
@@ -109,12 +110,15 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <router-link :to="{name:'edit', params:{id:item._id}}" class="dropdown-item">Editar</router-link>
-                                    <a style="cursor: :pointer" class="dropdown-item">
-                                        <span v-if="item.state">Desactivar</span>
-                                        <span v-if="!item.state">Activar</span>
+                                    <a style="cursor: :pointer" class="dropdown-item"
+                                      v-b-modal="'delete-'+item._id">Desactivar
                                     </a>
                                 </div>
                             </div>
+                            <b-modal :id="'delete-'+item._id" title="BootstrapVue"
+                              title-html="<h4 class='card-header-title'><b>Agregrar Miembros</b></h4>">
+                              <p class="my-4">{{ item._id }}</p>
+                            </b-modal>
 
                           </td>
                         </tr>
