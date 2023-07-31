@@ -8,6 +8,9 @@ import LoginApp from '../views/LoginPage.vue';
 import RegisterPage from '../views/RegisterCollaborator/RegisterPage.vue';
 import IndexCollaboratorPage from '../views/RegisterCollaborator/IndexCollaboratorPage.vue';
 import EditUserPage from '../views/RegisterCollaborator/EditUserPage.vue';
+
+import CreateProductsPage from '../views/Products/CreateProductsPage.vue';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,6 +19,9 @@ const routes = [
   { path: '/collaborator/register_admin', name: 'register', component: RegisterPage, meta: { requiresAuth: true }},
   { path: '/collaborator/user/edit/:id', name: 'edit', component: EditUserPage, meta: { requiresAuth: true }},
   { path: '/dashboard', name: 'dashboard', component: DashboardPage, meta: { requiresAuth: true }},
+
+  // Rutas para productos
+  {path: '/product/create', name: 'product-create', component: CreateProductsPage,  meta: { requiresAuth: true }}
 ]
 
 const router = new VueRouter({
