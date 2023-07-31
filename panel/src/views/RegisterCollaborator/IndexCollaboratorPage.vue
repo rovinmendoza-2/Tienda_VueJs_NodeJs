@@ -27,7 +27,7 @@
                                                 <a class="nav-link active">Todos los usuarios</a>
                                             </li>
                                             <li class="nav-item">
-                                                <router-link to="/register_admin" class="nav-link">Nuevo colaborador</router-link>
+                                                <router-link to="/collaborator/register_admin" class="nav-link">Nuevo colaborador</router-link>
                                             </li>
                                         </ul>
                                     </div>

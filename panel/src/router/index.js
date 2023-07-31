@@ -12,9 +12,9 @@ Vue.use(VueRouter)
 
 const routes = [
   { path: '/', name: 'login', component: LoginApp, meta: { requiresAuth: false }},
-  { path: '/collaborator_index', name: 'index', component: IndexCollaboratorPage, meta: { requiresAuth: true }},
-  { path: '/register_admin', name: 'register', component: RegisterPage, meta: { requiresAuth: true }},
-  { path: '/user/edit/:id', name: 'edit', component: EditUserPage, meta: { requiresAuth: true }},
+  { path: '/collaborator', name: 'index', component: IndexCollaboratorPage, meta: { requiresAuth: true }},
+  { path: '/collaborator/register_admin', name: 'register', component: RegisterPage, meta: { requiresAuth: true }},
+  { path: '/collaborator/user/edit/:id', name: 'edit', component: EditUserPage, meta: { requiresAuth: true }},
   { path: '/dashboard', name: 'dashboard', component: DashboardPage, meta: { requiresAuth: true }},
 ]
 

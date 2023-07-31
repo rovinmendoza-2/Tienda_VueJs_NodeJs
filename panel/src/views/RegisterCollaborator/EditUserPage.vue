@@ -31,7 +31,7 @@
                                         <!-- Nav -->
                                         <ul class="nav nav-tabs nav-overflow header-tabs">
                                             <li class="nav-item">
-                                                <router-link to="/collaborator_index" class="nav-link">Todos los
+                                                <router-link to="/collaborator" class="nav-link">Todos los
                                                     colaboradores</router-link>
                                             </li>
                                             <li class="nav-item">
