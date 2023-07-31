@@ -76,7 +76,7 @@
                                         <!-- Form text -->
                                         <small class="form-text text-muted">This contact will be shown to others publicly, so choose it carefully.</small>
                                         <!-- Input -->
-                                        <input type="email" class="form-control" placeholder="Título del producto">
+                                        <input type="email" class="form-control" placeholder="Título del producto" v-model="product.title">
                                     </div>
 
                                 </div>
@@ -87,7 +87,7 @@
                                         <label class="form-label"> Categoria</label>
 
                                         <!-- Input -->
-                                        <select name="" class="form-select">
+                                        <select name="" class="form-select" v-model="product.category">
                                             <option value="" disabled selected>Seleccionar</option>
                                             <option value="Categoria 1">Categoria 1</option>
                                             <option value="Categoria 2">Categoria 2</option>
@@ -103,7 +103,7 @@
                                         <!-- Label -->
                                         <label class="form-label">Precio</label>
                                         <!-- Input -->
-                                        <input type="number" class="form-control" placeholder="Precio">
+                                        <input type="number" class="form-control" placeholder="Precio" v-model="product.price">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-12">
@@ -112,7 +112,7 @@
                                         <!-- Label -->
                                         <label class="form-label">Extracto</label>
                                         <!-- Input -->
-                                        <textarea class="form-control" id="" rows="3" placeholder="Extracto"></textarea>
+                                        <textarea class="form-control" id="" rows="3" placeholder="Extracto" v-model="product.description"></textarea>
                                     </div>
                                 </div>
                             </div> <!-- / .row -->
@@ -132,7 +132,7 @@
 
                                                 <!-- Switch -->
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" id="switchOne" />
+                                                    <input class="form-check-input" type="checkbox" id="switchOne" v-model="product.state"/>
                                                     <label class="form-check-label" for="switchOne"></label>
                                                 </div>
 
@@ -163,7 +163,7 @@
 
                                                 <!-- Switch -->
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" id="switchTwo" />
+                                                    <input class="form-check-input" type="checkbox" id="switchTwo" v-model="product.discount"/>
                                                     <label class="form-check-label" for="switchTwo"></label>
                                                 </div>
 
@@ -180,7 +180,7 @@
                             <!-- Divider -->
                             <hr class="mt-4 mb-5">
                             <!-- Button -->
-                            <button class="btn btn-primary">Save changes</button>
+                            <button class="btn btn-primary" v-on:click="validate()">Crear Producto</button>
                         </div>
 
                     </div>
@@ -199,6 +199,13 @@ export default {
     data(){
         return {
             str_image : '/assets/img/avatar-1.jpg',
+            product: {
+                category: '',
+                state: false,
+                discount: false,
+                frontPage: undefined
+            },
+            frontPage: undefined
         }
     },
     components: {
@@ -215,6 +222,8 @@ export default {
             if(image.size <= 10000000){
                 if(image.type == 'image/jpeg'||image.type == 'image/png'||image.type == 'image/webp'||image.type == 'image/jpg'){
                     this.str_image = URL.createObjectURL(image);
+                    this.frontPage = image;
+                    this.product.frontPage = this.frontPage;
                 }else{
                     this.$notify({
                         group: 'foo',
@@ -233,6 +242,47 @@ export default {
                 });
             }
             console.log(image);
+        },
+
+        validate(){
+            if(!this.product.title){
+                this.$notify({
+                group: 'foo',
+                title: 'ERROR',
+                text: 'Ingrese el titulo del producto',
+                type: 'error'
+            });
+        }else if(!this.product.category){
+            this.$notify({
+                group: 'foo',
+                title: 'ERROR',
+                text: 'Seleccione una categoria',
+                type: 'error'
+            });
+        }else if(!this.product.price){
+            this.$notify({
+                group: 'foo',
+                title: 'ERROR',
+                text: 'Ingrese el precio del producto',
+                type: 'error'
+            });
+        }else if(!this.product.description){
+            this.$notify({
+                group: 'foo',
+                title: 'ERROR',
+                text: 'Se requiere una descripcion del producto',
+                type: 'error'
+            });
+        }else if(this.product.frontPage == undefined){
+            this.$notify({
+                group: 'foo',
+                title: 'ERROR',
+                text: 'Seleccione una imagen de portada',
+                type: 'error'
+            });
+        }else{
+            console.log(this.product);
+        }
         }
     }
 }
