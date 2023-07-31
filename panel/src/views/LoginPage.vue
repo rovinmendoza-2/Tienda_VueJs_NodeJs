@@ -119,7 +119,7 @@ export default {
                 if(result.data.token){
                     this.$store.dispatch('saveToken', result.data.token);
                     console.log(result)
-                    this.$router.push({ name: 'home' });
+                    this.$router.push({ name: 'dashboard' });
                 }
             }).catch( (err)=> {
                 console.log(err);

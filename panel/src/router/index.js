@@ -3,12 +3,11 @@ import VueRouter from 'vue-router'
 import store from '@/store/index';
 import jwt_decode from 'jwt-decode';
 
-import HomeView from '../views/HomeView.vue'
+import DashboardPage from '../views/DashboardPage.vue'
 import LoginApp from '../views/LoginPage.vue';
 import RegisterPage from '../views/RegisterCollaborator/RegisterPage.vue';
 import IndexCollaboratorPage from '../views/RegisterCollaborator/IndexCollaboratorPage.vue';
 import EditUserPage from '../views/RegisterCollaborator/EditUserPage.vue';
-import DashboardPage from '../views/DashboardPage.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,7 +16,6 @@ const routes = [
   { path: '/register_admin', name: 'register', component: RegisterPage, meta: { requiresAuth: true }},
   { path: '/user/edit/:id', name: 'edit', component: EditUserPage, meta: { requiresAuth: true }},
   { path: '/dashboard', name: 'dashboard', component: DashboardPage, meta: { requiresAuth: true }},
-  { path: '/', name: 'home', component: HomeView},
 ]
 
 const router = new VueRouter({
