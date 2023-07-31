@@ -44,7 +44,7 @@
                                             <!-- Avatar -->
                                             <div class="avatar">
                                                 <img class="avatar-img rounded-circle"
-                                                    src="assets/img/avatars/profiles/avatar-1.jpg" alt="...">
+                                                    :src="str_image" alt="...">
                                             </div>
 
                                         </div>
@@ -59,7 +59,7 @@
                                 <div class="col-auto">
                                     <!-- Button -->
                                     <label for="file-upload" class="btn btn-sm btn-primary">Upload</label>
-                                    <input style="display:none" id="file-upload" type="file" />
+                                    <input style="display:none" id="file-upload" type="file" v-on:change="uploadImage($event)"/>
                                 </div>
                             </div> <!-- / .row -->
 
@@ -196,9 +196,44 @@ import TopNavPage from '../../components/TopNavPage.vue';
 
 export default {
     name: 'CreateProductsPage',
+    data(){
+        return {
+            str_image : '/assets/img/avatar-1.jpg',
+        }
+    },
     components: {
         SidebarPage,
         TopNavPage
     },
+
+    methods: {
+        uploadImage($event){
+            var image;
+            if($event.target.files.length >= 1){
+                image = $event.target.files[0]
+            }
+            if(image.size <= 10000000){
+                if(image.type == 'image/jpeg'||image.type == 'image/png'||image.type == 'image/webp'||image.type == 'image/jpg'){
+                    this.str_image = URL.createObjectURL(image);
+                }else{
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: 'El recurso debe ser image',
+                        type: 'error'
+                    });
+                }
+               
+            }else{
+                this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'La imagen debe pesar menos de 1M',
+                    type: 'error'
+                });
+            }
+            console.log(image);
+        }
+    }
 }
 </script>
