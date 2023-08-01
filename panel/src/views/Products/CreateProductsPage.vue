@@ -193,6 +193,7 @@
 <script>
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
+import axios from 'axios';
 
 export default {
     name: 'CreateProductsPage',
@@ -281,9 +282,32 @@ export default {
                 type: 'error'
             });
         }else{
+            this.registro();
             console.log(this.product);
         }
-        }
+        },
+
+        registro(){
+          var fm = new FormData();
+          fm.append('title',this.product.title);
+          fm.append('category',this.product.category);
+          fm.append('price',this.product.price);
+          fm.append('description',this.product.description);
+          fm.append('state',this.product.state);
+          fm.append('discount',this.product.discount);
+          fm.append('frontPage',this.product.frontPage); //IMAGEN
+
+          axios.post(this.$url+'/register_product',fm,{
+              headers: {
+                  'Content-Type': 'multipart/form-data',
+                  'Authorization' : this.$store.state.token
+              }
+          }).then((result)=>{
+            console.log(result);
+          })
+
+
+      }
     }
 }
 </script>
