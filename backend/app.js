@@ -5,6 +5,7 @@ const app = express();
 
 const client_router = require("./routes/client");
 const users_router = require("./routes/users");
+const products_router = require("./routes/product");
 
 app.use(bodyparser.urlencoded({ limit: "50mb", extended: true }));
 app.use(bodyparser.json({ limit: "50mb", extended: true }));
@@ -37,5 +38,6 @@ app.use((req, res, next) => {
 
 app.use("/api", client_router);
 app.use("/api", users_router);
+app.use("/api", products_router);
 
 module.exports = app;
