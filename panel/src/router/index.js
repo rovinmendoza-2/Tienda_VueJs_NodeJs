@@ -10,6 +10,7 @@ import IndexCollaboratorPage from '../views/RegisterCollaborator/IndexCollaborat
 import EditUserPage from '../views/RegisterCollaborator/EditUserPage.vue';
 
 import CreateProductsPage from '../views/Products/CreateProductsPage.vue';
+import IndexProductPage from '../views/Products/IndexProductPage.vue';
 
 Vue.use(VueRouter)
 
@@ -21,7 +22,9 @@ const routes = [
   { path: '/dashboard', name: 'dashboard', component: DashboardPage, meta: { requiresAuth: true }},
 
   // Rutas para productos
-  {path: '/product/create', name: 'product-create', component: CreateProductsPage,  meta: { requiresAuth: true }}
+  {path: '/product/create', name: 'product-create', component: CreateProductsPage,  meta: { requiresAuth: true }},
+  {path: '/product', name: 'product-index', component: IndexProductPage,  meta: { requiresAuth: true }}
+
 ]
 
 const router = new VueRouter({
