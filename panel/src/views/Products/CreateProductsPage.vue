@@ -24,10 +24,10 @@
                                         <!-- Nav -->
                                         <ul class="nav nav-tabs nav-overflow header-tabs">
                                             <li class="nav-item">
-                                                <a class="nav-link active">Todos los usuarios</a>
+                                                <router-link to="/product" class="nav-link active">Todos los productos</router-link>
                                             </li>
                                             <li class="nav-item">
-                                                <router-link to="/product/create" class="nav-link">Nuevo Producto</router-link>
+                                                <a class="nav-link"> Nuevo Producto</a>
                                             </li>
                                         </ul>
                                     </div>

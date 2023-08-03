@@ -84,8 +84,8 @@
                     <template v-if="!load_data">
                       <div>
                         <!-- List -->
-                        <ul class="list-group list-group-lg list-group-flush list my-n4" v-if="products.length >= 1">
-                          <li class="list-group-item" v-for="item in products">
+                        <ul id="my-table" class="list-group list-group-lg list-group-flush list my-n4" v-if="products.length >= 1">
+                          <li class="list-group-item" v-for="item in itemsForList">
                             <div class="row align-items-center">
                               <div class="col-auto">
 
@@ -177,6 +177,15 @@
                     </template>
 
                   </div>
+
+                  <div class="card-fotter">
+                    <b-pagination
+                        v-model="currentPage"
+                        :total-rows="products.length"
+                        :per-page="perPage"
+                        aria-controls="my-table"
+                    ></b-pagination>
+                  </div>
                 </div>
 
               </div>
@@ -202,6 +211,13 @@ export default {
       products: [],
       filter: '',
       load_data: false,
+      currentPage: 1,
+      perPage: 2,
+      get itemsForList(){
+        return this.products.slice(
+            (this.currentPage-1) * this.perPage, this.currentPage * this.perPage
+        )
+      }
     }
   },
 
