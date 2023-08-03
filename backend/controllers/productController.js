@@ -33,7 +33,23 @@ const register_product = async(req, res) => {
     }
 };
 
+const get_products = async(req, res) => {
+    if(req.user){
+        let filter = req.params['filter'];
+         let produts = await Producto.find({
+            $or:[
+                {title: new RegExp(filter, 'i')},
+                {category: new RegExp(filter, 'i')}
+            ]
+         });
+         res.status(200).send(produts);
+    }else{
+        res.status(500).send({data:undefined, message: 'Error token'});
+    }
+}
+
 
 module.exports = {
-    register_product
+    register_product,
+    get_products
 }

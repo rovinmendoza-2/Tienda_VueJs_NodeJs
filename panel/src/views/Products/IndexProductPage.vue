@@ -71,13 +71,13 @@
 
                                     <!-- List -->
                                     <ul class="list-group list-group-lg list-group-flush list my-n4">
-                                        <li class="list-group-item" v-for="item in productos">
+                                        <li class="list-group-item" v-for="item in products">
                                             <div class="row align-items-center">
                                             <div class="col-auto">
 
                                                 <!-- Avatar -->
                                                 <a href="#!" class="avatar avatar-lg">
-                                                <img :src="$url+'/obtener_portada_producto/'+item.portada" alt="..." class="avatar-img rounded">
+                                                <img :src="$url+'/obtener_portada_producto/'+item.frontPage" alt="..." class="avatar-img rounded">
                                                 </a>
 
                                             </div>
@@ -85,14 +85,14 @@
 
                                                 <!-- Title -->
                                                 <h4 class="mb-1 name">
-                                                <a href="#!">{{item.titulo}}</a>
+                                                <a href="#!">{{item.title}}</a>
                                                 </h4>
 
                                                 <!-- Text -->
                                                 <p class="card-text small text-muted mb-1">
-                                                    {{item.categoria}} &nbsp;
-                                                    <span v-if="!item.estado" class="item-score badge bg-danger-soft">Borrador</span>
-                                                    <span v-if="item.estado" class="item-score badge bg-success-soft">Publicado</span>
+                                                    {{item.category}} &nbsp;
+                                                    <span v-if="!item.state" class="item-score badge bg-danger-soft">Borrador</span>
+                                                    <span v-if="item.state" class="item-score badge bg-success-soft">Publicado</span>
                                                 </p>
 
                                                 <!-- Time -->
@@ -102,7 +102,7 @@
 
                                             </div>
                                             <div class="col-auto">
-                                                <span><b>{{convertCurrency(item.precio)}}</b></span>
+                                                <span><b>{{convertCurrency(item.price)}}</b></span>
 
                                             </div>
                                             <div class="col-auto">
@@ -145,13 +145,40 @@
 <script>
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
-
+import moment from 'moment'
+import axios from 'axios';
 
 export default {
   name: 'IndexProductPage',
+  data() {
+    return {
+      products : [],
+      filter: ''
+    }
+  },
+
+  methods: {
+    init_data(){
+      axios.get(this.$url+'/get_products/'+this.filter, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.$store.state.token
+        }
+      }).then( (result) => {
+        this.products = result.data;
+        console.log(this.products);
+      }).catch( (err)=> {
+        console.log(err);
+      })
+    }
+  },
   components: {
         SidebarPage,
         TopNavPage
     },
+  
+    beforeMount(){
+      this.init_data();
+    }
 }
 </script>
