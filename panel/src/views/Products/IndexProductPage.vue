@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
     <SidebarPage></SidebarPage>
     <div class="main-content">
       <TopNavPage></TopNavPage>
@@ -36,105 +36,151 @@
             </div>
 
             <div class="row">
-                            <div class="col-12">
+              <div class="col-12">
 
-                                <!-- Files -->
-                                <div class="card" data-list="{&quot;valueNames&quot;: [&quot;name&quot;]}">
-                                <div class="card-header">
+                <!-- Files -->
+                <div class="card" data-list="{&quot;valueNames&quot;: [&quot;name&quot;]}">
+                  <div class="card-header">
 
-                                    <!-- Title -->
-                                    <h4 class="card-header-title">
-                                        Productos
-                                    </h4>
+                    <!-- Title -->
+                    <h4 class="card-header-title">
+                      Productos
+                    </h4>
 
-                                    <!-- Button -->
-                                    <a href="#!" class="btn btn-sm btn-primary text-white">
-                                        Nuevo producto
-                                    </a>
+                    <!-- Button -->
+                    <a href="#!" class="btn btn-sm btn-primary text-white">
+                      Nuevo producto
+                    </a>
 
-                                </div>
-                                <div class="card-header">
-                                    <div class="input-group input-group-flush input-group-merge input-group-reverse">
+                  </div>
+                  <div class="card-header">
+                    <div class="input-group input-group-flush input-group-merge input-group-reverse">
 
-                                        <!-- Input -->
-                                        <input class="form-control list-search" type="search" placeholder="Busca tu producto">
+                      <!-- Input -->
+                      <input class="form-control list-search" type="search" placeholder="Busca tu producto"
+                        v-model="filter">
 
-                                        <!-- Prepend -->
-                                        <div class="input-group-text">
-                                        <span class="fe fe-search"></span>
-                                        </div>
+                      <!-- Prepend -->
+                      <div class="input-group-text" style="cursor: pointer" v-on:click="init_data()">
+                        <span class="fe fe-search"></span>
+                      </div>
 
-                                    </div>
+                    </div>
 
-                                </div>
-                                <div class="card-body">
+                  </div>
+                  <div class="card-body">
 
-                                    <!-- List -->
-                                    <ul class="list-group list-group-lg list-group-flush list my-n4">
-                                        <li class="list-group-item" v-for="item in products">
-                                            <div class="row align-items-center">
-                                            <div class="col-auto">
-
-                                                <!-- Avatar -->
-                                                <a href="#!" class="avatar avatar-lg">
-                                                <img :src="$url+'/get_frontPage_product/'+item.frontPage" alt="..." class="avatar-img rounded">
-                                                </a>
-
-                                            </div>
-                                            <div class="col ms-n2">
-
-                                                <!-- Title -->
-                                                <h4 class="mb-1 name">
-                                                <a href="#!">{{item.title}}</a>
-                                                </h4>
-
-                                                <!-- Text -->
-                                                <p class="card-text small text-muted mb-1">
-                                                    {{item.category}} &nbsp;
-                                                    <span v-if="!item.state" class="item-score badge bg-danger-soft">Borrador</span>
-                                                    <span v-if="item.state" class="item-score badge bg-success-soft">Publicado</span>
-                                                </p>
-
-                                                <!-- Time -->
-                                                <p class="card-text small text-muted">
-                                                    Creación <time datetime="2018-01-03">{{convertData(item.createdAt)}}</time>
-                                                </p>
-
-                                            </div>
-                                            <div class="col-auto">
-                                                <span><b>{{convertCurrency(item.price)}}</b></span>
-
-                                            </div>
-                                            <div class="col-auto">
-
-                                                <!-- Dropdown -->
-                                                <div class="dropdown">
-                                                <a href="#" class="dropdown-ellipses dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fe fe-more-vertical"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a href="#!" class="dropdown-item">
-                                                    Action
-                                                    </a>
-                                                    <a href="#!" class="dropdown-item">
-                                                    Another action
-                                                    </a>
-                                                    <a href="#!" class="dropdown-item">
-                                                    Something else here
-                                                    </a>
-                                                </div>
-                                                </div>
-
-                                            </div>
-                                            </div> <!-- / .row -->
-                                        </li>
-                                    </ul>
-
-                                </div>
-                                </div>
-
+                    <template v-if="load_data">
+                      <div>
+                        <div class="row">
+                          <div class="col-12 text-center">
+                            <div class="spinner-border mt-5 mb-5 text-info" role="status">
+                              <span class="visually-hidden">Loading...</span>
                             </div>
+                          </div>
                         </div>
+                      </div>
+                    </template>
+                    <template v-if="!load_data">
+                      <div>
+                        <!-- List -->
+                        <ul class="list-group list-group-lg list-group-flush list my-n4" v-if="products.length >= 1">
+                          <li class="list-group-item" v-for="item in products">
+                            <div class="row align-items-center">
+                              <div class="col-auto">
+
+                                <!-- Avatar -->
+                                <a href="#!" class="avatar avatar-lg">
+                                  <img :src="$url + '/get_frontPage_product/' + item.frontPage" alt="..."
+                                    class="avatar-img rounded">
+                                </a>
+
+                              </div>
+                              <div class="col ms-n2">
+
+                                <!-- Title -->
+                                <h4 class="mb-1 name">
+                                  <a href="#!">{{ item.title }}</a>
+                                </h4>
+
+                                <!-- Text -->
+                                <p class="card-text small text-muted mb-1">
+                                  {{ item.category }} &nbsp;
+                                  <span v-if="!item.state" class="item-score badge bg-danger-soft">Borrador</span>
+                                  <span v-if="item.state" class="item-score badge bg-success-soft">Publicado</span>
+                                </p>
+
+                                <!-- Time -->
+                                <p class="card-text small text-muted">
+                                  Creación <time datetime="2018-01-03">{{ convertData(item.createdAt) }}</time>
+                                </p>
+
+                              </div>
+                              <div class="col-auto">
+                                <span><b>{{ convertCurrency(item.price) }}</b></span>
+
+                              </div>
+                              <div class="col-auto">
+
+                                <!-- Dropdown -->
+                                <div class="dropdown">
+                                  <a href="#" class="dropdown-ellipses dropdown-toggle" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fe fe-more-vertical"></i>
+                                  </a>
+                                  <div class="dropdown-menu dropdown-menu-end">
+                                    <a href="#!" class="dropdown-item">
+                                      Action
+                                    </a>
+                                    <a href="#!" class="dropdown-item">
+                                      Another action
+                                    </a>
+                                    <a href="#!" class="dropdown-item">
+                                      Something else here
+                                    </a>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div> <!-- / .row -->
+                          </li>
+                        </ul>
+
+                        <div class="row justify-content-center" v-if="products.length == 0">
+                          <div class="col-12 col-md-6 col-xl-6 my-5">
+
+                            <div class="text-center">
+
+                              <!-- Preheading -->
+                              <h6 class="text-uppercase text-muted mb-4">
+                                404 error
+                              </h6>
+
+                              <!-- Heading -->
+                              <h1 class="display-4 mb-3">
+                                No se encontraron registros 😭
+                              </h1>
+
+                              <!-- Subheading -->
+                              <p class="text-muted mb-4">
+                                Looks like you ended up here by accident?
+                              </p>
+
+                              <!-- Button -->
+                              <a href="index.html" class="btn btn-lg btn-primary text-white">
+                                Return to your dashboard
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </template>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div> <!-- / .row -->
       </div>
@@ -153,40 +199,43 @@ export default {
   name: 'IndexProductPage',
   data() {
     return {
-      products : [],
-      filter: ''
+      products: [],
+      filter: '',
+      load_data: false,
     }
   },
 
   methods: {
-    init_data(){
-      axios.get(this.$url+'/get_products/'+this.filter, {
+    init_data() {
+      this.load_data = true;
+      axios.get(this.$url + '/get_products/' + this.filter, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': this.$store.state.token
         }
-      }).then( (result) => {
+      }).then((result) => {
         this.products = result.data;
+        this.load_data = false;
         console.log(this.products);
-      }).catch( (err)=> {
+      }).catch((err) => {
         console.log(err);
       })
     },
 
-    convertData(data){
+    convertData(data) {
       return moment(data).format('YYYY-MM-DD');
     },
-    convertCurrency(number){
+    convertCurrency(number) {
       return currency_formatter.format(number, { code: 'USD' });
     }
   },
   components: {
-        SidebarPage,
-        TopNavPage
-    },
-  
-    beforeMount(){
-      this.init_data();
-    }
+    SidebarPage,
+    TopNavPage
+  },
+
+  beforeMount() {
+    this.init_data();
+  }
 }
 </script>
