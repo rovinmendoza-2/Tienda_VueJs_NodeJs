@@ -97,7 +97,7 @@
 
                                                 <!-- Time -->
                                                 <p class="card-text small text-muted">
-                                                    Creación <time datetime="2018-01-03">{{convertDate(item.createdAt)}}</time>
+                                                    Creación <time datetime="2018-01-03">{{convertData(item.createdAt)}}</time>
                                                 </p>
 
                                             </div>
@@ -145,6 +145,7 @@
 <script>
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
+import currency_formatter from 'currency-formatter';
 import moment from 'moment'
 import axios from 'axios';
 
@@ -170,6 +171,13 @@ export default {
       }).catch( (err)=> {
         console.log(err);
       })
+    },
+
+    convertData(data){
+      return moment(data).format('YYYY-MM-DD');
+    },
+    convertCurrency(number){
+      return currency_formatter.format(number, { code: 'USD' });
     }
   },
   components: {
