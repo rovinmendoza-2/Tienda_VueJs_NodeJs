@@ -65,9 +65,24 @@ const get_frontPage_product = async(req, res) => {
         
 }
 
+//obtenemos el producto para editarlo
+const get_product_id = async(req, res) =>{
+    if(req.user){
+        let id = req.params['id'];
+        try {
+            let product = await Producto.findById({_id: id})
+            res.status(200).send(product);
+        } catch (error) {
+            res.status(200).send(undefined);
+        }
+    }else{
+        res.status(500).send({data:undefined, message: 'Error Token'});
+    }
+}
 
 module.exports = {
     register_product,
     get_products,
-    get_frontPage_product
+    get_frontPage_product,
+    get_product_id
 }

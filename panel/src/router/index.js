@@ -11,6 +11,7 @@ import EditUserPage from '../views/RegisterCollaborator/EditUserPage.vue';
 
 import CreateProductsPage from '../views/Products/CreateProductsPage.vue';
 import IndexProductPage from '../views/Products/IndexProductPage.vue';
+import EditProductsPage from '../views/Products/EditProductsPage.vue';
 
 Vue.use(VueRouter)
 
@@ -23,7 +24,8 @@ const routes = [
 
   // Rutas para productos
   {path: '/product/create', name: 'product-create', component: CreateProductsPage,  meta: { requiresAuth: true }},
-  {path: '/product', name: 'product-index', component: IndexProductPage,  meta: { requiresAuth: true }}
+  {path: '/product', name: 'product-index', component: IndexProductPage,  meta: { requiresAuth: true }},
+  {path: '/product/edit/:id', name: 'product-edit', component: EditProductsPage,  meta: { requiresAuth: true }}
 
 ]
 

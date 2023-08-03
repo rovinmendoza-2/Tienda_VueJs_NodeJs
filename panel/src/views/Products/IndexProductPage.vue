@@ -129,15 +129,9 @@
                                     <i class="fe fe-more-vertical"></i>
                                   </a>
                                   <div class="dropdown-menu dropdown-menu-end">
-                                    <a href="#!" class="dropdown-item">
-                                      Action
-                                    </a>
-                                    <a href="#!" class="dropdown-item">
-                                      Another action
-                                    </a>
-                                    <a href="#!" class="dropdown-item">
-                                      Something else here
-                                    </a>
+                                    <router-link :to="{ name: 'product-edit', params:{id:item._id}}" class="dropdown-item">
+                                      Editar Producto
+                                    </router-link>
                                   </div>
                                 </div>
 
