@@ -10,5 +10,6 @@ const api = express.Router();
 
 api.post('/register_product', [authetication.decodeToken, path], productController.register_product);
 api.get('/get_products/:filter?', authetication.decodeToken, productController.get_products);
+api.get('/get_frontPage_product/:img', productController.get_frontPage_product);
 
 module.exports = api;

@@ -1,5 +1,7 @@
 const Producto =  require('../models/products');
-var slugify = require('slugify')
+var slugify = require('slugify');
+var fs = require('fs');
+var path = require('path');
 
 const register_product = async(req, res) => {
     if(req.user){
@@ -46,10 +48,26 @@ const get_products = async(req, res) => {
     }else{
         res.status(500).send({data:undefined, message: 'Error token'});
     }
+};
+
+//obtener portada
+const get_frontPage_product = async(req, res) => {
+    let img = req.params['img']
+    fs.stat('./uploads/products/'+img, (error) => {
+        if(error){
+            let img_path = './uploads/default.jpg';
+            res.status(200).sendFile(path.resolve(img_path));
+        }else{
+            let img_path = './uploads/products/'+img;
+            res.status(200).sendFile(path.resolve(img_path));
+        }
+    })
+        
 }
 
 
 module.exports = {
     register_product,
-    get_products
+    get_products,
+    get_frontPage_product
 }

@@ -77,7 +77,7 @@
 
                                                 <!-- Avatar -->
                                                 <a href="#!" class="avatar avatar-lg">
-                                                <img :src="$url+'/obtener_portada_producto/'+item.frontPage" alt="..." class="avatar-img rounded">
+                                                <img :src="$url+'/get_frontPage_product/'+item.frontPage" alt="..." class="avatar-img rounded">
                                                 </a>
 
                                             </div>
