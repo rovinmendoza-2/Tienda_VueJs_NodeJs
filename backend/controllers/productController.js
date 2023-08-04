@@ -78,11 +78,111 @@ const get_product_id = async(req, res) =>{
     }else{
         res.status(500).send({data:undefined, message: 'Error Token'});
     }
-}
+};
+
+const update_product = async(req, res) => {
+    console.log("--", req.files);
+    if(req.user){
+        let data= req.body;
+        let id = req.params['id']
+
+        let products = await Producto.find({
+            title: data.title
+        });
+        console.log(products.length);
+
+        if(products.length >= 1){
+            if(products[0]._id == id){
+                //Actualizar producto
+                if(req.files){
+                    let img_path = req.files.frontPage.path;
+                    let str_img = img_path.split("\\");
+                    let str_frontPage = str_img[2];
+                    console.log(str_frontPage);
+    
+                    data.frontPage = str_frontPage;
+                    data.slug = slugify(data.title);
+                    try {
+                        const product = await Producto.findByIdAndUpdate({_id:id}, {
+                            title: data.title,
+                            category: data.category,
+                            description: data.description,
+                            state: data.stat,
+                            discount: data.discount,
+                            str_frontPage: data.str_frontPage
+                        });
+                        res.status(200).send({data: product})
+                    } catch (error) {
+                     res.status(500).send({data:undefined, message: 'No se pudo crear el producto'})
+                    }
+                }else{
+                
+                data.slug = slugify(data.title);
+                try {
+                    const product = await Producto.findByIdAndUpdate({_id:id}, {
+                        title: data.title,
+                        category: data.category,
+                        description: data.description,
+                        state: data.stat,
+                        discount: data.discount
+                    });
+                    res.status(200).send({data: product});
+                } catch (error) {
+                    res.status(500).send({data:undefined, message: 'No se pudo crear el producto'})
+                }
+            }
+            }else{
+                res.status(200).send({data: undefined, message: 'El titulo del producto ya existe'});
+            }
+        }else{
+            //Actualizar producto
+            if(req.files){
+                let img_path = req.files.frontPage.path;
+                let str_img = img_path.split("\\");
+                let str_frontPage = str_img[2];
+                console.log(str_frontPage);
+    
+                data.frontPage = str_frontPage;
+                data.slug = slugify(data.title);
+                try {
+                    const product = await Producto.findByIdAndUpdate({_id:id}, {
+                        title: data.title,
+                        category: data.category,
+                        description: data.description,
+                        state: data.stat,
+                        discount: data.discount,
+                        str_frontPage: data.str_frontPage
+                    });
+                    res.status(200).send({data: product})
+                } catch (error) {
+                    res.status(500).send({data:undefined, message: 'No se pudo crear el producto'})
+                }
+            }else{
+                
+                data.slug = slugify(data.title);
+                try {
+                    const product = await Producto.findByIdAndUpdate({_id:id}, {
+                        title: data.title,
+                        category: data.category,
+                        description: data.description,
+                        state: data.stat,
+                        discount: data.discount
+                    });
+                    res.status(200).send({data: product})
+                } catch (error) {
+                    res.status(500).send({data:undefined, message: 'No se pudo crear el producto'})
+                }
+            }
+        }
+    }else{
+        res.status(500).send({data:undefined, message: 'Error token'})
+    }
+};
 
 module.exports = {
     register_product,
     get_products,
     get_frontPage_product,
-    get_product_id
+    get_product_id,
+    update_product
 }

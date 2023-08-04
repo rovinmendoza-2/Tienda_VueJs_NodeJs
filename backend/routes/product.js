@@ -12,5 +12,6 @@ api.post('/register_product', [authetication.decodeToken, path], productControll
 api.get('/get_products/:filter?', authetication.decodeToken, productController.get_products);
 api.get('/get_frontPage_product/:img', productController.get_frontPage_product);
 api.get('/get_product_id/:id',authetication.decodeToken, productController.get_product_id);
+api.put('/update_product/:id',[authetication.decodeToken, path], productController.update_product);
 
 module.exports = api;

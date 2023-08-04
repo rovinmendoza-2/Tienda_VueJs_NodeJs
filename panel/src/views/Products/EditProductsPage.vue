@@ -148,7 +148,7 @@
                                         </label>
 
                                         <!-- Input -->
-                                        <input type="number" class="form-control" placeholder="Precio"
+                                        <input readonly type="number" class="form-control" placeholder="Precio"
                                             v-model="product.price">
 
                                     </div>
@@ -262,7 +262,7 @@
                             <hr class="mt-4 mb-5">
 
                             <!-- Button -->
-                            <button class="btn btn-primary" v-on:click="validar()">
+                            <button class="btn btn-primary" v-on:click="validate()">
                                 Actualizar producto
                             </button>
 
@@ -337,6 +337,7 @@ export default {
                         text: 'El recurso debe ser image',
                         type: 'error'
                     });
+                    this.frontPage = undefined;
                 }
 
             } else {
@@ -346,6 +347,7 @@ export default {
                     text: 'La imagen debe pesar menos de 1M',
                     type: 'error'
                 });
+                this.frontPage = undefined;
             }
             console.log(image);
         },
@@ -365,13 +367,13 @@ export default {
                     text: 'Seleccione una categoria',
                     type: 'error'
                 });
-            } else if (!this.product.price) {
-                this.$notify({
-                    group: 'foo',
-                    title: 'ERROR',
-                    text: 'Ingrese el precio del producto',
-                    type: 'error'
-                });
+            // } else if (!this.product.price) {
+            //     this.$notify({
+            //         group: 'foo',
+            //         title: 'ERROR',
+            //         text: 'Ingrese el precio del producto',
+            //         type: 'error'
+            //     });
             } else if (!this.product.description) {
                 this.$notify({
                     group: 'foo',
@@ -387,29 +389,51 @@ export default {
                     type: 'error'
                 });
             } else {
-                this.registro();
+                this.updateProduct();
                 console.log(this.product);
             }
         },
 
-        registro() {
-            // var fm = new FormData();
-            // fm.append('title', this.product.title);
-            // fm.append('category', this.product.category);
-            // fm.append('price', this.product.price);
-            // fm.append('description', this.product.description);
-            // fm.append('state', this.product.state);
-            // fm.append('discount', this.product.discount);
-            // fm.append('frontPage', this.product.frontPage); //IMAGEN
-
-            // axios.post(this.$url + '/register_product', fm, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data',
-            //         'Authorization': this.$store.state.token
-            //     }
-            // }).then((result) => {
-            //     console.log(result);
-            // })
+        updateProduct() {
+            var data;
+            var content = '';
+            if(this.frontPage != undefined){
+                content = 'multipart/form-data';
+                data = new FormData();
+                    fm.append('title', this.product.title);
+                    fm.append('category', this.product.category);
+                    //fm.append('price', this.product.price);
+                    fm.append('description', this.product.description);
+                    fm.append('state', this.product.state);
+                    fm.append('discount', this.product.discount);
+                    fm.append('frontPage', this.product.frontPage); //IMAGEN
+            }else{
+                data = this.product;
+                content = 'application/json'
+            }
+            axios.put(this.$url + '/update_product/'+this.$route.params.id, data, {
+                headers: {
+                    'Content-Type': content,
+                    'Authorization': this.$store.state.token
+                }
+            }).then((result) => {
+                console.log(result);
+                if(result.data.message){
+                this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: result.data.message,
+                    type: 'error'
+                });
+              }else{
+                  this.$notify({
+                    group: 'foo',
+                    title: 'SUCCESS',
+                    text: 'Se actualizó el producto.',
+                    type: 'success'
+                });
+              }
+            })
         }
         
     },
