@@ -25,7 +25,7 @@ const register_product = async(req, res) => {
             data.slug = slugify(data.title);
             try {
                 const product = await Producto.create(data);
-                res.status(200).send({data: product, message: 'Producto guardado'})
+                res.status(200).send({data: product})
             } catch (error) {
                 res.status(500).send({data:undefined, message: 'No se pudo crear el producto'})
             }
@@ -43,7 +43,7 @@ const get_products = async(req, res) => {
                 {title: new RegExp(filter, 'i')},
                 {category: new RegExp(filter, 'i')}
             ]
-         });
+         }).sort({createdAt: -1});
          res.status(200).send(produts);
     }else{
         res.status(500).send({data:undefined, message: 'Error token'});
@@ -106,6 +106,7 @@ const update_product = async(req, res) => {
                         const product = await Producto.findByIdAndUpdate({_id:id}, {
                             title: data.title,
                             category: data.category,
+                            variety: data.variety,
                             description: data.description,
                             state: data.stat,
                             discount: data.discount,
@@ -122,6 +123,7 @@ const update_product = async(req, res) => {
                     const product = await Producto.findByIdAndUpdate({_id:id}, {
                         title: data.title,
                         category: data.category,
+                        variety: data.variety,
                         description: data.description,
                         state: data.stat,
                         discount: data.discount
@@ -148,6 +150,7 @@ const update_product = async(req, res) => {
                     const product = await Producto.findByIdAndUpdate({_id:id}, {
                         title: data.title,
                         category: data.category,
+                        variety: data.variety,
                         description: data.description,
                         state: data.stat,
                         discount: data.discount,
@@ -164,6 +167,7 @@ const update_product = async(req, res) => {
                     const product = await Producto.findByIdAndUpdate({_id:id}, {
                         title: data.title,
                         category: data.category,
+                        variety: data.variety,
                         description: data.description,
                         state: data.stat,
                         discount: data.discount

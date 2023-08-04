@@ -67,19 +67,18 @@
                             <hr class="my-5">
 
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-12 col-md-6">
 
                                     <!-- Email address -->
                                     <div class="form-group">
                                         <!-- Label -->
                                         <label class="mb-1">Título del producto</label>
-                                        <!-- Form text -->
-                                        <small class="form-text text-muted">This contact will be shown to others publicly, so choose it carefully.</small>
                                         <!-- Input -->
                                         <input type="email" class="form-control" placeholder="Título del producto" v-model="product.title">
                                     </div>
 
                                 </div>
+
                                 <div class="col-12 col-md-6">
                                     <!-- First name -->
                                     <div class="form-group">
@@ -97,6 +96,18 @@
                                     </div>
 
                                 </div>
+                                <div class="col-12 col-md-6">
+
+                                    <!-- Last name -->
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label class="form-label">Variedad</label>
+                                        <!-- Input -->
+                                        <input type="text" class="form-control" placeholder="Variedad" v-model="product.variety">
+                                    </div>
+
+                                </div>
+
                                 <div class="col-12 col-md-6">
                                     <!-- Last name -->
                                     <div class="form-group">
@@ -260,6 +271,13 @@ export default {
                 text: 'Seleccione una categoria',
                 type: 'error'
             });
+        }else if (!this.product.variety) {
+            this.$notify({
+                group: 'foo',
+                title: 'ERROR',
+                text: 'Ingrese la variedad del producto',
+                type: 'error'
+            })
         }else if(!this.product.price){
             this.$notify({
                 group: 'foo',
@@ -291,6 +309,7 @@ export default {
           var fm = new FormData();
           fm.append('title',this.product.title);
           fm.append('category',this.product.category);
+          fm.append('variety',this.product.variety);
           fm.append('price',this.product.price);
           fm.append('description',this.product.description);
           fm.append('state',this.product.state);
@@ -303,6 +322,23 @@ export default {
                   'Authorization' : this.$store.state.token
               }
           }).then((result)=>{
+            if (result.data.message) {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: result.data.message,
+                        type: 'error'
+                    });
+                } else {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'SUCCESS',
+                        text: 'Se creo correctamente.',
+                        type: 'success'
+                    });
+                    this.$router.push({name: 'product-index'});
+                }
+                
             console.log(result);
           })
 

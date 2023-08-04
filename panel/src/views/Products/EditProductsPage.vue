@@ -94,7 +94,7 @@
                             <hr class="my-5">
 
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-12 col-md-6">
 
                                     <!-- Email address -->
                                     <div class="form-group">
@@ -103,11 +103,6 @@
                                         <label class="mb-1">
                                             Título del producto
                                         </label>
-
-                                        <!-- Form text -->
-                                        <small class="form-text text-muted">
-                                            This contact will be shown to others publicly, so choose it carefully.
-                                        </small>
 
                                         <!-- Input -->
                                         <input type="text" class="form-control" placeholder="Título del producto"
@@ -134,6 +129,17 @@
                                             <option value="Categoria 3">Categoria 3</option>
                                         </select>
 
+                                    </div>
+
+                                </div>
+                                <div class="col-12 col-md-6">
+
+                                    <!-- Last name -->
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label class="form-label">Variedad</label>
+                                        <!-- Input -->
+                                        <input type="text" class="form-control" placeholder="Variedad" v-model="product.variety">
                                     </div>
 
                                 </div>
@@ -258,14 +264,142 @@
                                 </div>
                             </div> <!-- / .row -->
 
+                            <!-- Button -->
+                            <button class="btn btn-primary mt-5" v-on:click="validate()">
+                                Actualizar producto
+                            </button>
                             <!-- Divider -->
                             <hr class="mt-4 mb-5">
 
-                            <!-- Button -->
-                            <button class="btn btn-primary" v-on:click="validate()">
-                                Actualizar producto
-                            </button>
+                            <div class="row justify-content-between align-items-center mb-5">
+                                <div class="col-12">
 
+                                    <!-- Heading -->
+                                    <h2 class="mb-2">
+                                        Variedades de producto
+                                    </h2>
+
+                                    <!-- Text -->
+                                    <p class="text-muted mb-xl-0">
+                                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa dolore aspernatur,
+                                        beatae id quod consequuntur.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <div class="row mb-5">
+                                <div class="col-lg-5">
+                                    <small class="text-muted">
+                                        Proveedor
+                                    </small>
+                                    <input type="text" class="form-control" placeholder="Empresa proveedora">
+                                </div>
+                                <div class="col-lg-5">
+                                    <small class="text-muted">
+                                        Variedad
+                                    </small>
+                                    <input type="text" class="form-control" placeholder="Tallas, colores...">
+                                </div>
+                                <div class="col">
+                                    <small class="text-muted">
+                                        Acción*
+                                    </small> <br>
+                                    <button class="btn btn-primary btn-block"
+                                        style="width: 100% !important;">Agregar</button>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <!-- List group -->
+                                    <div class="list-group list-group-flush my-n3">
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+
+                                                    <!-- Heading -->
+                                                    <h4 class="mb-1">
+                                                        Authenticator app
+                                                    </h4>
+
+                                                    <!-- Text -->
+                                                    <small class="text-muted">
+                                                        Google auth or 1Password
+                                                    </small>
+
+                                                </div>
+                                                <div class="col-auto">
+
+                                                    <!-- Button -->
+                                                    <button class="btn btn-sm btn-white">
+                                                        Setup
+                                                    </button>
+
+                                                </div>
+                                            </div> <!-- / .row -->
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+
+                                                    <!-- Heading -->
+                                                    <h4 class="mb-1">
+                                                        SMS Recovery <i class="fe fe-info text-muted ms-1"
+                                                            data-bs-toggle="tooltip"
+                                                            data-title="We use the the phone number you provide in General"
+                                                            data-bs-original-title="" title=""></i>
+                                                    </h4>
+
+                                                    <!-- Text -->
+                                                    <small class="text-muted">
+                                                        Standard messaging rates apply
+                                                    </small>
+
+                                                </div>
+                                                <div class="col-auto">
+
+                                                    <!-- Button -->
+                                                    <button class="btn btn-sm btn-danger">
+                                                        Disable
+                                                    </button>
+
+                                                </div>
+                                            </div> <!-- / .row -->
+                                        </div>
+                                        <div class="list-group-item">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+
+                                                    <!-- Heading -->
+                                                    <h4 class="mb-1">
+                                                        Recovery codes <i class="fe fe-info text-muted ms-1"
+                                                            data-bs-toggle="tooltip"
+                                                            data-title="We use the the phone number you provide in General"
+                                                            data-bs-original-title="" title=""></i>
+                                                    </h4>
+
+                                                    <!-- Text -->
+                                                    <small class="text-muted">
+                                                        Standard messaging rates apply
+                                                    </small>
+
+                                                </div>
+                                                <div class="col-auto">
+
+                                                    <!-- Button -->
+                                                    <button class="btn btn-sm btn-white">
+                                                        Reveal
+                                                    </button>
+
+                                                </div>
+                                            </div> <!-- / .row -->
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
 
                         </div>
 
@@ -305,17 +439,17 @@ export default {
     },
 
     methods: {
-        init_data(){
-            axios.get(this.$url+'/get_product_id/'+this.$route.params.id, {
+        init_data() {
+            axios.get(this.$url + '/get_product_id/' + this.$route.params.id, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': this.$store.state.token
                 }
-            }).then ( (result) => {
+            }).then((result) => {
                 console.log(result);
                 this.product = result.data;
-                this.str_image = this.$url+'/get_frontPage_product/'+this.product.frontPage;
-            }).catch( (err) => {
+                this.str_image = this.$url + '/get_frontPage_product/' + this.product.frontPage;
+            }).catch((err) => {
 
             })
         },
@@ -367,13 +501,13 @@ export default {
                     text: 'Seleccione una categoria',
                     type: 'error'
                 });
-            // } else if (!this.product.price) {
-            //     this.$notify({
-            //         group: 'foo',
-            //         title: 'ERROR',
-            //         text: 'Ingrese el precio del producto',
-            //         type: 'error'
-            //     });
+                } else if (!this.product.variety) {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: 'Ingrese la variedad del producto',
+                        type: 'error'
+                    });
             } else if (!this.product.description) {
                 this.$notify({
                     group: 'foo',
@@ -397,47 +531,47 @@ export default {
         updateProduct() {
             var data;
             var content = '';
-            if(this.frontPage != undefined){
+            if (this.frontPage != undefined) {
                 content = 'multipart/form-data';
                 data = new FormData();
-                    fm.append('title', this.product.title);
-                    fm.append('category', this.product.category);
-                    //fm.append('price', this.product.price);
-                    fm.append('description', this.product.description);
-                    fm.append('state', this.product.state);
-                    fm.append('discount', this.product.discount);
-                    fm.append('frontPage', this.product.frontPage); //IMAGEN
-            }else{
+                fm.append('title', this.product.title);
+                fm.append('category', this.product.category);
+                fm.append('price', this.product.variety);
+                fm.append('description', this.product.description);
+                fm.append('state', this.product.state);
+                fm.append('discount', this.product.discount);
+                fm.append('frontPage', this.product.frontPage); //IMAGEN
+            } else {
                 data = this.product;
                 content = 'application/json'
             }
-            axios.put(this.$url + '/update_product/'+this.$route.params.id, data, {
+            axios.put(this.$url + '/update_product/' + this.$route.params.id, data, {
                 headers: {
                     'Content-Type': content,
                     'Authorization': this.$store.state.token
                 }
             }).then((result) => {
                 console.log(result);
-                if(result.data.message){
-                this.$notify({
-                    group: 'foo',
-                    title: 'ERROR',
-                    text: result.data.message,
-                    type: 'error'
-                });
-              }else{
-                  this.$notify({
-                    group: 'foo',
-                    title: 'SUCCESS',
-                    text: 'Se actualizó el producto.',
-                    type: 'success'
-                });
-              }
+                if (result.data.message) {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: result.data.message,
+                        type: 'error'
+                    });
+                } else {
+                    this.$notify({
+                        group: 'foo',
+                        title: 'SUCCESS',
+                        text: 'Se actualizó el producto.',
+                        type: 'success'
+                    });
+                }
             })
         }
-        
+
     },
-    beforeMount(){
+    beforeMount() {
         this.init_data()
     }
 }

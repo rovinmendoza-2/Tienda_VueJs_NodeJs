@@ -206,7 +206,7 @@ export default {
       filter: '',
       load_data: false,
       currentPage: 1,
-      perPage: 2,
+      perPage: 10,
       get itemsForList(){
         return this.products.slice(
             (this.currentPage-1) * this.perPage, this.currentPage * this.perPage

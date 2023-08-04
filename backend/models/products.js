@@ -6,6 +6,7 @@ const ProductSchema = Schema({
     slug:    {type: String, required: true},
     category:  {type: String, required: true},
     price:      {type: Number, required: true},
+    variety:      {type: String, required: true},
     description: {type: String, required: true},
     state:   {type: String, required: true},
     frontPage: {type: String, required: true},
