@@ -293,20 +293,20 @@
                                     <small class="text-muted">
                                         Proveedor
                                     </small>
-                                    <input type="text" class="form-control" placeholder="Empresa proveedora">
+                                    <input type="text" class="form-control" placeholder="Empresa proveedora" v-model="variety.supplier">
                                 </div>
                                 <div class="col-lg-5">
                                     <small class="text-muted">
                                         Variedad
                                     </small>
-                                    <input type="text" class="form-control" placeholder="Tallas, colores...">
+                                    <input type="text" class="form-control" placeholder="Tallas, colores..." v-model="variety.variety">
                                 </div>
                                 <div class="col">
                                     <small class="text-muted">
                                         Acción*
                                     </small> <br>
                                     <button class="btn btn-primary btn-block"
-                                        style="width: 100% !important;">Agregar</button>
+                                        style="width: 100% !important;" v-on:click="validate_variety()">Agregar</button>
                                 </div>
                             </div>
 
@@ -430,7 +430,9 @@ export default {
                 discount: false,
                 frontPage: undefined
             },
-            frontPage: undefined
+            frontPage: undefined,
+            variety: {},
+            sku: ''
         }
     },
     components: {
@@ -568,6 +570,35 @@ export default {
                     });
                 }
             })
+        },
+        validate_variety(){
+            if (!this.variety.supplier) {
+                this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Ingrese el proveedor del producto',
+                    type: 'error'
+                });
+            }else if (!this.variety.variety) {
+                this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Ingrese la variedad del producto',
+                    type: 'error'
+                });
+            }else{
+                this.variety.product = this.$route.params.id;
+                this.variety.sku =  this.generate_sku();
+                console.log(this.variety);
+            }
+            
+        },
+        register_variety(){
+
+        },
+        generate_sku(){
+            let sku = this.product.title.substr(0,3)+''+this.product.variety.substr(0,3)+''+this.variety.variety.substr(0,3)+''+this.variety.supplier.substr(0,3);
+            return sku.toUpperCase();
         }
 
     },
