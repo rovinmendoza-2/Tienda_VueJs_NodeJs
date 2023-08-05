@@ -5,9 +5,9 @@ import jwt_decode from 'jwt-decode';
 
 import DashboardPage from '../views/DashboardPage.vue'
 import LoginApp from '../views/LoginPage.vue';
-import RegisterPage from '../views/RegisterCollaborator/RegisterPage.vue';
-import IndexCollaboratorPage from '../views/RegisterCollaborator/IndexCollaboratorPage.vue';
-import EditUserPage from '../views/RegisterCollaborator/EditUserPage.vue';
+import RegisterCollaboratorPage from '../views/Collaborators/RegisterCollaboratorPage.vue';
+import IndexCollaboratorPage from '../views/Collaborators/IndexCollaboratorPage.vue';
+import EditCollaboratorPage from '../views/Collaborators/EditCollaboratorPage.vue';
 
 import CreateProductsPage from '../views/Products/CreateProductsPage.vue';
 import IndexProductPage from '../views/Products/IndexProductPage.vue';
@@ -18,8 +18,8 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/', name: 'login', component: LoginApp, meta: { requiresAuth: false }},
   { path: '/collaborator', name: 'index', component: IndexCollaboratorPage, meta: { requiresAuth: true }},
-  { path: '/collaborator/register_admin', name: 'register', component: RegisterPage, meta: { requiresAuth: true }},
-  { path: '/collaborator/user/edit/:id', name: 'edit', component: EditUserPage, meta: { requiresAuth: true }},
+  { path: '/collaborator/register_admin', name: 'register', component: RegisterCollaboratorPage, meta: { requiresAuth: true }},
+  { path: '/collaborator/user/edit/:id', name: 'edit', component: EditCollaboratorPage, meta: { requiresAuth: true }},
   { path: '/dashboard', name: 'dashboard', component: DashboardPage, meta: { requiresAuth: true }},
 
   // Rutas para productos

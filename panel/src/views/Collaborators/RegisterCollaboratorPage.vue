@@ -147,7 +147,7 @@ import store from '@/store/index';
 import axios from "axios";
 
 export default {
-  name: 'RegisterPage',
+  name: 'RegisterCollaboratorPage',
   data(){
     return {
         collaborator: {

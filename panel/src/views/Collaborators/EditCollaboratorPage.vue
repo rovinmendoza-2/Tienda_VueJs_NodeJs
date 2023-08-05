@@ -153,7 +153,7 @@ import ErrorPage from '@/components/ErrorPage.vue';
 import axios from 'axios';
 
 export default {
-    name: 'EditUserPage',
+    name: 'EditCollaboratorPage',
     data() {
         return {
             user: {
