@@ -9,4 +9,4 @@ const VarietydSchema = Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("varietyd", VarietydSchema);
+module.exports = mongoose.model("variety", VarietydSchema);

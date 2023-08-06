@@ -571,6 +571,7 @@ export default {
                 }
             })
         },
+
         validate_variety(){
             if (!this.variety.supplier) {
                 this.$notify({
@@ -590,11 +591,22 @@ export default {
                 this.variety.product = this.$route.params.id;
                 this.variety.sku =  this.generate_sku();
                 console.log(this.variety);
+                this.register_variety();
             }
             
         },
         register_variety(){
-
+            console.log(this.variety);
+            axios.post(this.$url + '/register_variety_product',this.variety, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+                }
+            }).then( (result)=> {
+                console.log(result);
+            }).catch( (err) => {
+                console.log(err);
+            })
         },
         generate_sku(){
             let sku = this.product.title.substr(0,3)+''+this.product.variety.substr(0,3)+''+this.variety.variety.substr(0,3)+''+this.variety.supplier.substr(0,3);

@@ -1,4 +1,5 @@
 const Producto =  require('../models/products');
+const Variety = require('../models/variety');
 var slugify = require('slugify');
 var fs = require('fs');
 var path = require('path');
@@ -183,10 +184,20 @@ const update_product = async(req, res) => {
     }
 };
 
+const register_variety_product = async(req, res) => {
+    if(req.user){
+        let data = req.body;
+        const variety = await Variety.create(data);
+        res.status(200).send({data: variety});
+    }else{
+        res.status(500).send({data:undefined, message: 'Error token'});
+    }
+}
 module.exports = {
     register_product,
     get_products,
     get_frontPage_product,
     get_product_id,
-    update_product
+    update_product,
+    register_variety_product
 }
