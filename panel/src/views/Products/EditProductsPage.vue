@@ -315,82 +315,37 @@
 
                                     <!-- List group -->
                                     <div class="list-group list-group-flush my-n3">
-                                        <div class="list-group-item">
+                                        <div class="list-group-item" v-for="item in varieties">
                                             <div class="row align-items-center">
                                                 <div class="col">
 
                                                     <!-- Heading -->
                                                     <h4 class="mb-1">
-                                                        Authenticator app
+                                                        {{ item.variety.toUpperCase() }}
                                                     </h4>
 
                                                     <!-- Text -->
                                                     <small class="text-muted">
-                                                        Google auth or 1Password
+                                                        <b>SKU: </b>{{ item.sku.toUpperCase() }}
                                                     </small>
 
                                                 </div>
-                                                <div class="col-auto">
-
-                                                    <!-- Button -->
-                                                    <button class="btn btn-sm btn-white">
-                                                        Setup
-                                                    </button>
-
-                                                </div>
-                                            </div> <!-- / .row -->
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
                                                 <div class="col">
-
                                                     <!-- Heading -->
                                                     <h4 class="mb-1">
-                                                        SMS Recovery <i class="fe fe-info text-muted ms-1"
-                                                            data-bs-toggle="tooltip"
-                                                            data-title="We use the the phone number you provide in General"
-                                                            data-bs-original-title="" title=""></i>
+                                                        {{ item.stock }}
                                                     </h4>
 
                                                     <!-- Text -->
                                                     <small class="text-muted">
-                                                        Standard messaging rates apply
+                                                        Unidades
                                                     </small>
-
                                                 </div>
                                                 <div class="col-auto">
 
                                                     <!-- Button -->
                                                     <button class="btn btn-sm btn-danger">
                                                         Disable
-                                                    </button>
-
-                                                </div>
-                                            </div> <!-- / .row -->
-                                        </div>
-                                        <div class="list-group-item">
-                                            <div class="row align-items-center">
-                                                <div class="col">
-
-                                                    <!-- Heading -->
-                                                    <h4 class="mb-1">
-                                                        Recovery codes <i class="fe fe-info text-muted ms-1"
-                                                            data-bs-toggle="tooltip"
-                                                            data-title="We use the the phone number you provide in General"
-                                                            data-bs-original-title="" title=""></i>
-                                                    </h4>
-
-                                                    <!-- Text -->
-                                                    <small class="text-muted">
-                                                        Standard messaging rates apply
-                                                    </small>
-
-                                                </div>
-                                                <div class="col-auto">
-
-                                                    <!-- Button -->
-                                                    <button class="btn btn-sm btn-white">
-                                                        Reveal
                                                     </button>
 
                                                 </div>
@@ -432,7 +387,8 @@ export default {
             },
             frontPage: undefined,
             variety: {},
-            sku: ''
+            sku: '',
+            varieties : []
         }
     },
     components: {
@@ -610,6 +566,7 @@ export default {
                     text: 'Se agrego la nueva variedad',
                     type: 'success'
                 });
+                this.init_variety();
                 console.log(result);
             }).catch( (err) => {
                 console.log(err);
@@ -618,11 +575,32 @@ export default {
         generate_sku(){
             let sku = this.product.title.substr(0,3)+''+this.product.variety.substr(0,3)+''+this.variety.variety.substr(0,3)+''+this.variety.supplier.substr(0,3);
             return sku.toUpperCase();
+        },
+        init_variety(){
+            axios.get(this.$url + '/get_variety_product/'+this.$route.params.id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+                }
+            }).then( (result)=> {
+                this.varieties = result.data;
+                // this.variety = {}
+                // this.$notify({
+                //     group: 'foo',
+                //     title: 'SUCCESS',
+                //     text: 'Se agrego la nueva variedad',
+                //     type: 'success'
+                // });
+                console.log(result);
+            }).catch( (err) => {
+                console.log(err);
+            })
         }
 
     },
     beforeMount() {
-        this.init_data()
+        this.init_data();
+        this.init_variety();
     }
 }
 </script>

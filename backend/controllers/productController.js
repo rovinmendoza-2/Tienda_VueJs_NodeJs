@@ -192,6 +192,16 @@ const register_variety_product = async(req, res) => {
     }else{
         res.status(500).send({data:undefined, message: 'Error token'});
     }
+};
+
+const get_variety_product = async(req, res)=>{
+    if(req.user){
+        let id = req.params['id'];
+        const variety = await Variety.find({product: id}).sort({stock: -1});
+        res.status(200).send(variety);
+    }else{
+        res.status(500).send({data:undefined, message: 'Error token'});
+    }
 }
 module.exports = {
     register_product,
@@ -199,5 +209,6 @@ module.exports = {
     get_frontPage_product,
     get_product_id,
     update_product,
-    register_variety_product
+    register_variety_product,
+    get_variety_product
 }
