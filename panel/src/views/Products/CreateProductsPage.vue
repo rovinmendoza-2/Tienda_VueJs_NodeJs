@@ -243,6 +243,7 @@ export default {
                         text: 'El recurso debe ser image',
                         type: 'error'
                     });
+                    this.frontPage = undefined
                 }
                
             }else{
@@ -252,6 +253,7 @@ export default {
                     text: 'La imagen debe pesar menos de 1M',
                     type: 'error'
                 });
+                this.frontPage = undefined
             }
             console.log(image);
         },

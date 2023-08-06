@@ -603,6 +603,13 @@ export default {
                     'Authorization': this.$store.state.token
                 }
             }).then( (result)=> {
+                this.variety = {}
+                this.$notify({
+                    group: 'foo',
+                    title: 'SUCCESS',
+                    text: 'Se agrego la nueva variedad',
+                    type: 'success'
+                });
                 console.log(result);
             }).catch( (err) => {
                 console.log(err);
