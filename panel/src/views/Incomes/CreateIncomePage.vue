@@ -126,29 +126,27 @@
                                 <h3><b>Productos del ingreso</b></h3>
                             </div>
 
-                            <div class="col-12 col-md-4">
-
+                            <div class="col-12 col-md-6">
                                 <!-- First name -->
                                 <div class="form-group">
-
                                     <!-- Label -->
-                                    <label class="form-label">
-                                        Producto
-                                    </label>
+                                    <label class="form-label">Producto</label>
                                     <!-- Input -->
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder="Buscar producto">
-                                        <button class="btn btn-primary">
-                                            <i class="fe fe-search"></i>
-                                        </button>
-                                    </div>
-
+                                    <model-select :options="products" v-model="product" placeholder="seleccione un producto"></model-select>
                                 </div>
-
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <!-- First name -->
+                                <div class="form-group">
+                                    <!-- Label -->
+                                    <label class="form-label">Variedad</label>
+                                    <!-- Input -->
+                                    <!-- <model-select :options="products" v-model="product" placeholder="select item"></model-select> -->
+                                </div>
                             </div>
 
 
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-6">
 
                                 <!-- Phone -->
                                 <div class="form-group">
@@ -163,7 +161,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-6">
 
                                 <!-- Birthday -->
                                 <div class="form-group">
@@ -179,9 +177,9 @@
 
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-12">
 
-                                <button class="btn btn-primary" style="margin-top: 1.8rem!important;">
+                                <button class="btn btn-primary" style="margin-bottom: 1.8rem!important;">
                                     Agregar
                                 </button>
                             </div>
@@ -233,6 +231,8 @@
 <script>
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
+import { ModelSelect } from 'vue-search-select';
+import axios from 'axios';
 
 export default {
     name: 'CreateIncomePage',
@@ -241,7 +241,9 @@ export default {
             income : {
                 supplier : ''
             },
-            vaucher: undefined
+            vaucher: undefined,
+            product: {},
+            products: [],
         }
     },
 
@@ -276,11 +278,35 @@ export default {
             }
             console.log(this.vaucher);
         },
+
+        init_products(){
+            this.products = []
+            axios.get(this.$url+'/get_all_products', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+            } 
+            }).then( (result) => {
+                console.log(result);
+                for( var item of result.data){
+                    this.products.push({
+                        value: item._id,
+                        text: item.title
+                    });
+                }
+            }).catch( (err) => {
+                console.log(err);
+            })
+        }
+    },
+    beforeMount(){
+        this.init_products();
     },
 
     components: {
         SidebarPage,
-        TopNavPage
+        TopNavPage,
+        ModelSelect
     },
 }
 </script>

@@ -221,6 +221,14 @@ const delete_variety_product = async(req, res)=>{
     }
 };
 
+const get_all_products = async(req, res) => {
+    if(req.user){
+         let produts = await Producto.find({state: true}).sort({createdAt: -1});
+         res.status(200).send(produts);
+    }else{
+        res.status(500).send({data:undefined, message: 'Error token'});
+    }
+};
 
 module.exports = {
     register_product,
@@ -230,5 +238,6 @@ module.exports = {
     update_product,
     register_variety_product,
     get_variety_product,
-    delete_variety_product
+    delete_variety_product,
+    get_all_products
 }

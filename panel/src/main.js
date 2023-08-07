@@ -6,6 +6,7 @@ import Notifications from 'vue-notification';
 import VuePaginate from 'vue-paginate';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import "vue-search-select/dist/VueSearchSelect.css"
 import { ModalPlugin } from 'bootstrap-vue';
 
 Vue.use(VuePaginate);
