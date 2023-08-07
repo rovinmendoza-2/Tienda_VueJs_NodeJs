@@ -344,9 +344,17 @@
                                                 <div class="col-auto">
 
                                                     <!-- Button -->
-                                                    <button class="btn btn-sm btn-danger">
-                                                        Disable
+                                                    <button v-if="item.stock == 0" class="btn btn-sm btn-danger" type="button" v-b-modal="'delete-'+item._id">
+                                                        Eliminar
                                                     </button>
+                                                    <button v-if="item.stock >= 1" disabled class="btn btn-sm btn-danger" type="button">
+                                                        Eliminar
+                                                    </button>
+                                                    <b-modal :id="'delete-'+item._id" title="BootstrapVue"
+                                                        title-html="<h4 class='card-header-title'><b>Agregrar Miembros</b></h4>"
+                                                        @ok="delete_variety(item._id)">
+                                                            <p class="my-4">{{ item._id }}</p>
+                                                    </b-modal>
 
                                                 </div>
                                             </div> <!-- / .row -->
@@ -576,6 +584,7 @@ export default {
             let sku = this.product.title.substr(0,3)+''+this.product.variety.substr(0,3)+''+this.variety.variety.substr(0,3)+''+this.variety.supplier.substr(0,3);
             return sku.toUpperCase();
         },
+
         init_variety(){
             axios.get(this.$url + '/get_variety_product/'+this.$route.params.id, {
                 headers: {
@@ -592,6 +601,35 @@ export default {
                 //     type: 'success'
                 // });
                 console.log(result);
+            }).catch( (err) => {
+                console.log(err);
+            })
+        },
+
+        delete_variety(id){
+            axios.delete(this.$url + '/delete_variety_product/'+id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+                }
+            }).then( (result)=> {
+                if(result.data.message){
+                    this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: result.data.message,
+                    type: 'error'
+                });
+                }else{
+                    this.$notify({
+                    group: 'foo',
+                    title: 'SUCCESS',
+                    text: 'Se elimino la variedad',
+                    type: 'success'
+                });
+                this.init_variety();
+                }
+                
             }).catch( (err) => {
                 console.log(err);
             })

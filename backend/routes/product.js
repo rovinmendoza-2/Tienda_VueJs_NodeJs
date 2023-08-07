@@ -17,5 +17,6 @@ api.put('/update_product/:id',[authetication.decodeToken, path], productControll
 
 api.post('/register_variety_product', authetication.decodeToken, productController.register_variety_product);
 api.get('/get_variety_product/:id', authetication.decodeToken, productController.get_variety_product);
+api.delete('/delete_variety_product/:id', authetication.decodeToken, productController.delete_variety_product);
 
 module.exports = api;

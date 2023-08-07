@@ -202,7 +202,26 @@ const get_variety_product = async(req, res)=>{
     }else{
         res.status(500).send({data:undefined, message: 'Error token'});
     }
-}
+};
+
+const delete_variety_product = async(req, res)=>{
+    if(req.user){
+        let id = req.params['id'];
+
+        let reg = await Variety.findById({_id:id});
+        if(reg.stock == 0){
+            const variety = await Variety.findByIdAndRemove({_id: id});
+            res.status(200).send(variety);
+        }else{
+            res.status(200).send({data:undefined, message: 'No se puede eliminar esta variedad'});
+        }
+        
+    }else{
+        res.status(500).send({data:undefined, message: 'Error token'});
+    }
+};
+
+
 module.exports = {
     register_product,
     get_products,
@@ -210,5 +229,6 @@ module.exports = {
     get_product_id,
     update_product,
     register_variety_product,
-    get_variety_product
+    get_variety_product,
+    delete_variety_product
 }
