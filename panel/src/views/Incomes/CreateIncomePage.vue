@@ -132,7 +132,12 @@
                                     <!-- Label -->
                                     <label class="form-label">Producto</label>
                                     <!-- Input -->
-                                    <model-select :options="products" v-model="product" placeholder="seleccione un producto"></model-select>
+                                    <basic-select :options="products"
+                                        :selected-options="products"
+                                        v-model="product"
+                                        placeholder="seleccione un producto"
+                                        @select="product_selected">
+                                    </basic-select>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
@@ -231,7 +236,7 @@
 <script>
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
-import { ModelSelect } from 'vue-search-select';
+import { BasicSelect } from 'vue-search-select';
 import axios from 'axios';
 
 export default {
@@ -297,6 +302,10 @@ export default {
             }).catch( (err) => {
                 console.log(err);
             })
+        },
+
+        product_selected(item){
+            console.log(item);
         }
     },
     beforeMount(){
@@ -306,7 +315,7 @@ export default {
     components: {
         SidebarPage,
         TopNavPage,
-        ModelSelect
+        BasicSelect
     },
 }
 </script>
