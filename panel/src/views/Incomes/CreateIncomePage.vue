@@ -131,10 +131,13 @@
                                 <div class="form-group">
                                     <!-- Label -->
                                     <label class="form-label">Producto</label>
+                                    <small class="form-text text-muted">
+                                        Seleccion del producto.
+                                    </small>
                                     <!-- Input -->
                                     <basic-select :options="products"
-                                        :selected-options="products"
                                         v-model="product"
+                                        :selected-option="product"
                                         placeholder="seleccione un producto"
                                         @select="product_selected">
                                     </basic-select>
@@ -146,8 +149,11 @@
                                     <!-- Label -->
                                     <label class="form-label">Variedad</label>
                                     <!-- Input -->
-                                    <!-- <model-select :options="products" v-model="product" placeholder="select item"></model-select> -->
-                                </div>
+                                    <select class="form-select mb-3" v-model="detail.variety">
+                                        <option value="" selected disabled>Seleccionar</option>
+                                        <option :value="item._id" v-for="item in varieties">{{ item.variety.toUpperCase() }} - {{ item.sku }} - {{ item.stock }}</option>
+                                    </select>
+                                   </div>
                             </div>
 
 
@@ -161,7 +167,7 @@
                                         Precio unidad
                                     </label>
                                     <!-- Input -->
-                                    <input type="text" class="form-control mb-3" placeholder="0.00">
+                                    <input type="text" class="form-control mb-3" placeholder="0.00" v-model="detail.unit_price">
 
                                 </div>
 
@@ -176,7 +182,7 @@
                                         Cantidad total
                                     </label>
                                     <!-- Input -->
-                                    <input type="number" class="form-control mb-3" placeholder="0">
+                                    <input type="number" class="form-control mb-3" placeholder="0" v-model="detail.amount">
 
                                 </div>
 
@@ -184,7 +190,8 @@
 
                             <div class="col-md-12">
 
-                                <button class="btn btn-primary" style="margin-bottom: 1.8rem!important;">
+                                <button class="btn btn-primary"
+                                style="margin-bottom: 1.8rem!important;" v-on:click="create_detail()">
                                     Agregar
                                 </button>
                             </div>
@@ -196,29 +203,47 @@
                                 <table class="table table-sm table-nowrap card-table">
                                     <thead>
                                         <tr>
-                                            <th>Invoice ID</th>
-                                            <th>Date</th>
-                                            <th>Amount</th>
-                                            <th>Status</th>
+                                            <th>Producto</th>
+                                            <th>Precio unidad</th>
+                                            <th>Cantidad</th>
+                                            <th>Subtotal</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody class="fs-base">
-                                        <tr>
+                                    <tbody class="fs-base" v-if="details.length >= 1">
+                                        <tr v-for="(item, index) in details">
                                             <td>
-                                                <a href="invoice.html">Invoice #10395</a>
+                                                <a href="invoice.html">{{ item.title_produc }}</a>
                                             </td>
                                             <td>
-                                                <time datetime="2020-04-24">Apr. 24, 2020</time>
+                                                <time datetime="2020-04-24">{{ convertCurrency(item.unit_price) }}</time>
                                             </td>
                                             <td>
-                                                $29.00
+                                                {{ item.amount }}
                                             </td>
                                             <td>
-                                                <button class="btn btn-danger btn-sm">Quitar</button>
+                                                {{ convertCurrency( item.unit_price * item.amount) }}
+                                                
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm" v-on:click=" deleteDetail(index, item.unit_price * item.amount)">Quitar</button>
                                             </td>
                                         </tr>
 
                                     </tbody>
+                                    <tbody class="fs-base" v-if="details.length == 0">
+                                        <tr >
+                                            <td class="text-center" colspan="5">
+                                                <span class="text-muted">No hay detalles en el ingreso</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4">Total</td>
+                                            <td>{{ convertCurrency(total) }}</td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -238,6 +263,7 @@ import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
 import { BasicSelect } from 'vue-search-select';
 import axios from 'axios';
+import currency_formatter from 'currency-formatter';
 
 export default {
     name: 'CreateIncomePage',
@@ -249,6 +275,12 @@ export default {
             vaucher: undefined,
             product: {},
             products: [],
+            varieties: [],
+            detail : {
+                variety : ''
+            },
+            details : [],
+            total: 0,
         }
     },
 
@@ -306,6 +338,73 @@ export default {
 
         product_selected(item){
             console.log(item);
+            this.product = item;
+            this.init_variety(item.value);
+            this.detail.product = item.value;
+            this.detail.title_produc = item.text;
+        },
+
+        init_variety(id){
+            axios.get(this.$url + '/get_variety_product/'+id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+                }
+            }).then( (result)=> {
+                this.varieties = result.data;
+                console.log(this.varieties);
+            }).catch( (err) => {
+                console.log(err);
+            })
+        },
+
+        create_detail(){
+            if(!this.detail.product){
+               this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Seleccione el producto',
+                    type: 'error'
+                });
+          }else if(!this.detail.variety){
+               this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Seleccione la variedad',
+                    type: 'error'
+                });
+          }else if(!this.detail.unit_price){
+               this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Ingrese el precio por unidad',
+                    type: 'error'
+                });
+          }else if(!this.detail.amount){
+               this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Ingresar la cantidad a ingresar',
+                    type: 'error'
+                });
+          }else{
+                let subTotal =  this.detail.unit_price * this.detail.amount;
+                this.total = this.total + subTotal;
+
+                this.details.push(this.detail);
+                this.detail = {
+                    variety: ''
+                }
+                this.product = {};
+          }
+            console.log(this.details);
+        },
+        convertCurrency(number) {
+            return currency_formatter.format(number, { code: 'USD' });
+        },
+        deleteDetail(idx, subTotal){
+            this.details.splice(idx, 1);
+            this.total = this.total - subTotal;
         }
     },
     beforeMount(){
