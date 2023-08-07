@@ -13,6 +13,7 @@ import CreateProductsPage from '../views/Products/CreateProductsPage.vue';
 import IndexProductPage from '../views/Products/IndexProductPage.vue';
 import EditProductsPage from '../views/Products/EditProductsPage.vue';
 
+import CreateIncomePage from '../views/Incomes/CreateIncomePage.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,7 +26,10 @@ const routes = [
   // Rutas para productos
   {path: '/product/create', name: 'product-create', component: CreateProductsPage,  meta: { requiresAuth: true }},
   {path: '/product', name: 'product-index', component: IndexProductPage,  meta: { requiresAuth: true }},
-  {path: '/product/edit/:id', name: 'product-edit', component: EditProductsPage,  meta: { requiresAuth: true }}
+  {path: '/product/edit/:id', name: 'product-edit', component: EditProductsPage,  meta: { requiresAuth: true }},
+
+  // Rutas de ingresos
+  {path: '/income/create/', name: 'income-create', component: CreateIncomePage,  meta: { requiresAuth: true }}
 
 ]
 

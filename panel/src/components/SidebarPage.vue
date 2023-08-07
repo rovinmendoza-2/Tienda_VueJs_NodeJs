@@ -96,6 +96,10 @@
                         <router-link to="/product" class="nav-link" active-class="active">
                             <i class="fe fe-shopping-cart"></i>Productos</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link to="/income/create" class="nav-link" active-class="active">
+                            <i class="fe fe-folder"></i>Ingresos</router-link>
+                    </li>
                 </ul>
 
                 <!-- Push content down -->
