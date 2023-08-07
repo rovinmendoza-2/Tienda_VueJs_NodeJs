@@ -49,7 +49,8 @@
                                         Proveedor encargado del ingreso.
                                     </small>
                                     <!-- Input -->
-                                    <select class="form-select mb-3">
+                                    <select class="form-select mb-3" v-model="income.supplier">
+                                        <option value="" selected disabled>Seleccionar</option>
                                         <option>My first option</option>
                                         <option>Another option</option>
                                         <option>Third option is here</option>
@@ -72,7 +73,7 @@
                                         Número de la factura.
                                     </small>
                                     <!-- Input -->
-                                    <input type="text" class="form-control" placeholder="5DSF-000154">
+                                    <input type="text" class="form-control" placeholder="5DSF-000154" v-model="income.nvoucher">
 
                                 </div>
 
@@ -91,7 +92,7 @@
                                         Monto total pagado al proveedor.
                                     </small>
                                     <!-- Input -->
-                                    <input type="text" class="form-control" placeholder="546">
+                                    <input type="text" class="form-control" placeholder="546" v-model="income.total_amount">
 
                                 </div>
 
@@ -110,7 +111,7 @@
                                         Subir comprobante del ingreso.
                                     </small>
                                     <!-- Input -->
-                                    <input type="file" class="form-control">
+                                    <input type="file" class="form-control" v-on:change="uploadVaucher($event)">
 
                                 </div>
 
@@ -235,6 +236,48 @@ import TopNavPage from '../../components/TopNavPage.vue';
 
 export default {
     name: 'CreateIncomePage',
+    data() {
+        return {
+            income : {
+                supplier : ''
+            },
+            vaucher: undefined
+        }
+    },
+
+    methods: {
+        uploadVaucher($event){
+            var image;
+            if($event.target.files.length >= 1){
+                image = $event.target.files[0]
+            }
+            if(image.size <= 10000000){
+                if(image.type == 'image/jpeg'||image.type == 'image/png'||image.type == 'image/webp'||image.type == 'image/jpg'|| image.type == 'application/pdf'){
+                    this.vaucher = image;
+                    this.income.document = this.vaucher;
+                }else{
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: 'El recurso debe ser image',
+                        type: 'error'
+                    });
+                    this.vaucher = undefined
+                }
+               
+            }else{
+                this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'La imagen debe pesar menos de 1M',
+                    type: 'error'
+                });
+                this.vaucher = undefined
+            }
+            console.log(this.vaucher);
+        },
+    },
+
     components: {
         SidebarPage,
         TopNavPage
