@@ -325,19 +325,30 @@ const register_imagen = async(req, res) => {
     }
 };
 
-const get_gallery_product = async(req, res) => {
-    let img = req.params['img']
-    fs.stat('./uploads/gallery/'+img, (error) => {
-        if(error){
-            let img_path = './uploads/default.jpg';
-            res.status(200).sendFile(path.resolve(img_path));
-        }else{
-            let img_path = './uploads/gallery/'+img;
-            res.status(200).sendFile(path.resolve(img_path));
-        }
-    })
-        
-}
+const get_gallery_product = async (req, res) => {
+  let img = req.params["img"];
+  fs.stat("./uploads/gallery/" + img, (error) => {
+    if (error) {
+      let img_path = "./uploads/default.jpg";
+      res.status(200).sendFile(path.resolve(img_path));
+    } else {
+      let img_path = "./uploads/gallery/" + img;
+      res.status(200).sendFile(path.resolve(img_path));
+    }
+  });
+};
+
+const list_image_gallery = async (req, res) => {
+  if (req.user) {
+    const id = req.params['id'];
+
+    const gallery = await Gallery.find({product: id});
+    res.status(200).send(gallery);
+
+  } else {
+    res.status(500).send({ data: undefined, message: "Error token" });
+  }
+};
 
 module.exports = {
     register_product,
@@ -351,5 +362,6 @@ module.exports = {
     get_all_products,
     register_income,
     register_imagen,
-    get_gallery_product
+    get_gallery_product,
+    list_image_gallery
 }
