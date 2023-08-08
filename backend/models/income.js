@@ -6,7 +6,7 @@ const IncomeSchema = Schema({
     nvoucher:           {type: String, required: true},
     document:           {type: String, required: true},
     total_amount:       {type: String, required: true},
-    series:             {type: Number, required: true},
+    series:             {type: Number, required: false},
     resulting_amount:   {type: String, required: true},
     user:               {type: Schema.ObjectId, ref: 'usuario', require: true},
     createdAt:          {type: Date, default: Date.now}
