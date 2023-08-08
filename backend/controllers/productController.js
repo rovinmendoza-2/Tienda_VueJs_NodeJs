@@ -1,6 +1,6 @@
 const Producto =  require('../models/products');
 const Variety = require('../models/variety');
-const Detail = require('../models/income');
+const Income = require('../models/income');
 const IncomeDetails = require('../models/income_details');
 var slugify = require('slugify');
 var fs = require('fs');
@@ -236,6 +236,13 @@ const register_income = async(req, res) => {
     if(req.user){
         const data = req.body; //Ingreso
         try {
+            const reg_serie = await Income.find().sort({createdAt: -1});
+
+            if(reg_serie.length == 0){
+                data.series = 1;
+            }else{
+                data.series = reg_serie[0].series + 1;
+            }
             const details = JSON.parse(data.details); //Detalles de ingreso
 
             const img_path = req.files.document.path;
@@ -244,7 +251,7 @@ const register_income = async(req, res) => {
 
             data.document = str_document;
             data.user = req.user.sub
-            const income = await Detail.create(data);
+            const income = await Income.create(data);
 
             for(var item of details){
                 item.income = income._id;
