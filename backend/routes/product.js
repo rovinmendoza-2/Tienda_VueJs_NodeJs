@@ -31,6 +31,7 @@ api.post('/register_income', [authetication.decodeToken, path_ingreso], productC
 api.post('/register_imagen', [authetication.decodeToken, path_img], productController.register_imagen);
 api.get('/get_gallery_product/:img', productController.get_gallery_product);
 api.get('/list_image_gallery/:id', authetication.decodeToken, productController.list_image_gallery);
+api.delete('/delete_image_gallery/:id', authetication.decodeToken, productController.delete_image_gallery);
 
 
 module.exports = api;

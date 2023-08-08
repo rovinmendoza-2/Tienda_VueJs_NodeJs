@@ -350,6 +350,25 @@ const list_image_gallery = async (req, res) => {
   }
 };
 
+const delete_image_gallery = async (req, res) => {
+    if (req.user) {
+      const id = req.params['id'];
+  
+      try {
+        let reg = await Gallery.findById({_id:id})
+        let img_path = "./uploads/gallery/" + reg.imagen;
+        fs.unlinkSync(img_path);
+        const gallery = await Gallery.findByIdAndRemove({_id: id});
+        res.status(200).send(gallery);
+  
+      } catch (error) {
+        res.status(200).send({data: undefined, message: 'No se puedo eliminar la imagen'});
+      }
+    } else {
+      res.status(500).send({ data: undefined, message: "Error token" });
+    }
+  };
+
 module.exports = {
     register_product,
     get_products,
@@ -363,5 +382,6 @@ module.exports = {
     register_income,
     register_imagen,
     get_gallery_product,
-    list_image_gallery
+    list_image_gallery,
+    delete_image_gallery
 }

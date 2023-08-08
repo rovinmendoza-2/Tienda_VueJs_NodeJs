@@ -84,7 +84,12 @@
                                         <div class="card-footer card-footer-boxed">
                                             <div class="row">
                                                 <div class="col text-center">
-                                                    <a href="" class="text-danger">Eliminar imagen</a>
+                                                    <a v-b-modal="'delete-'+item._id" style="cursor: pointer" class="text-danger">Eliminar imagen</a>
+                                                    <b-modal :id="'delete-'+item._id" title="BootstrapVue"
+                                                        title-html="<h4 class='card-header-title'><b>Eliminar imagen</b></h4>"
+                                                        @ok="delete_image(item._id)">
+                                                            <p class="my-4">{{ item._id }}</p>
+                                                    </b-modal>
                                                 </div>
 
                                             </div> <!-- / .row -->
@@ -228,6 +233,7 @@ export default {
                                 text: 'La imagen se subio correctamente',
                                 type: 'success'
                         });
+                        this.init_gallery();
                     }
                 });
            }
@@ -244,6 +250,32 @@ export default {
                 this.gallery = result.data;
                 console.log(this.gallery);
                 this.load_gallery = false;
+            });
+        },
+        delete_image(id){
+            axios.delete(this.$url + '/delete_image_gallery/'+id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+                }
+            }).then((result) => {
+                if(result.data.message){
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: result.data.message,
+                        type: 'error'
+                    });
+                }else{
+                    this.$notify({
+                    group: 'foo',
+                    title: 'SUCCESS',
+                    text: 'Se elimino correctamente',
+                    type: 'success'
+                });
+                }
+                this.init_gallery();
+                console.log(result);
             });
         }
     },
