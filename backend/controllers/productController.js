@@ -271,7 +271,19 @@ const register_income = async(req, res) => {
 
                 // Margen de ganancia
                 if(product.stock >= 1){
+                    // Calculando subtotales
+                    const residual_subtotal = product.price * product.stock;
+                    const revenue = Math.ceil((item.unit_price * data.revenue) / 100);
+                    const income_subtotal = (parseFloat(item.unit_price) * parseFloat(revenue)) * item.amount;
 
+                    const quantities = parseInt(product.stock) + parseInt(item.amount);
+                    const subtotales = parseFloat(residual_subtotal) + parseFloat(income_subtotal);
+
+                    console.log('subtotales',subtotales +' '+ 'cantidades', quantities);
+                    const equilibrium_price = Math.ceil(subtotales/quantities);
+                    await Producto.findByIdAndUpdate({_id: item.product}, {
+                        price: equilibrium_price
+                    });
                 }else{
                     const revenue = Math.ceil((item.unit_price * data.revenue) / 100);
                     await Producto.findByIdAndUpdate({_id: item.product}, {
