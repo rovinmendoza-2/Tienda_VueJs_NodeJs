@@ -29,6 +29,7 @@ api.post('/register_income', [authetication.decodeToken, path_ingreso], productC
 
 // Ruta para subir imagen
 api.post('/register_imagen', [authetication.decodeToken, path_img], productController.register_imagen);
+api.get('/get_gallery_product/:img', productController.get_gallery_product);
 
 
 module.exports = api;

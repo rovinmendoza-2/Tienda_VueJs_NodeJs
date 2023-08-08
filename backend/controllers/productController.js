@@ -325,6 +325,20 @@ const register_imagen = async(req, res) => {
     }
 };
 
+const get_gallery_product = async(req, res) => {
+    let img = req.params['img']
+    fs.stat('./uploads/gallery/'+img, (error) => {
+        if(error){
+            let img_path = './uploads/default.jpg';
+            res.status(200).sendFile(path.resolve(img_path));
+        }else{
+            let img_path = './uploads/gallery/'+img;
+            res.status(200).sendFile(path.resolve(img_path));
+        }
+    })
+        
+}
+
 module.exports = {
     register_product,
     get_products,
@@ -336,5 +350,6 @@ module.exports = {
     delete_variety_product,
     get_all_products,
     register_income,
-    register_imagen
+    register_imagen,
+    get_gallery_product
 }
