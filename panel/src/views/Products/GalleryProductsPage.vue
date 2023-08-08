@@ -48,7 +48,8 @@
                                         <!-- Input -->
                                         <div class="input-group mb-3">
                                             <input type="file" id="input_file" class="form-control" placeholder="Selecciona la imagen" v-on:change=" uploadImage($event)">
-                                            <button class="btn btn-primary"><i class="fe fe-upload"></i>
+                                            <button class="btn btn-primary" v-on:click="register_imagen()">
+                                                <i class="fe fe-upload"></i>
                                             </button>
                                         </div>
                                         <!-- Form text -->
@@ -94,6 +95,7 @@
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
 import $ from "jquery";
+import axios from 'axios';
 
 export default {
     name: 'GalleryProductsPage',
@@ -140,6 +142,44 @@ export default {
             }
             console.log(image);
         },
+
+        register_imagen(){
+           if(this.imagen == undefined){
+            this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Debes seleccionar una imagen para subir',
+                    type: 'error'
+                });
+           }else{
+                var fm = new FormData();
+                fm.append('product',this.$route.params.id);
+                fm.append('imagen',this.imagen);
+
+                axios.post(this.$url+'/register_imagen',fm,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization' : this.$store.state.token
+                    }
+                }).then((result)=>{
+                    if (result.data.message) {
+                            this.$notify({
+                                group: 'foo',
+                                title: 'ERROR',
+                                text: result.data.message,
+                                type: 'error'
+                            });
+                        } else {
+                            this.$notify({
+                                group: 'foo',
+                                title: 'SUCCESS',
+                                text: 'La imagen se subio correctamente',
+                                type: 'success'
+                        });
+                    }
+                });
+           }
+        }
     },
 
     components: {

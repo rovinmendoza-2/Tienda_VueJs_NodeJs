@@ -2,6 +2,7 @@ const Producto =  require('../models/products');
 const Variety = require('../models/variety');
 const Income = require('../models/income');
 const IncomeDetails = require('../models/income_details');
+const Gallery = require('../models/gallery');
 var slugify = require('slugify');
 var fs = require('fs');
 var path = require('path');
@@ -302,6 +303,28 @@ const register_income = async(req, res) => {
     }
 };
 
+// Registrar imagne del producto
+const register_imagen = async(req, res) => {
+    if(req.user){
+        let data= req.body;
+
+        let img_path = req.files.imagen.path;
+        let str_img = img_path.split("\\");
+        let str_imagen = str_img[2];
+
+        data.imagen = str_imagen;
+
+        try {
+            const imagen = await Gallery.create(data);
+            res.status(200).send(imagen);
+        } catch (error) {
+            res.status(500).send({data:undefined, message: 'No se pudo subir la imagen'})
+        }
+    }else{
+        res.status(500).send({data:undefined, message: 'Error token'})
+    }
+};
+
 module.exports = {
     register_product,
     get_products,
@@ -312,5 +335,6 @@ module.exports = {
     get_variety_product,
     delete_variety_product,
     get_all_products,
-    register_income
+    register_income,
+    register_imagen
 }

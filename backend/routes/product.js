@@ -6,6 +6,8 @@ const authetication = require('../middlewares/authenticate');
 
 var path = multipart({uploadDir: './uploads/products'});
 var path_ingreso = multipart({uploadDir: './uploads/facturas'});
+var path_img = multipart({uploadDir: './uploads/gallery'});
+
 const api = express.Router();
 
 // Rutas de Productos
@@ -24,6 +26,9 @@ api.delete('/delete_variety_product/:id', authetication.decodeToken, productCont
 
 // Rutas de ingresos
 api.post('/register_income', [authetication.decodeToken, path_ingreso], productController.register_income);
+
+// Ruta para subir imagen
+api.post('/register_imagen', [authetication.decodeToken, path_img], productController.register_imagen);
 
 
 module.exports = api;
