@@ -256,6 +256,19 @@ const register_income = async(req, res) => {
             for(var item of details){
                 item.income = income._id;
                 await IncomeDetails.create(item);
+
+                //Actualizar stock de variedad
+                const variety = await Variety.findById({_id: item.variety});
+                await Variety.findByIdAndUpdate({_id: item.variety}, {
+                    stock: variety.stock + item.amount
+                });
+
+                // Actualizar stock de producto
+                const product = await Producto.findById({_id: item.product});
+                await Producto.findByIdAndUpdate({_id: item.product}, {
+                    stock: product.stock + item.amount
+                });
+                
             }
             res.status(200).send(income);
     
