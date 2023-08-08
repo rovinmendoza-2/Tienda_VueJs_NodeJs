@@ -47,7 +47,7 @@
                                         <label class="mb-1">Imagen</label>
                                         <!-- Input -->
                                         <div class="input-group mb-3">
-                                            <input type="file" class="form-control" placeholder="Selecciona la imagen">
+                                            <input type="file" id="input_file" class="form-control" placeholder="Selecciona la imagen" v-on:change=" uploadImage($event)">
                                             <button class="btn btn-primary"><i class="fe fe-upload"></i>
                                             </button>
                                         </div>
@@ -93,10 +93,55 @@
 <script>
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
-
+import $ from "jquery";
 
 export default {
     name: 'GalleryProductsPage',
+    data() {
+        return {
+            imagen: undefined,
+            str_image: '',
+        }
+    },
+
+    beforeMount(){
+        $('body').attr('style', 'background: black');
+    },
+    methods: {
+        uploadImage($event){
+            var image;
+            if($event.target.files.length >= 1){
+                image = $event.target.files[0]
+            }
+            if(image.size <= 10000000){
+                if(image.type == 'image/jpeg'||image.type == 'image/png'||image.type == 'image/webp'||image.type == 'image/jpg'){
+                    this.str_image = URL.createObjectURL(image);
+                    this.imagen = image;
+                }else{
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: 'El recurso debe ser image',
+                        type: 'error'
+                    });
+                    this.imagen = undefined
+                    $('#input_file').val('');
+                }
+               
+            }else{
+                this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'La imagen debe pesar menos de 1M',
+                    type: 'error'
+                });
+                this.imagen = undefined;
+                $('#input_file').val('');
+            }
+            console.log(image);
+        },
+    },
+
     components: {
         SidebarPage,
         TopNavPage
