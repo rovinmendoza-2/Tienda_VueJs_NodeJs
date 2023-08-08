@@ -24,10 +24,10 @@
                                         <!-- Nav -->
                                         <ul class="nav nav-tabs nav-overflow header-tabs">
                                             <li class="nav-item">
-                                                <router-link to="/product" class="nav-link active">Todos los productos</router-link>
+                                                <router-link to="/product" class="nav-link">Todos los productos</router-link>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link"> Nuevo Producto</a>
+                                                <a class="nav-link active"> Nuevo Producto</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -114,7 +114,7 @@
                                         <!-- Label -->
                                         <label class="form-label">Precio</label>
                                         <!-- Input -->
-                                        <input type="number" class="form-control" placeholder="Precio" v-model="product.price">
+                                        <input disabled type="number" class="form-control" placeholder="Precio" value="0">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-12">
@@ -280,13 +280,6 @@ export default {
                 text: 'Ingrese la variedad del producto',
                 type: 'error'
             })
-        }else if(!this.product.price){
-            this.$notify({
-                group: 'foo',
-                title: 'ERROR',
-                text: 'Ingrese el precio del producto',
-                type: 'error'
-            });
         }else if(!this.product.description){
             this.$notify({
                 group: 'foo',
@@ -312,7 +305,6 @@ export default {
           fm.append('title',this.product.title);
           fm.append('category',this.product.category);
           fm.append('variety',this.product.variety);
-          fm.append('price',this.product.price);
           fm.append('description',this.product.description);
           fm.append('state',this.product.state);
           fm.append('discount',this.product.discount);

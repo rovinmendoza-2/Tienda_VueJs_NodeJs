@@ -451,6 +451,7 @@ export default {
                 fm.append('nvoucher',this.income.nvoucher);
                 fm.append('total_amount',this.income.total_amount);
                 fm.append('resulting_amount',this.total);
+                fm.append('revenue',this.$revenue);
                 fm.append('document',this.income.document);
                 fm.append('details', JSON.stringify(this.details));
 

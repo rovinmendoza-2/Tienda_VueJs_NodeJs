@@ -260,14 +260,24 @@ const register_income = async(req, res) => {
                 //Actualizar stock de variedad
                 const variety = await Variety.findById({_id: item.variety});
                 await Variety.findByIdAndUpdate({_id: item.variety}, {
-                    stock: variety.stock + item.amount
+                    stock: parseInt(variety.stock) + parseInt(item.amount)
                 });
 
                 // Actualizar stock de producto
                 const product = await Producto.findById({_id: item.product});
                 await Producto.findByIdAndUpdate({_id: item.product}, {
-                    stock: product.stock + item.amount
+                    stock: parseInt(product.stock) + parseInt(item.amount)
                 });
+
+                // Margen de ganancia
+                if(product.stock >= 1){
+
+                }else{
+                    const revenue = Math.ceil((item.unit_price * data.revenue) / 100);
+                    await Producto.findByIdAndUpdate({_id: item.product}, {
+                        price: parseFloat(item.unit_price) + parseFloat(revenue)
+                    });
+                }
                 
             }
             res.status(200).send(income);

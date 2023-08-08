@@ -24,7 +24,7 @@
                                         <!-- Nav -->
                                         <ul class="nav nav-tabs nav-overflow header-tabs">
                                             <li class="nav-item">
-                                                <a class="nav-link active">Todos los usuarios</a>
+                                                <a class="nav-link active">Todos los colaboradores</a>
                                             </li>
                                             <li class="nav-item">
                                                 <router-link to="/collaborator/register_admin" class="nav-link">Nuevo colaborador</router-link>
