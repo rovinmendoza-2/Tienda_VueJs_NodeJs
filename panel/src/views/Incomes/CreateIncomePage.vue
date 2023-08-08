@@ -248,7 +248,7 @@
                             </div>
                         </div>
 
-                        <button class="btn btn-primary mb-7">
+                        <button class="btn btn-primary mb-7" v-on:click="register_income()">
                             Ingresar datos
                         </button>
                     </div>
@@ -301,7 +301,10 @@ export default {
                         text: 'El recurso debe ser image',
                         type: 'error'
                     });
-                    this.vaucher = undefined
+                    // comprobante
+                    this.vaucher = undefined;
+                    //ingreso documento
+                    this.income.document = undefined;
                 }
                
             }else{
@@ -311,7 +314,8 @@ export default {
                     text: 'La imagen debe pesar menos de 1M',
                     type: 'error'
                 });
-                this.vaucher = undefined
+                this.vaucher = undefined;
+                this.income.document = undefined;
             }
             console.log(this.vaucher);
         },
@@ -399,12 +403,76 @@ export default {
           }
             console.log(this.details);
         },
+
         convertCurrency(number) {
             return currency_formatter.format(number, { code: 'USD' });
         },
+
         deleteDetail(idx, subTotal){
             this.details.splice(idx, 1);
             this.total = this.total - subTotal;
+        },
+
+        register_income(){
+            if(!this.income.supplier){
+               this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Seleccione el proveedor',
+                    type: 'error'
+                });
+            }else if(!this.income.nvoucher){
+               this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Ingrese el numero de comprbante',
+                    type: 'error'
+                });
+            }else if(!this.income.total_amount){
+               this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Ingrese el monto total',
+                    type: 'error'
+                });
+            }else if(!this.income.document){
+               this.$notify({
+                    group: 'foo',
+                    title: 'ERROR',
+                    text: 'Suba el comprobante',
+                    type: 'error'
+                });
+            }else{
+                console.log(this.income);
+                console.log(this.details);
+
+                var fm = new FormData();
+                fm.append('supplier',this.income.supplier);
+                fm.append('nvoucher',this.income.nvoucher);
+                fm.append('total_amount',this.income.total_amount);
+                fm.append('resulting_amount',this.total);
+                fm.append('document',this.income.document);
+                fm.append('details', JSON.stringify(this.details));
+
+                // Registrar los datos de ingreso y detalle de ingreso
+                axios.post(this.$url+'/register_income',fm,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization' : this.$store.state.token
+                    }
+                }).then((result)=>{
+                    if(result.data.message){
+                        this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: result.data.message,
+                        type: 'error'
+                        });
+                    }else{
+                        console.log(result);
+                    }
+                })
+            }
         }
     },
     beforeMount(){
