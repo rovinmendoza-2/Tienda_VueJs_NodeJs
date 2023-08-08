@@ -1,5 +1,7 @@
 const Producto =  require('../models/products');
 const Variety = require('../models/variety');
+const Detail = require('../models/income');
+const IncomeDetails = require('../models/income_details');
 var slugify = require('slugify');
 var fs = require('fs');
 var path = require('path');
@@ -230,6 +232,29 @@ const get_all_products = async(req, res) => {
     }
 };
 
+const register_income = async(req, res) => {
+    if(req.user){
+        const data = req.body; //Ingreso
+        const details = JSON.parse(data.details); //Detalles de ingreso
+
+        const img_path = req.files.document.path;
+        const str_img = img_path.split("\\");
+        const str_document = str_img[2];
+
+        data.document = str_document;
+        data.user = req.user.sub
+        const income = await Detail.create(data);
+
+        for(var item of details){
+            item.income = income._id;
+            await IncomeDetails.create(item);
+        }
+        res.status(200).send(income);
+    }else{
+        res.status(500).send({data:undefined, message: 'Error token'});
+    }
+};
+
 module.exports = {
     register_product,
     get_products,
@@ -239,5 +264,6 @@ module.exports = {
     register_variety_product,
     get_variety_product,
     delete_variety_product,
-    get_all_products
+    get_all_products,
+    register_income
 }
