@@ -38,7 +38,19 @@
                             </div>
                         </div>
 
-                        <div class="mb-7">
+                        <template v-if="load_data">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <div class="spinner-border text-info" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <template v-if="!load_data">
+                            <div>
+                                <div class="mb-7" v-if="data">
                             <div class="row">
                                 <div class="col-12 col-md-12">
                                     <!-- Email address -->
@@ -84,6 +96,14 @@
 
                         </div>
 
+                        <template v-if="!data">
+                                <div>
+                                    <ErrorPage></ErrorPage>
+                                </div>
+                        </template>
+                            </div>
+                        </template>
+
                     </div>
                 </div> <!-- / .row -->
             </div>
@@ -94,6 +114,7 @@
 <script>
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
+import ErrorPage from '../../components/ErrorPage.vue';
 import $ from "jquery";
 import axios from 'axios';
 
@@ -103,6 +124,8 @@ export default {
         return {
             imagen: undefined,
             str_image: '',
+            data: false,
+            load_data : true,
         }
     },
 
@@ -110,6 +133,27 @@ export default {
         $('body').attr('style', 'background: black');
     },
     methods: {
+        init_data() {
+            this.load_data = true;
+            axios.get(this.$url + '/get_product_id/' + this.$route.params.id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': this.$store.state.token
+                }
+            }).then((result) => {
+                console.log(result);
+
+                if(result.data == ''){
+                    this.data = false;
+                }else{
+                    this.data = true;
+                    this.product = result.data;
+                    this.str_image = this.$url + '/get_frontPage_product/' + this.product.frontPage;
+                }
+                this.load_data = false;
+               })
+        },
+
         uploadImage($event){
             var image;
             if($event.target.files.length >= 1){
@@ -181,10 +225,14 @@ export default {
            }
         }
     },
+    beforeMount(){
+        this.init_data()
+    },
 
     components: {
         SidebarPage,
-        TopNavPage
+        TopNavPage,
+        ErrorPage
     },
 }
 </script>
