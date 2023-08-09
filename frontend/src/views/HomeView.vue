@@ -38,22 +38,19 @@
         </div>
         <div class="row">
           <!-- product-->
-          <div class="col-lg-3 col-md-4 col-6">
+          <div class="col-lg-3 col-md-4 col-6" v-for="item in new_product">
             <div class="product">
               <div class="product-image">
-                <div class="ribbon ribbon-info">Fresh</div><img class="img-fluid"
+                <div class="ribbon ribbon-danger" v-if="item.discount">Oferta</div><img class="img-fluid"
                   src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/serrah-galos-494312-unsplash.jpg"
                   alt="product" />
                 <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i
-                        class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
                 </div>
               </div>
               <div class="py-2">
-                <p class="text-muted text-sm mb-1">Jackets</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">White Tee</a></h3><span
-                  class="text-muted">$40.00</span>
+                <p class="text-muted text-sm mb-1">{{ item.category }}</p>
+                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">{{ item.title }}</a></h3><span
+                  class="text-muted">{{ convertCurrency(item.price) }}</span>
               </div>
             </div>
           </div>
@@ -324,10 +321,40 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from '@/components/HelloWorld.vue';
+import currency_formatter from 'currency-formatter';
+import axios from 'axios';
 
 export default {
   name: 'HomeView',
+  data(){
+    return {
+      new_product : []
+    }
+  },
+
+  methods: {
+    init_new_product(){
+      axios.get(this.$url+'/get_new_product', {
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      }).then((result) => {
+        this.new_product = result.data;
+        console.log(this.new_product);
+      })
+    },
+
+    convertCurrency(number) {
+      return currency_formatter.format(number, { code: 'USD' });
+    },
+  },
+  
+
+  beforeMount(){
+    this.init_new_product();
+  },
+
   components: {
     HelloWorld
   }
