@@ -5,6 +5,11 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+//Para usar la url servidor
+Vue.prototype.$url = 'http://localhost:4200/api';
+
+//Para obtener el token de acceso
+Vue.prototype.$token = localStorage.getItem('token');
 new Vue({
   router,
   store,

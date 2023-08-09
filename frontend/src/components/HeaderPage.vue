@@ -51,7 +51,7 @@
         <!-- Top Bar End-->
         <!-- Navbar-->
         <nav class="navbar navbar-expand-lg navbar-sticky navbar-airy navbar-dark bg-fixed-white navbar-fixed-light"
-            style="background: #005f96 !important;">
+            style="background: #7dcaf6 !important;">
             <div class="container-fluid">
                 <!-- Navbar Header  -->
                 <a class="navbar-brand" style="color:white !important" href="index.html"><svg class="navbar-brand-svg"
