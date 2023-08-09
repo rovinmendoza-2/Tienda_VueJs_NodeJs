@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const app = express();
 
-const client_router = require("./routes/client");
+const customer_router = require("./routes/customer");
 const users_router = require("./routes/users");
 const products_router = require("./routes/product");
 
@@ -36,7 +36,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api", client_router);
+app.use("/api", customer_router);
 app.use("/api", users_router);
 app.use("/api", products_router);
 
