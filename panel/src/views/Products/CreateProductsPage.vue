@@ -67,7 +67,7 @@
                             <hr class="my-5">
 
                             <div class="row">
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-12">
 
                                     <!-- Email address -->
                                     <div class="form-group">
@@ -78,7 +78,6 @@
                                     </div>
 
                                 </div>
-
                                 <div class="col-12 col-md-6">
                                     <!-- First name -->
                                     <div class="form-group">
@@ -88,9 +87,23 @@
                                         <!-- Input -->
                                         <select name="" class="form-select" v-model="product.category">
                                             <option value="" disabled selected>Seleccionar</option>
-                                            <option value="Categoria 1">Categoria 1</option>
-                                            <option value="Categoria 2">Categoria 2</option>
-                                            <option value="Categoria 3">Categoria 3</option>
+                                            <option :value="item" v-for="item in $category">{{ item }}</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <!-- First name -->
+                                    <div class="form-group">
+                                        <!-- Label -->
+                                        <label class="form-label"> Subcategoria</label>
+
+                                        <!-- Input -->
+                                        <select name="" class="form-select" v-model="product.subcategory">
+                                            <option value="" disabled selected>Seleccionar</option>
+                                            <option :value="item" v-for="item in subcategory">{{ item }}</option>
                                         </select>
 
                                     </div>
@@ -215,9 +228,11 @@ export default {
                 category: '',
                 state: false,
                 discount: false,
-                frontPage: undefined
+                frontPage: undefined,
+                subcategory: ''
             },
-            frontPage: undefined
+            frontPage: undefined,
+            subcategory: ['Hombres', 'Mujeres', 'Accesorios']
         }
     },
     components: {
@@ -273,6 +288,13 @@ export default {
                 text: 'Seleccione una categoria',
                 type: 'error'
             });
+        }else if(!this.product.subcategory){
+            this.$notify({
+                group: 'foo',
+                title: 'ERROR',
+                text: 'Seleccione una subcategoria',
+                type: 'error'
+            });
         }else if (!this.product.variety) {
             this.$notify({
                 group: 'foo',
@@ -304,6 +326,7 @@ export default {
           var fm = new FormData();
           fm.append('title',this.product.title);
           fm.append('category',this.product.category);
+          fm.append('subcategory',this.product.subcategory);
           fm.append('variety',this.product.variety);
           fm.append('description',this.product.description);
           fm.append('state',this.product.state);
@@ -316,6 +339,7 @@ export default {
                   'Authorization' : this.$store.state.token
               }
           }).then((result)=>{
+            console.log(result);
             if (result.data.message) {
                     this.$notify({
                         group: 'foo',

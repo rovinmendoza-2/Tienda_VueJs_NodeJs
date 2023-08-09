@@ -62,7 +62,7 @@
       <div class="container">
         <div class="row">
           <div class="col-xl-8 mx-auto text-center mb-5">
-            <h2>Spring 2018 Collection</h2>
+            <h2>Coleccion primavera</h2>
             <p class="lead text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua.</p>
           </div>
@@ -73,7 +73,7 @@
               style="background: center center url(https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/nordwood-themes-481980-unsplash-square.jpg) no-repeat; background-size: cover;">
               <a class="tile-link" href="category.html"> </a>
               <div class="card-img-overlay w-100 overlay-content">
-                <h2 class="display-2 fw-bold text-uppercase mb-0">Men </h2>
+                <h2 class="display-2 fw-bold text-uppercase mb-0">Hombres</h2>
               </div>
             </div>
           </div>
@@ -83,7 +83,7 @@
                 alt="Ladies"><a class="tile-link" href="category.html"> </a>
               <div class="card-img-overlay d-flex align-items-center">
                 <div class="text-center w-100 overlay-content">
-                  <h2 class="display-4 fw-bold text-uppercase text-center mb-0">Ladies </h2>
+                  <h2 class="display-4 fw-bold text-uppercase text-center mb-0">Mujeres</h2>
                 </div>
               </div>
             </div>
@@ -92,7 +92,7 @@
                 alt="Accessories"><a class="tile-link" href="category.html"> </a>
               <div class="card-img-overlay d-flex align-items-center">
                 <div class="text-center w-100 overlay-content">
-                  <h2 class="display-4 fw-bold text-uppercase text-center mb-0">Accessories </h2>
+                  <h2 class="display-4 fw-bold text-uppercase text-center mb-0">Accesorios</h2>
                 </div>
               </div>
             </div>

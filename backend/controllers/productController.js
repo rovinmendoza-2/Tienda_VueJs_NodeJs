@@ -10,6 +10,7 @@ var path = require('path');
 const register_product = async(req, res) => {
     if(req.user){
         let data= req.body;
+        //console.log(data);
 
         let products = await Producto.find({
             title: data.title
@@ -30,7 +31,9 @@ const register_product = async(req, res) => {
             try {
                 const product = await Producto.create(data);
                 res.status(200).send({data: product})
+                console.log(product)
             } catch (error) {
+                console.log(error);
                 res.status(500).send({data:undefined, message: 'No se pudo crear el producto'})
             }
         }
@@ -84,6 +87,7 @@ const get_product_id = async(req, res) =>{
     }
 };
 
+// Actualizar un producto
 const update_product = async(req, res) => {
     console.log("--", req.files);
     if(req.user){
@@ -110,6 +114,7 @@ const update_product = async(req, res) => {
                         const product = await Producto.findByIdAndUpdate({_id:id}, {
                             title: data.title,
                             category: data.category,
+                            subcategory: data.subcategory,
                             variety: data.variety,
                             description: data.description,
                             state: data.stat,
@@ -127,6 +132,7 @@ const update_product = async(req, res) => {
                     const product = await Producto.findByIdAndUpdate({_id:id}, {
                         title: data.title,
                         category: data.category,
+                        subcategory: data.subcategory,
                         variety: data.variety,
                         description: data.description,
                         state: data.stat,
@@ -154,6 +160,7 @@ const update_product = async(req, res) => {
                     const product = await Producto.findByIdAndUpdate({_id:id}, {
                         title: data.title,
                         category: data.category,
+                        subcategory: data.subcategory,
                         variety: data.variety,
                         description: data.description,
                         state: data.stat,
@@ -171,6 +178,7 @@ const update_product = async(req, res) => {
                     const product = await Producto.findByIdAndUpdate({_id:id}, {
                         title: data.title,
                         category: data.category,
+                        subcategory: data.subcategory,
                         variety: data.variety,
                         description: data.description,
                         state: data.stat,
