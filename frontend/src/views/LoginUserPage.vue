@@ -24,14 +24,17 @@
                                 <form action="customer-orders.html" method="get">
                                     <div class="mb-4">
                                         <label class="form-label" for="email1">Correo electronico</label>
-                                        <input class="form-control" id="email1" type="text" placeholder="correo electronico" autocomplete="off">
+                                        <input class="form-control" id="email1" type="text" placeholder="correo electronico" autocomplete="off" v-model="email">
                                     </div>
                                     <div class="mb-4">
                                         <label class="form-label" for="password1">Contraseña</label>
-                                        <input class="form-control" id="password1" type="password" placeholder="contraseña" autocomplete="off">
+                                        <input class="form-control" id="password1" type="password" placeholder="contraseña" autocomplete="off" v-model="password">
+                                    </div>
+                                    <div class="mb-4" v-if="msm_error_login">
+                                        <small class="text-danger">{{ msm_error_login }}</small>
                                     </div>
                                     <div class="mb-4 text-center">
-                                        <button class="btn btn-outline-dark" type="button"><i
+                                        <button class="btn btn-outline-dark" type="button" v-on:click="loginUser()"><i
                                                 class="fa fa-sign-in-alt me-2"></i>Iniciar Sesion</button>
                                     </div>
                                 </form>
@@ -89,7 +92,10 @@ export default {
     data() {
         return {
             customer: {},
-            msm_error : ''
+            msm_error : '',
+            email: '',
+            password: '',
+            msm_error_login : ''
         }
     },
 
@@ -117,6 +123,36 @@ export default {
                     }
                 });
             console.log(this.customer);
+            }
+        },
+
+        loginUser(){
+            if(!this.email){
+                this.msm_error_login = 'Ingrese un correo electronico';
+            }else if(!this.password){
+                this.msm_error_login = 'Ingrese un password';
+            }else{
+                this.msm_error_login = '';
+                let data = {
+                email: this.email,
+                password: this.password
+            }
+            axios.post(this.$url+'/login_users_ecomerce', data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then( (result) => {
+
+                if(result.data.message){
+                    this.msm_error_login = result.data.message;
+                }else{
+                    this.$store.dispatch('saveToken', result.data.token);
+                    console.log(result)
+                    this.$router.push({ name: 'home' });
+                }
+            }).catch( (err)=> {
+                console.log(err);
+            })
             }
         }
     }

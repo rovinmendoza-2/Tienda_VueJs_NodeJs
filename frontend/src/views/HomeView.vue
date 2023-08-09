@@ -31,7 +31,7 @@
       <div class="container">
         <div class="row">
           <div class="col-xl-8 mx-auto text-center mb-5">
-            <h2 class="text-uppercase">Latest arrivals</h2>
+            <h2 class="text-uppercase">Nuevos productos</h2>
             <p class="lead text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua.</p>
           </div>
@@ -53,67 +53,6 @@
               <div class="py-2">
                 <p class="text-muted text-sm mb-1">Jackets</p>
                 <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">White Tee</a></h3><span
-                  class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-3 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid"
-                  src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/kyle-loftus-590881-unsplash.jpg"
-                  alt="product" />
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i
-                        class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Denim</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Black blouse</a></h3><span
-                  class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-3 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image">
-                <div class="ribbon ribbon-primary">Sale</div><img class="img-fluid"
-                  src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/kyle-loftus-596319-unsplash.jpg"
-                  alt="product" />
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i
-                        class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Accessories</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">College jacket</a></h3><span
-                  class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-3 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid"
-                  src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/ethan-haddox-484912-unsplash.jpg"
-                  alt="product" />
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i
-                        class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Denim</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Carrot-fit jeans</a></h3><span
                   class="text-muted">$40.00</span>
               </div>
             </div>
