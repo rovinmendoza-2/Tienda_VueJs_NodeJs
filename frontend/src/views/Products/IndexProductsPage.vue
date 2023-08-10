@@ -1,13 +1,9 @@
 <template>
-    <div>
+    <div style="background-color: rgb(250 236 255);">
             <!-- Hero Section-->
-    <section class="hero">
+    <section class="hero" style="margin-top:130px">
       <div class="container">
-        <!-- Breadcrumbs -->
-        <ol class="breadcrumb justify-content-center">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Jackets and tops        </li>
-        </ol>
+       
         <!-- Hero Content-->
         <div class="hero-content pb-5 text-center">
           <h1 class="hero-heading">Jackets and tops</h1>
@@ -248,20 +244,39 @@
         <!-- / Grid End-->
         <!-- Sidebar-->
         <div class="sidebar col-xl-3 col-lg-4 order-lg-1">
-          <div class="sidebar-block px-3 px-lg-0 me-lg-4"><a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#categoriesMenu" aria-expanded="false" aria-controls="categoriesMenu">Product Categories</a>
+          <div class="sidebar-block px-3 px-lg-0 me-lg-4"><a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#categoriesMenu" aria-expanded="false" aria-controls="categoriesMenu">Categorias de productos</a>
             <div class="expand-lg collapse" id="categoriesMenu">
-              <div class="nav nav-pills flex-column mt-4 mt-lg-0" role="menu">
-                <div class="sidebar-menu-item mb-2 active" data-bs-toggle="collapse" data-bs-target="#subcategories_0" aria-expanded="true" aria-controls="subcategories_0" role="menuitem"><a class="nav-link active" href="#!"><span>Jackets</span><span class="sidebar-badge ms-2">123</span></a></div>
+              
+                <div class="nav nav-pills flex-column mt-4 mt-lg-0" role="menu">
+                <div class="sidebar-menu-item mb-2 active" data-bs-toggle="collapse" data-bs-target="#subcategories_0" aria-expanded="true" aria-controls="subcategories_0" role="menuitem">
+                    <a class="nav-link active" href="#!">
+                        <div class="row">
+                          <div class="col"><span>Jackets</span></div>
+                          <div class="col" style="text-align:right !important"><img src="/assets/media/verde.png" style="width: 25px" alt=""></div>
+                        </div>
+                        
+                    </a></div>
                 <div class="collapse show" id="subcategories_0">
                   <div class="nav nav-pills flex-column ms-3"><a class="nav-link mb-2" href="#!">Lorem ipsum</a><a class="nav-link mb-2" href="#!">Dolor</a><a class="nav-link mb-2" href="#!">Sit amet</a><a class="nav-link mb-2" href="#!">Donec vitae</a>
                   </div>
                 </div>
-                <div class="sidebar-menu-item mb-2" data-bs-toggle="collapse" data-bs-target="#subcategories_1" aria-expanded="false" aria-controls="subcategories_1" role="menuitem"><a class="nav-link " href="#!"><span>Jeans &amp; chinos</span><span class="sidebar-badge ms-2">55</span></a></div>
+                <div class="sidebar-menu-item mb-2" data-bs-toggle="collapse" data-bs-target="#subcategories_1" aria-expanded="false" aria-controls="subcategories_1" role="menuitem">
+                  <a class="nav-link " href="#!">
+                    <div class="row">
+                          <div class="col"><span>Jackets</span></div>
+                          <div class="col" style="text-align:right !important"><img src="/assets/media/verde.png" style="width: 25px" alt=""></div>
+                        </div>
+                  </a></div>
                 <div class="collapse" id="subcategories_1">
                   <div class="nav nav-pills flex-column ms-3"><a class="nav-link mb-2" href="#!">Lorem ipsum</a><a class="nav-link mb-2" href="#!">Dolor</a><a class="nav-link mb-2" href="#!">Sit amet</a><a class="nav-link mb-2" href="#!">Donec vitae</a>
                   </div>
                 </div>
-                <div class="sidebar-menu-item mb-2" data-bs-toggle="collapse" data-bs-target="#subcategories_2" aria-expanded="false" aria-controls="subcategories_2" role="menuitem"><a class="nav-link " href="#!"><span>Accessories</span><span class="sidebar-badge ms-2">80</span></a></div>
+                <div class="sidebar-menu-item mb-2" data-bs-toggle="collapse" data-bs-target="#subcategories_2" aria-expanded="false" aria-controls="subcategories_2" role="menuitem"><a class="nav-link " href="#!">
+                  <div class="row">
+                          <div class="col"><span>Jackets</span></div>
+                          <div class="col" style="text-align:right !important"><img src="/assets/media/verde.png" style="width: 25px" alt=""></div>
+                        </div>
+                </a></div>
                 <div class="collapse" id="subcategories_2">
                   <div class="nav nav-pills flex-column ms-3"><a class="nav-link mb-2" href="#!">Sit amet</a><a class="nav-link mb-2" href="#!">Donec vitae</a><a class="nav-link mb-2" href="#!">Lorem ipsum</a><a class="nav-link mb-2" href="#!">Dolor</a>
                   </div>
@@ -272,10 +287,10 @@
           <div class="sidebar-block px-3 px-lg-0 me-lg-4"><a class="d-lg-none block-toggler" data-bs-toggle="collapse" href="#priceFilterMenu" aria-expanded="false" aria-controls="priceFilterMenu">Filter by price</a>
             <div class="expand-lg collapse" id="priceFilterMenu">
               <h6 class="sidebar-heading d-none d-lg-block">Price  </h6>
-              <div class="mt-4 mt-lg-0" id="slider-snap"> </div>
+              <div class="mt-4 mt-lg-0" id="slider-snap" ref="slider"> </div>
               <div class="nouislider-values">
-                <div class="min">From $<span id="slider-snap-value-lower"></span></div>
-                <div class="max">To $<span id="slider-snap-value-upper"></span></div>
+                <div class="min">From<span id="slider-snap-value-lower">{{ convertCurrency(minRange) }}</span></div>
+                <div class="max">To<span id="slider-snap-value-upper">{{ convertCurrency(maxRange) }}</span></div>
                 <input class="slider-snap-input" type="hidden" name="pricefrom" id="slider-snap-input-lower" value="40">
                 <input class="slider-snap-input" type="hidden" name="priceto" id="slider-snap-input-upper" value="110">
               </div>
@@ -385,18 +400,68 @@
 </template>
 
 <script>
+import noUiSlider  from '../../../public/assets/js/nouislider.min.js';
+import currency_formatter from 'currency-formatter';
+
 export default {
-    name: 'IndexProductsPage',
     data(){
         return {
-
+          slider: {
+            starMin: 25,
+            starMax: 100,
+            min: 0,
+            max: 100,
+            start: 40,
+            step: 1
+          },
+          minRange: null,
+          maxRange: null,
         }
     },
-
+    mounted() { 
+      
+      noUiSlider.create(this.$refs.slider, {
+                start: [this.slider.starMin, this.slider.starMax],
+                step: this.slider.step,
+                range: {
+                    'min': this.slider.min,
+                    'max': this.slider.max
+                }
+            });
+      this.$refs.slider.noUiSlider.on('update',(values, handle) => {
+          this[handle ? 'maxRange' : 'minRange'] = parseInt(values[handle]);
+      });
+    },
     methods: {
-        
+      convertCurrency(number){
+                return currency_formatter.format(number, { code: 'USD' });
+            }
     }
 }
 </script>
 <style>
+
+.sidebar-menu-item[data-bs-toggle="collapse"]::before{
+    display: none !important
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+  color: #ffffff !important;
+  background-color: #7dcaf6 !important;
+}
+
+.noUi-horizontal .noUi-handle {
+    background: #7dcaf6 !important;
+    border-radius: 5px !important;
+}
+
+.noUi-horizontal .noUi-handle {
+    width: 1rem !important;
+    height: 1.5rem !important;
+}
+
+.noUi-horizontal {
+    height: 10px !important;
+    background: #3b547d !important;
+     border: none !important;
+}
 </style>
