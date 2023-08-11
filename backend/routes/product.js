@@ -34,4 +34,8 @@ api.get('/list_image_gallery/:id', authetication.decodeToken, productController.
 api.delete('/delete_image_gallery/:id', authetication.decodeToken, productController.delete_image_gallery);
 
 
+// Rutas para categoria
+api.post('/create_category', authetication.decodeToken, productController.create_category);
+
+
 module.exports = api;

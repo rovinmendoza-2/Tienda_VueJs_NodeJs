@@ -1,5 +1,7 @@
 const Producto =  require('../models/products');
 const Variety = require('../models/variety');
+const Category =  require('../models/category');
+const Subcategory = require('../models/subcategory');
 const Income = require('../models/income');
 const IncomeDetails = require('../models/income_details');
 const Gallery = require('../models/gallery');
@@ -375,7 +377,26 @@ const delete_image_gallery = async (req, res) => {
     } else {
       res.status(500).send({ data: undefined, message: "Error token" });
     }
-  };
+};
+
+const create_category = async (req, res) => {
+    if (req.user) {
+      const data = req.body;
+
+      const reg = await Category.find({title: data.title});
+      if(reg.length == 0){
+        data.slug = slugify(data.title).toLowerCase();
+        const category = await Category.create(data);
+        res.status(200).send(category);
+      }else{
+        res.status(200).send({ data: undefined, message: "La categoria ya existe" });
+      }
+
+     
+    } else {
+      res.status(500).send({ data: undefined, message: "Error token" });
+    }
+};
 
 module.exports = {
     register_product,
@@ -391,5 +412,6 @@ module.exports = {
     register_imagen,
     get_gallery_product,
     list_image_gallery,
-    delete_image_gallery
+    delete_image_gallery,
+    create_category
 }

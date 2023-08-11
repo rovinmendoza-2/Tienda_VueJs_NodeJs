@@ -30,8 +30,8 @@
                             </div>
                             <div class="col-12 mt-3" v-if="section_form">
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Recipient's username" >
-                                    <span class="input-group-text" id="basic-addon2">@example.com</span>
+                                    <input type="text" class="form-control" placeholder="nueva categoria" v-model="new_category">
+                                    <button class="btn btn-dark" v-on:click="create_category()">Nueva categoria</button>
                                 </div>
                             </div>
                         </div>
@@ -250,13 +250,43 @@
 <script>
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
-
+import axios from 'axios';
 
 export default {
     name: 'IndexCategoryPage',
     data(){
         return {
             section_form : false,
+            new_category: '',
+        }
+    },
+
+    methods: {
+        create_category(){
+            console.log(this.new_category);
+            axios.post(this.$url+'/create_category',{title : this.new_category}, {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization' : this.$store.state.token
+              }
+            }).then( (result) => {
+                if(result.data.message){
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: result.data.message,
+                        type: 'error'
+                    });
+                }else{
+                this.new_category = '';
+                this.$notify({
+                        group: 'foo',
+                        title: 'SUCCESS',
+                        text: 'Se registro la categoria',
+                        type: 'success'
+                    });
+                }
+            })
         }
     },
 
