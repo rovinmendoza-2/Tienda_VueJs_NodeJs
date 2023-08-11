@@ -10,7 +10,13 @@ const get_product_recommended = async(req, res)=> {
     res.status(200).send(product);
 };
 
+const get_product_shop= async(req, res)=> {
+    const product = await Product.find({state:true}).sort({createdAt: -1});
+    res.status(200).send(product);
+};
+
 module.exports = {
     get_new_product,
-    get_product_recommended
+    get_product_recommended,
+    get_product_shop
 }
