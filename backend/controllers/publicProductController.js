@@ -13,6 +13,7 @@ const get_product_recommended = async(req, res)=> {
 const get_product_shop= async(req, res)=> {
     const product = await Product.find({state:true}).sort({createdAt: -1});
     res.status(200).send(product);
+    console.log(product);
 };
 
 module.exports = {

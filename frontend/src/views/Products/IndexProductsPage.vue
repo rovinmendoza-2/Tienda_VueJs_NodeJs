@@ -26,12 +26,11 @@
                 <a class="product-grid-header-show" v-bind:class="{'active': perPage == 12}" style="cursor: pointer" v-on:click="setPerPage(12)">12</a>
                 <a class="product-grid-header-show" v-bind:class="{'active': perPage == 18}" style="cursor: pointer" v-on:click="setPerPage(18)">18</a>
             </div>
-            <div class="mb-3 d-flex align-items-center"><span class="d-inline-block me-2">Sort by</span>
-              <select class="form-select w-auto border-0">
-                <option value="orderby_0">Default</option>
-                <option value="orderby_1">Popularity</option>
-                <option value="orderby_2">Rating</option>
-                <option value="orderby_3">Newest first</option>
+            <div class="mb-3 d-flex align-items-center"><span class="d-inline-block me-2">Ordenar</span>
+              <select class="form-select w-auto border-0" v-model="sort_by" v-on:change="setSortBy()">
+                <option value="defecto" selected>Defecto</option>
+                <option value="precio +-">Precio mayor</option>
+                <option value="precio -+">Precio menor</option>
               </select>
             </div>
           </header>
@@ -235,6 +234,7 @@ export default {
           maxRange: null,
 
           product: [],
+          product_const : [],
 
           currentPage: 1,
           perPage: 10,
@@ -243,7 +243,7 @@ export default {
                 (this.currentPage-1) * this.perPage, this.currentPage * this.perPage
             )
           },
-          
+          sort_by : 'defecto'
         }
     },
 
@@ -267,6 +267,7 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then( (result) => {
+        this.product_const = result.data;
         this.product = result.data;
         console.log(result);
       })
@@ -274,10 +275,26 @@ export default {
 
     methods: {
       convertCurrency(number){
-                return currency_formatter.format(number, { code: 'USD' });
-            },
+        return currency_formatter.format(number, { code: 'USD' });
+      },
+
       setPerPage(item){
         this.perPage = item;
+      },
+
+      setSortBy(){
+        if(this.sort_by == 'defecto'){
+          this.product.sort( (a,b) => new Date(a.ceatedAt).getTime()  < new Date(b.ceatedAt).getTime() ? 1:-1)
+          console.log('defecto');
+        }
+        if(this.sort_by == 'precio +-'){
+          const sort = this.product.sort( (a,b) => a.price < b.price ? 1:-1)
+          console.log(sort);
+        }
+        if(this.sort_by == 'precio -+'){
+          this.product.sort( (a,b) => a.price > b.price ? 1:-1);
+          console.log('menor');
+        }
       }
     }
 }
