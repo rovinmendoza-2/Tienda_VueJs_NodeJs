@@ -379,6 +379,7 @@ const delete_image_gallery = async (req, res) => {
     }
 };
 
+// Crear nueva categoria
 const create_category = async (req, res) => {
     if (req.user) {
       const data = req.body;
@@ -392,6 +393,19 @@ const create_category = async (req, res) => {
         res.status(200).send({ data: undefined, message: "La categoria ya existe" });
       }
 
+     
+    } else {
+      res.status(500).send({ data: undefined, message: "Error token" });
+    }
+};
+
+// Listar categorias
+const list_category = async (req, res) => {
+    if (req.user) {
+      const data = req.body;
+
+        const list_cat = await Category.find().sort({title: 1});
+        res.status(200).send(list_cat);
      
     } else {
       res.status(500).send({ data: undefined, message: "Error token" });
@@ -413,5 +427,6 @@ module.exports = {
     get_gallery_product,
     list_image_gallery,
     delete_image_gallery,
-    create_category
+    create_category,
+    list_category
 }
