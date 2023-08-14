@@ -54,14 +54,14 @@
 
                                                 <!-- Title -->
                                                 <h4 class="mb-1 name">
-                                                    <a href="profile-posts.html">{{ item.title }}</a>
+                                                    <a href="profile-posts.html">{{ item.category.title }} ({{ item.nproducts }}) productos</a>
                                                 </h4>
 
                                                 <!-- Time -->
-                                                <p class="small mb-0" v-if="item.state">
+                                                <p class="small mb-0" v-if="item.category.state">
                                                     <span class="text-success">●</span> Publicado
                                                 </p>
-                                                <p class="small mb-0" v-if="!item.state">
+                                                <p class="small mb-0" v-if="!item.category.state">
                                                     <span class="text-danger">●</span> Oculto
                                                 </p>
 
@@ -73,14 +73,14 @@
                                                     style="margin-right: 1rem;">
                                                     Quitar
                                                 </a>
-                                                <button v-on:click="openInputGroup(item._id)" class="btn btn-sm btn-dark text-white">
+                                                <button v-on:click="openInputGroup(item.category._id)" class="btn btn-sm btn-dark text-white">
                                                     Subcategoria
                                                 </button>
 
                                             </div>
                                         </div>
 
-                                        <div class="input-group mt-4 hide_input content_group" :id="'content_'+item._id">
+                                        <div class="input-group mt-4 hide_input content_group" :id="'content_'+item.category._id">
                                             <input type="text" class="form-control" placeholder="nueva categoria" v-model="new_subcategory">
                                             <button class="btn btn-dark" v-on:click="create_subcategory()">Nueva subcategoria</button>
                                         </div>
@@ -89,23 +89,9 @@
                                             <div class="col-12">
                                                 <ul class="list-group mt-3">
 
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                                                    <li v-for="subItem in item.subcategory" class="list-group-item d-flex justify-content-between align-items-center"
                                                         style="font-size: .8rem;padding: 0.5rem 1.5rem;">
-                                                        Morbi leo risus
-                                                        <a href="#!" class="btn btn-sm btn-danger text-white">
-                                                            Quitar
-                                                        </a>
-                                                    </li>
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center"
-                                                        style="font-size: .8rem;padding: 0.5rem 1.5rem;">
-                                                        Morbi leo risus
-                                                        <a href="#!" class="btn btn-sm btn-danger text-white">
-                                                            Quitar
-                                                        </a>
-                                                    </li>
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center"
-                                                        style="font-size: .8rem;padding: 0.5rem 1.5rem;">
-                                                        Morbi leo risus
+                                                        {{ subItem.title }}
                                                         <a href="#!" class="btn btn-sm btn-danger text-white">
                                                             Quitar
                                                         </a>
@@ -139,6 +125,7 @@ export default {
             id_category: '',
             new_subcategory: '',
             categories: [],
+            subcategories: [],
 
         }
     },
@@ -184,6 +171,7 @@ export default {
         },
 
         openInputGroup(id){
+            console.log(id)
             setTimeout( () =>{
                 this.new_category = '';
                 this.id_category = id;

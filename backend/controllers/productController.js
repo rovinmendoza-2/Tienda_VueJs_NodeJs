@@ -402,10 +402,21 @@ const create_category = async (req, res) => {
 // Listar categorias
 const list_category = async (req, res) => {
     if (req.user) {
-      const data = req.body;
 
-        const list_cat = await Category.find().sort({title: 1});
-        res.status(200).send(list_cat);
+        var regs = await Category.find().sort({title: 1});
+        var categories = [];
+
+        for(var item of regs){
+            var subcategory = await Subcategory.find({category:item._id})
+            var products = await Producto.find({category:item.title});
+
+            categories.push({
+                category: item,
+                subcategory,
+                nproducts: products.length,
+            })
+        }
+        res.status(200).send(categories);
      
     } else {
       res.status(500).send({ data: undefined, message: "Error token" });
@@ -448,5 +459,5 @@ module.exports = {
     delete_image_gallery,
     create_category,
     list_category,
-    create_subcategory
+    create_subcategory,
 }
