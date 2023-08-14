@@ -412,6 +412,25 @@ const list_category = async (req, res) => {
     }
 };
 
+// Crear nueva subcategoria
+const create_subcategory = async (req, res) => {
+    if (req.user) {
+      const data = req.body;
+
+      const reg = await Subcategory.find({title: data.title});
+      if(reg.length == 0){
+        const subcategory = await Subcategory.create(data);
+        res.status(200).send(subcategory);
+      }else{
+        res.status(200).send({ data: undefined, message: "La subcategoria ya existe" });
+      }
+
+     
+    } else {
+      res.status(500).send({ data: undefined, message: "Error token" });
+    }
+};
+
 module.exports = {
     register_product,
     get_products,
@@ -428,5 +447,6 @@ module.exports = {
     list_image_gallery,
     delete_image_gallery,
     create_category,
-    list_category
+    list_category,
+    create_subcategory
 }

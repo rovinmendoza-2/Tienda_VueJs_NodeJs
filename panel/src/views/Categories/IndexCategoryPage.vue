@@ -73,16 +73,21 @@
                                                     style="margin-right: 1rem;">
                                                     Quitar
                                                 </a>
-                                                <a href="#!" class="btn btn-sm btn-dark text-white">
+                                                <button v-on:click="openInputGroup(item._id)" class="btn btn-sm btn-dark text-white">
                                                     Subcategoria
-                                                </a>
+                                                </button>
 
                                             </div>
+                                        </div>
+
+                                        <div class="input-group mt-4 hide_input content_group" :id="'content_'+item._id">
+                                            <input type="text" class="form-control" placeholder="nueva categoria" v-model="new_subcategory">
+                                            <button class="btn btn-dark" v-on:click="create_subcategory()">Nueva subcategoria</button>
                                         </div>
                                         <!-- / .row -->
                                         <div class="row mb-3">
                                             <div class="col-12">
-                                                <ul class="list-group mt-4">
+                                                <ul class="list-group mt-3">
 
                                                     <li class="list-group-item d-flex justify-content-between align-items-center"
                                                         style="font-size: .8rem;padding: 0.5rem 1.5rem;">
@@ -123,6 +128,7 @@
 import SidebarPage from '../../components/SidebarPage.vue';
 import TopNavPage from '../../components/TopNavPage.vue';
 import axios from 'axios';
+import $ from 'jquery';
 
 export default {
     name: 'IndexCategoryPage',
@@ -130,6 +136,8 @@ export default {
         return {
             section_form : false,
             new_category: '',
+            id_category: '',
+            new_subcategory: '',
             categories: [],
 
         }
@@ -173,7 +181,47 @@ export default {
                 this.categories = result.data;
                 console.log(result);
             })
+        },
+
+        openInputGroup(id){
+            setTimeout( () =>{
+                this.new_category = '';
+                this.id_category = id;
+                $('.content_group').addClass('hide_input');
+                $('#content_'+id).removeClass('hide_input');
+            }, 50);
+        },
+        
+        create_subcategory(){
+            axios.post(this.$url+'/create_subcategory',
+            {
+                title : this.new_subcategory,
+                category: this.id_category
+            }, {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization' : this.$store.state.token
+              }
+            }).then( (result) => {
+                if(result.data.message){
+                    this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: result.data.message,
+                        type: 'error'
+                    });
+                }else{
+                this.new_subcategory = '';
+                this.$notify({
+                        group: 'foo',
+                        title: 'SUCCESS',
+                        text: 'Se registro la subcategoria',
+                        type: 'success'
+                    });
+                }
+            })
         }
+
     },
 
     beforeMount(){
@@ -186,3 +234,13 @@ export default {
     },
 }
 </script>
+
+<style>
+.hide_input{
+    display: none;
+}
+
+.show_input{
+ display: block;
+}
+</style>
