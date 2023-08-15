@@ -458,6 +458,29 @@ const create_subcategory = async (req, res) => {
     }
 };
 
+// cambiar estado de producto
+const change_status_to_product = async(req, res)=> {
+    if(req.user){
+      let id = req.params['id'];
+      let data = req.body;
+      let new_state = false;
+  
+      if(data.state){
+        new_state = false;
+      }else{
+        new_state = true
+      }
+      const category = await Category.findByIdAndUpdate({ _id: id}, {
+        state: new_state
+      });
+      res.status(200).send(category);
+    }else{
+      res.status(500).send({data:undefined, message: 'Error token'})
+    }
+  
+  }
+
+
 module.exports = {
     register_product,
     get_products,
@@ -476,5 +499,6 @@ module.exports = {
     create_category,
     list_category,
     create_subcategory,
-    delete_subcategory
+    delete_subcategory,
+    change_status_to_product
 }

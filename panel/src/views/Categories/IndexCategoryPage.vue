@@ -69,13 +69,23 @@
                                             <div class="col-auto">
 
                                                 <!-- Button -->
-                                                <a href="#!" class="btn btn-sm btn-danger text-white"
+                                                <a v-b-modal="'state-'+item.category._id" v-if="item.category.state" class="btn btn-sm btn-danger text-white"
                                                     style="margin-right: 1rem;">
-                                                    Quitar
+                                                    Ocultar
+                                                </a>
+                                                <a v-b-modal="'state-'+item.category._id" v-if="!item.category.state" class="btn btn-sm btn-primary text-white"
+                                                    style="margin-right: 1rem;">
+                                                    Mostrar
                                                 </a>
                                                 <button v-on:click="openInputGroup(item.category._id)" class="btn btn-sm btn-dark text-white">
                                                     Subcategoria
                                                 </button>
+
+                                                <b-modal :id="'state-'+item.category._id" title="BootstrapVue"
+                                                    title-html="<h4 class='card-header-title'><b>Agregrar Miembros</b></h4>"
+                                                    @ok="updateState(item.category._id, item.category.state)">
+                                                        <p class="my-4">{{ item.category._id }}</p>
+                                                </b-modal>
 
                                             </div>
                                         </div>
@@ -251,7 +261,27 @@ export default {
         }).catch( (err)=> {
           console.log(err);
         })
-        }
+        },
+
+        updateState(id, state){
+        axios.put(this.$url+'/change_status_to_product/'+id, {state: state}, {
+          headers: {
+            'Content-Type': "application/json",
+            'Authorization': this.$store.state.token
+          }
+        }).then( (result)=>{
+          this.init_data();
+          this.$notify({
+                    group: 'foo',
+                    title: 'SUCCESSS',
+                    text: 'Se actualizo el estado de usuerio',
+                    type: 'success'
+                });
+          console.log("para cambiar estaod", result);
+        }).catch( (err)=> {
+          console.log(err);
+        })
+      }
 
     },
 
