@@ -384,13 +384,17 @@ const create_category = async (req, res) => {
     if (req.user) {
       const data = req.body;
 
-      const reg = await Category.find({title: data.title});
-      if(reg.length == 0){
-        data.slug = slugify(data.title).toLowerCase();
-        const category = await Category.create(data);
-        res.status(200).send(category);
-      }else{
+      try {
+        const reg = await Category.find({title: data.title});
+        if(reg.length == 0){
+            data.slug = slugify(data.title).toLowerCase();
+            const category = await Category.create(data);
+            res.status(200).send(category);
+        }else{
         res.status(200).send({ data: undefined, message: "La categoria ya existe" });
+      }
+      } catch (error) {
+        res.status(200).send({ data: undefined, message: "Ocurrio un error" });
       }
 
      
@@ -422,6 +426,18 @@ const list_category = async (req, res) => {
       res.status(500).send({ data: undefined, message: "Error token" });
     }
 };
+
+// eliminar subcategoria
+const delete_subcategory = async(req, res) => {
+    if(req.user){
+        const id = req.params['id'];
+
+        const subcategory = await Subcategory.findByIdAndRemove({_id:id});
+        res.status(200).send(subcategory);
+    }else{
+        res.status(500).send({ data: undefined, message: "Error token" }); 
+    }
+}
 
 // Crear nueva subcategoria
 const create_subcategory = async (req, res) => {
@@ -460,4 +476,5 @@ module.exports = {
     create_category,
     list_category,
     create_subcategory,
+    delete_subcategory
 }

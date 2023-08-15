@@ -92,9 +92,14 @@
                                                     <li v-for="subItem in item.subcategory" class="list-group-item d-flex justify-content-between align-items-center"
                                                         style="font-size: .8rem;padding: 0.5rem 1.5rem;">
                                                         {{ subItem.title }}
-                                                        <a href="#!" class="btn btn-sm btn-danger text-white">
+                                                        <a style="cursor: pointer" v-b-modal="'delete-'+subItem._id" class="btn btn-sm btn-danger text-white">
                                                             Quitar
                                                         </a>
+                                                        <b-modal centered :id="'delete-'+subItem._id" title="BootstrapVue"
+                                                            title-html="<h4 class='card-header-title'><b>Agregrar Miembros</b></h4>"
+                                                             @ok="delete_subcategory(subItem._id)">
+                                                            <p class="my-4">{{ subItem._id }}</p>
+                                                        </b-modal>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -132,7 +137,8 @@ export default {
 
     methods: {
         create_category(){
-            console.log(this.new_category);
+            if(this.new_category){
+                console.log(this.new_category);
             axios.post(this.$url+'/create_category',{title : this.new_category}, {
                 headers: {
                   'Content-Type': 'application/json',
@@ -156,6 +162,14 @@ export default {
                     });
                 }
             })
+            }else{
+                this.$notify({
+                        group: 'foo',
+                        title: 'ERROR',
+                        text: "Ingrese el titulo de la categoria",
+                        type: 'error'
+                    });
+            }
         },
 
         init_data(){
@@ -181,6 +195,7 @@ export default {
         },
         
         create_subcategory(){
+           if(this.new_subcategory){
             axios.post(this.$url+'/create_subcategory',
             {
                 title : this.new_subcategory,
@@ -206,8 +221,36 @@ export default {
                         text: 'Se registro la subcategoria',
                         type: 'success'
                     });
+                    this.init_data();
                 }
             })
+           }else{
+            this.$notify({
+                group: 'foo',
+                title: 'ERROR',
+                text: 'Ingrese el titulo de la categoria',
+                type: 'error'
+            });
+           }
+        },
+
+        delete_subcategory(id){
+            axios.delete(this.$url+'/delete_subcategory/'+id, {
+          headers: {
+            'Content-Type': "application/json",
+            'Authorization': this.$store.state.token
+          }
+        }).then( (result)=>{
+          this.init_data();
+          this.$notify({
+                    group: 'foo',
+                    title: 'SUCCESSS',
+                    text: 'Se elimino la subcategoria',
+                    type: 'success'
+                });
+        }).catch( (err)=> {
+          console.log(err);
+        })
         }
 
     },

@@ -40,5 +40,6 @@ api.get('/list_category', authetication.decodeToken, productController.list_cate
 
 // Rutas subcategorias
 api.post('/create_subcategory', authetication.decodeToken, productController.create_subcategory);
+api.delete('/delete_subcategory/:id', authetication.decodeToken, productController.delete_subcategory);
 
 module.exports = api;
