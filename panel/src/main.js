@@ -22,9 +22,6 @@ Vue.prototype.$url = 'http://localhost:4200/api';
 // Margen de ganancia
 Vue.prototype.$revenue = 30;
 
-// Categorias
-Vue.prototype.$category = ['Ropa', 'Tecnologia', 'Juguetes', 'Cocina'];
-
 //Para obtener el token de acceso
 Vue.prototype.$token = localStorage.getItem('token');
 

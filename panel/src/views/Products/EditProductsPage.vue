@@ -116,37 +116,34 @@
                                     <!-- First name -->
                                     <div class="form-group">
                                         <!-- Label -->
-                                        <label class="form-label">
-                                            Categoria
-                                        </label>
+                                        <label class="form-label"> Categoria</label>
+
                                         <!-- Input -->
-                                        <select name="" class="form-select" v-model="product.category">
+                                        <select name="" class="form-select" v-model="product.category" v-on:change="getSubcategory($event)">
                                             <option value="" disabled selected>Seleccionar</option>
-                                            <option :value="item" v-for="item in $category">{{ item }}</option>
+                                            <option :value="item.category.title" v-for="item in categories">{{ item.category.title }}</option>
                                         </select>
 
                                     </div>
 
                                 </div>
-                                <div class="col-12 col-md-6">
 
+                                <div class="col-12 col-md-6">
                                     <!-- First name -->
                                     <div class="form-group">
-
                                         <!-- Label -->
-                                        <label class="form-label">
-                                            Subcategoria
-                                        </label>
+                                        <label class="form-label"> Subcategoria</label>
 
                                         <!-- Input -->
                                         <select name="" class="form-select" v-model="product.subcategory">
                                             <option value="" disabled selected>Seleccionar</option>
-                                            <option :value="item" v-for="item in subcategory">{{ item }}</option>
+                                            <option :value="item.title" v-for="item in subcategoryes">{{ item.title }}</option>
                                         </select>
 
                                     </div>
 
                                 </div>
+
                                 <div class="col-12 col-md-6">
 
                                     <!-- Last name -->
@@ -426,7 +423,8 @@ export default {
             variety: {},
             sku: '',
             varieties: [],
-            subcategory: ['Hombres', 'Mujeres', 'Accesorios']
+            categories: [],
+            subcategoryes: [],
         }
     },
     components: {
@@ -671,12 +669,45 @@ export default {
             }).catch((err) => {
                 console.log(err);
             })
+        },
+
+        init_category(){
+            axios.get(this.$url+'/list_category', {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization' : this.$store.state.token
+              }
+            }).then( (result) => {
+                this.categories = result.data;
+                console.log(this.categories);
+                for(var item of this.categories){
+                console.log(item.category);
+                
+                if(item.category.title == this.product.category){
+                    this.subcategoryes = item.subcategory;
+                }
+            }
+            })
+        },
+
+        getSubcategory($event){
+            console.log($event.target.value);
+
+            for(var item of this.categories){
+                console.log(item.category);
+                if(item.category.title == $event.target.value){
+                    this.subcategoryes = item.subcategory;
+                }
+            }
+            // this.subcategoryes = this.categories.filter(item => item.category.title == $event.target.value)[0].subcategoryes;
+            console.log(this.subcategoryes);
         }
 
     },
     beforeMount() {
         this.init_data();
         this.init_variety();
+        this.init_category();
     }
 }
 </script>
