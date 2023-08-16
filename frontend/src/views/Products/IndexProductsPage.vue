@@ -74,40 +74,53 @@
                 <template v-for="(item, index) in categories">
                   <div>
 
-                    <!-- <div class="sidebar-menu-item mb-2 active" data-bs-toggle="collapse" data-bs-target="#subcategories_0"
-                      aria-expanded="true" aria-controls="subcategories_0" role="menuitem">
-                      <a class="nav-link active" href="#!">
-                        <div class="row">
-                          <div class="col"><span>Jackets</span></div>
-                          <div class="col" style="text-align:right !important"><img src="/assets/media/verde.png"
-                              style="width: 25px" alt=""></div>
+                    <template v-if="item.category._id == category_active">
+                      <div>
+                        <div class="sidebar-menu-item mb-2 active" data-bs-toggle="collapse"
+                        :data-bs-target="'#subcategories_' + index" aria-expanded="true" aria-controls="subcategories_0"
+                          role="menuitem">
+                          <a class="nav-link active" href="#!">
+                            <div class="row">
+                              <div class="col"><span>{{ item.category.title }}</span></div>
+                              <div class="col" style="text-align:right !important"><img src="/assets/media/verde.png"
+                                  style="width: 25px" alt=""></div>
+                            </div>
+                          </a>
                         </div>
-                      </a>
-                    </div>
-                    <div class="collapse show" id="subcategories_0">
-                      <div class="nav nav-pills flex-column ms-3"><a class="nav-link mb-2" href="#!">Lorem ipsum</a><a
-                          class="nav-link mb-2" href="#!">Dolor</a><a class="nav-link mb-2" href="#!">Sit amet</a><a
-                          class="nav-link mb-2" href="#!">Donec vitae</a>
+                        <div class="collapse show" :id="'subcategories_' + index">
+                          <div class="nav nav-pills flex-column ms-3">
+                            <a style="cursor: pointer" class="nav-link mb-2"
+                              v-on:click="redirectCategory(item.category.title)">Ver todos</a>
+                            <a style="cursor: pointer" class="nav-link mb-2" v-for="subitem in item.subcategory"
+                              v-on:click="redirectSubcategory(subitem.title, item.category._id)">{{ subitem.title }}</a>
+                          </div>
+                        </div>
                       </div>
-                    </div> -->
+                    </template>
 
-                    <div class="sidebar-menu-item mb-2 active" data-bs-toggle="collapse"
-                      :data-bs-target="'#subcategories_' + index" aria-expanded="false"
-                      :aria-controls="'subcategories_' + index" role="menuitem">
-                      <a class="nav-link nav-pills active">
-                        <div class="row">
-                          <div class="col"><span>{{ item.category.title }}</span></div>
-                          <div class="col" style="text-align: right !important;"><img
-                              src="/assets/media/verde.png" style="width:10px" alt=""></div>
+                    <template v-if="item.category._id != category_active">
+                      <div>
+                        <div class="sidebar-menu-item mb-2" data-bs-toggle="collapse"
+                          :data-bs-target="'#subcategories_' + index" aria-expanded="false"
+                          :aria-controls="'subcategories_' + index" role="menuitem">
+                          <a class="nav-link">
+                            <div class="row">
+                              <div class="col"><span>{{ item.category.title }}</span></div>
+                              <div class="col" style="text-align: right !important;"><img src="/assets/media/verde.png"
+                                  style="width:10px" alt=""></div>
+                            </div>
+                          </a>
                         </div>
-                      </a>
-                    </div>
-                    <div class="collapse" :id="'subcategories_' + index">
-                      <div class="nav nav-pills flex-column ms-3">
-                        <a style="cursor: pointer" class="nav-link mb-2" v-on:click="redirectCategory(item.category.title)">Ver todos</a>
-                        <a style="cursor: pointer" class="nav-link mb-2" v-for="subitem in item.subcategory" v-on:click="redirectSubcategory(subitem.title)">{{ subitem.title }}</a>
+                        <div class="collapse" :id="'subcategories_' + index">
+                          <div class="nav nav-pills flex-column ms-3">
+                            <a style="cursor: pointer" class="nav-link mb-2" 
+                              v-on:click="redirectCategory(item.category.title)">Ver todos</a>
+                            <a style="cursor: pointer" class="nav-link mb-2" v-bind:class="{'subcategory': subitem.title == subcategory_active}" v-for="subitem in item.subcategory"
+                              v-on:click="redirectSubcategory(subitem.title, item.category._id)">{{ subitem.title }}</a>
+                          </div>
                         </div>
-                    </div>
+                      </div>
+                    </template>
 
                   </div>
                 </template>
@@ -265,6 +278,8 @@ export default {
       product: [],
       product_const: [],
       categories: [],
+      category_active: '',
+      subcategory_active: '',
 
       currentPage: 1,
       perPage: 10,
@@ -300,10 +315,10 @@ export default {
       this.product_const = result.data;
       this.product = result.data;
 
-      if(this.$route.query.subcategory){
+      if (this.$route.query.subcategory) {
         this.initProductSubcategory();
       }
-      if(this.$route.query.category){
+      if (this.$route.query.category) {
         this.initProductCategory();
       }
       console.log(result);
@@ -342,26 +357,31 @@ export default {
         }
       }).then((result) => {
         this.categories = result.data;
-        console.log(this.categories);
+        if(this.$route.query.subcategory){
+          this.category_active = this.categories.filter(item => item.subcategory.some(subcat=> subcat.title == this.$route.query.subcategory))[0].category._id;
+        }
+        console.log(this.category_active);
       })
     },
 
-    redirectSubcategory(item){
-      this.$router.push({name: 'shop', query: {subcategory: item}});
+    redirectSubcategory(item, category) {
+      this.category_active = category;
+      this.subcategory_active = item;
+      this.$router.push({ name: 'shop', query: { subcategory: item } });
       this.initProductSubcategory();
     },
 
-    initProductSubcategory(){
+    initProductSubcategory() {
       console.log(this.$route.query.subcategory);
       this.product = this.product_const.filter(item => item.subcategory == this.$route.query.subcategory)
     },
 
-    redirectCategory(item){
-      this.$router.push({name: 'shop', query: {category: item}});
+    redirectCategory(item) {
+      this.$router.push({ name: 'shop', query: { category: item } });
       this.initProductCategory();
     },
 
-    initProductCategory(){
+    initProductCategory() {
       console.log(this.$route.query.category);
       this.product = this.product_const.filter(item => item.category == this.$route.query.category)
     },
@@ -393,4 +413,9 @@ export default {
   height: 10px !important;
   background: #3b547d !important;
   border: none !important;
-}</style>
+}
+
+.subcategory{
+  background-color: #683370 !important;
+}
+</style>
