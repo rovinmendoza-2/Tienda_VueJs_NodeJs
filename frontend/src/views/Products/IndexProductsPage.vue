@@ -385,6 +385,13 @@ export default {
       console.log(this.$route.query.category);
       this.product = this.product_const.filter(item => item.category == this.$route.query.category)
     },
+  },
+  watch: {
+    $route(to, from){
+      if (!this.$route.query.subcategory && !this.$route.query.category ) {
+        this.product = this.product_const;
+      }
+    }
   }
 }
 </script>
