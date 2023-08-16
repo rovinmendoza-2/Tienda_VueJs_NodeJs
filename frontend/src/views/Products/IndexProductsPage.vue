@@ -104,7 +104,8 @@
                     </div>
                     <div class="collapse" :id="'subcategories_' + index">
                       <div class="nav nav-pills flex-column ms-3">
-                        <a style="cursor: pointer" class="nav-link mb-2" v-for="subitem in item.subcategory" v-on:click="redirecSucategory(subitem.title)">{{ subitem.title }}</a>
+                        <a style="cursor: pointer" class="nav-link mb-2" v-on:click="redirectCategory(item.category.title)">Ver todos</a>
+                        <a style="cursor: pointer" class="nav-link mb-2" v-for="subitem in item.subcategory" v-on:click="redirectSubcategory(subitem.title)">{{ subitem.title }}</a>
                         </div>
                     </div>
 
@@ -302,6 +303,9 @@ export default {
       if(this.$route.query.subcategory){
         this.initProductSubcategory();
       }
+      if(this.$route.query.category){
+        this.initProductCategory();
+      }
       console.log(result);
     });
     this.init_categories();
@@ -342,7 +346,7 @@ export default {
       })
     },
 
-    redirecSucategory(item){
+    redirectSubcategory(item){
       this.$router.push({name: 'shop', query: {subcategory: item}});
       this.initProductSubcategory();
     },
@@ -350,7 +354,17 @@ export default {
     initProductSubcategory(){
       console.log(this.$route.query.subcategory);
       this.product = this.product_const.filter(item => item.subcategory == this.$route.query.subcategory)
-    }
+    },
+
+    redirectCategory(item){
+      this.$router.push({name: 'shop', query: {category: item}});
+      this.initProductCategory();
+    },
+
+    initProductCategory(){
+      console.log(this.$route.query.category);
+      this.product = this.product_const.filter(item => item.category == this.$route.query.category)
+    },
   }
 }
 </script>
