@@ -1,6 +1,7 @@
 const Product = require("../models/products");
 const Category = require("../models/category");
 const Subcategory = require("../models/subcategory");
+const Varieties = require('../models/variety');
 
 const get_new_product = async (req, res) => {
   const product = await Product.find({ state: true })
@@ -10,14 +11,33 @@ const get_new_product = async (req, res) => {
 };
 
 const get_product_recommended = async (req, res) => {
-  const product = await Product.find({ state: true }).limit(8);
-  res.status(200).send(product);
+    const product = await Product.find({ state: true }).limit(8);
+    res.status(200).send(product);
 };
 
 const get_product_shop = async (req, res) => {
-  const product = await Product.find({ state: true }).sort({ createdAt: -1 });
-  res.status(200).send(product);
-  console.log(product);
+    var data_products = [];
+    const product = await Product.find({ state: true }).sort({ createdAt: -1 });
+    for(var item of product){
+
+        var varieties = await Varieties.find({product: item._id});
+        data_products.push({
+            title:          item.title,
+            slug:           item.slug,
+            category:       item.category,
+            subcategory:    item.subcategory,
+            price:          item.price,
+            variety:        item.variety,
+            description:    item.description,
+            state:          item.state,
+            frontPage:      item.frontPage,
+            discount:       item.discount,
+            createdAt:      item.createdAt,
+            varieties
+        })
+    }
+    res.status(200).send(data_products);
+    console.log(product);
 };
 
 // Listar categorias

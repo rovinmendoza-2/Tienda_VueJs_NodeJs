@@ -215,35 +215,35 @@
             </div>
           </div>
           <div class="sidebar-block px-3 px-lg-0 me-lg-4"><a class="d-lg-none block-toggler" data-bs-toggle="collapse"
-              href="#colourFilterMenu" aria-expanded="false" aria-controls="colourFilterMenu">Filter by colour</a>
+              href="#colourFilterMenu" aria-expanded="false" aria-controls="colourFilterMenu">Colores</a>
             <!-- Size filter menu-->
             <div class="expand-lg collapse" id="colourFilterMenu">
-              <h6 class="sidebar-heading d-none d-lg-block">Colour </h6>
+              <h6 class="sidebar-heading d-none d-lg-block">Colres</h6>
               <div class="mt-4 mt-lg-0">
                 <ul class="list-inline mb-0 colours-wrapper">
                   <li class="list-inline-item">
-                    <label class="btn-colour" for="colour_sidebar_Blue" style="background-color: #668cb9"
-                      data-allow-multiple> </label>
-                    <input class="input-invisible" type="checkbox" name="colour" value="value_sidebar_Blue"
-                      id="colour_sidebar_Blue">
+                    <label class="btn-colour" for="colour_sidebar_Blue" style="background-color: #000000" v-on:click="selectedColor('negro')"
+                    > </label>
+                    <input class="input-invisible" type="checkbox" name="colour" value="negro"
+                      id="colour_sidebar_negro">
                   </li>
                   <li class="list-inline-item">
-                    <label class="btn-colour" for="colour_sidebar_White" style="background-color: #fff"
-                      data-allow-multiple> </label>
-                    <input class="input-invisible" type="checkbox" name="colour" value="value_sidebar_White"
-                      id="colour_sidebar_White">
+                    <label class="btn-colour" for="colour_sidebar_White" style="background-color: #ff0000" v-on:click="selectedColor('rojo')"
+                    > </label>
+                    <input class="input-invisible" type="checkbox" name="colour" value="rojo"
+                      id="colour_sidebar_rojo">
                   </li>
                   <li class="list-inline-item">
-                    <label class="btn-colour" for="colour_sidebar_Violet" style="background-color: #8b6ea4"
-                      data-allow-multiple> </label>
-                    <input class="input-invisible" type="checkbox" name="colour" value="value_sidebar_Violet"
-                      id="colour_sidebar_Violet">
+                    <label class="btn-colour" for="colour_sidebar_Violet" style="background-color: #ffffff" v-on:click="selectedColor('blanco')"
+                    > </label>
+                    <input class="input-invisible" type="checkbox" name="colour" value="blanco"
+                      id="colour_sidebar_blanco">
                   </li>
                   <li class="list-inline-item">
-                    <label class="btn-colour" for="colour_sidebar_Red" style="background-color: #dd6265"
-                      data-allow-multiple> </label>
-                    <input class="input-invisible" type="checkbox" name="colour" value="value_sidebar_Red"
-                      id="colour_sidebar_Red">
+                    <label class="btn-colour" for="colour_sidebar_Red" style="background-color: #008000" v-on:click="selectedColor('verde')"
+                    > </label>
+                    <input class="input-invisible" type="checkbox" name="colour" value="verde"
+                      id="colour_sidebar_verde">
                   </li>
                 </ul>
               </div>
@@ -265,10 +265,10 @@ export default {
   data() {
     return {
       slider: {
-        starMin: 25,
-        starMax: 100,
+        starMin: 0,
+        starMax: 2000,
         min: 0,
-        max: 100,
+        max: 2000,
         start: 40,
         step: 1
       },
@@ -314,7 +314,7 @@ export default {
     }).then((result) => {
       this.product_const = result.data;
       this.product = result.data;
-
+      console.log(this.product);
       if (this.$route.query.subcategory) {
         this.initProductSubcategory();
       }
@@ -385,12 +385,28 @@ export default {
       console.log(this.$route.query.category);
       this.product = this.product_const.filter(item => item.category == this.$route.query.category)
     },
+
+    selectedColor(value){
+      this.product = this.product_const.filter(item => item.varieties.some(subitem => subitem.variety == value))
+    }
   },
   watch: {
     $route(to, from){
       if (!this.$route.query.subcategory && !this.$route.query.category ) {
         this.product = this.product_const;
       }
+    },
+
+    minRange: function(value){
+      console.log(value);
+      this.product = this.product_const.filter(item => item.price >= value);
+
+    },
+
+    maxRange: function(value){
+      console.log(value);
+      this.product = this.product_const.filter(item => item.price <= value);
+
     }
   }
 }
