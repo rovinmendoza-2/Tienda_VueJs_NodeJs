@@ -57,17 +57,18 @@
               </div>
             </div>
           </div>
+
           <div class="col-lg-5 ps-lg-4 order-1 order-lg-2">
             <ul class="breadcrumb undefined">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item"><a href="category.html">Tops and Jackets</a></li>
-              <li class="breadcrumb-item active">Modern Jacket    </li>
+              <li class="breadcrumb-item"><router-link to="/">Inicio</router-link></li>
+              <li class="breadcrumb-item"><router-link to="/shop">Tienda</router-link></li>
+              <li class="breadcrumb-item"><router-link :to="{name: 'shop', query:{category: product.category}}">{{ product.category }}</router-link></li>
             </ul>
-            <h1 class="mb-4">Modern Jacket</h1>
+            <h2 class="mb-4">{{ product.title }}</h2>
             <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between mb-4">
               <ul class="list-inline mb-2 mb-sm-0">
-                <li class="list-inline-item h4 fw-light mb-0">$65.00</li>
-                <li class="list-inline-item text-muted fw-light"> 
+                <li class="list-inline-item h4 fw-light mb-0">{{ convertCurrency(product.price) }}</li>
+                <li class="list-inline-item text-muted fw-light" v-if="product.discount"> 
                   <del>$90.00</del>
                 </li>
               </ul>
@@ -83,19 +84,13 @@
                 </ul><span class="text-muted text-uppercase text-sm">25 reviews</span>
               </div>
             </div>
-            <p class="mb-4 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco</p>
+            <p class="mb-4 text-muted">{{ product.description }}</p>
             <form action="#">
               <div class="row">
                 <div class="col-sm-6 col-lg-12 detail-option mb-3">
-                  <h6 class="detail-option-heading">Size <span>(required)</span></h6>
-                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label" for="size_0"> Small
-                    <input class="input-invisible" type="radio" name="size" value="value_0" id="size_0" required>
-                  </label>
-                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label" for="size_1"> Medium
-                    <input class="input-invisible" type="radio" name="size" value="value_1" id="size_1" required>
-                  </label>
-                  <label class="btn btn-sm btn-outline-secondary detail-option-btn-label" for="size_2"> Large
-                    <input class="input-invisible" type="radio" name="size" value="value_2" id="size_2" required>
+                  <h6 class="detail-option-heading">{{ product.variety }}</h6>
+                  <label v-for="item in varieties" class="btn btn-sm btn-outline-secondary detail-option-btn-label" :for="'variety_'+item._id">{{ item.variety }}
+                    <input class="input-invisible" type="radio" name="size" value="value_0" :id="'variety_'+item._id" required>
                   </label>
                 </div>
                
@@ -121,13 +116,13 @@
                   </ul>
                 </div> -->
                 <div class="col-12 col-lg-6 detail-option mb-5">
-                  <label class="detail-option-heading fw-bold">Items <span>(required)</span></label>
+                  <label class="detail-option-heading fw-bold">Cantidad</label>
                   <input class="form-control detail-quantity" name="items" type="number" value="1">
                 </div>
               </div>
               <ul class="list-inline">
                 <li class="list-inline-item">
-                  <button class="btn btn-dark btn-lg mb-1" type="submit"> <i class="fa fa-shopping-cart me-2"></i>Add to Cart</button>
+                  <button class="btn btn-dark btn-lg mb-1" type="submit"> <i class="fa fa-shopping-cart me-2"></i>Agregar al carrito</button>
                 </li>
                 <!-- <li class="list-inline-item"><a class="btn btn-outline-secondary mb-1" href="#"> <i class="far fa-heart me-2"></i>Add to wishlist</a></li> -->
               </ul>
@@ -139,35 +134,27 @@
     <section class="mt-5">
       <div class="container">
         <ul class="nav nav-tabs flex-column flex-sm-row" role="tablist">
-          <li class="nav-item"><a class="nav-link detail-nav-link active" data-bs-toggle="tab" href="#description" role="tab">Description</a></li>
-          <li class="nav-item"><a class="nav-link detail-nav-link" data-bs-toggle="tab" href="#additional-information" role="tab">Additional Information</a></li>
+          <li class="nav-item"><a class="nav-link detail-nav-link active" data-bs-toggle="tab" href="#additional-information" role="tab">Informcion Adicional</a></li>
           <li class="nav-item"><a class="nav-link detail-nav-link" data-bs-toggle="tab" href="#reviews" role="tab">Reviews</a></li>
         </ul>
         <div class="tab-content py-4">
-          <div class="tab-pane active px-3" id="description" role="tabpanel">
-            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. LOLUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. LOLDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. LOLUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. LOLDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          </div>
-          <div class="tab-pane" id="additional-information" role="tabpanel">
+          
+          <div class="tab-pane active" id="additional-information" role="tabpanel">
             <div class="row">
               <div class="col-lg-6">
                 <table class="table text-sm">
                   <tbody>
                     <tr>
-                      <th class="text-uppercase fw-normal border-0">Product #</th>
-                      <td class="text-muted border-0">Lorem ipsum dolor sit amet</td>
+                      <th class="text-uppercase fw-normal border-0"><b>Producto</b></th>
+                      <td class="text-muted border-0" :title="product.title"><b>{{ product.title.substr(0, 30) }}...</b></td>
                     </tr>
                     <tr>
-                      <th class="text-uppercase fw-normal ">Available packaging</th>
-                      <td class="text-muted ">LOLDuis aute irure dolor in reprehenderit</td>
+                      <th class="text-uppercase fw-normal "><b>Categoria</b></th>
+                      <td class="text-muted "><b>{{ product.category }}</b></td>
                     </tr>
                     <tr>
-                      <th class="text-uppercase fw-normal ">Weight</th>
-                      <td class="text-muted ">dolor sit amet</td>
-                    </tr>
-                    <tr>
-                      <th class="text-uppercase fw-normal ">Sunt in culpa qui</th>
-                      <td class="text-muted ">Lorem ipsum dolor sit amet</td>
+                      <th class="text-uppercase fw-normal "><b>Subcategoria</b></th>
+                      <td class="text-muted "><b>{{ product.subcategory }}</b></td>
                     </tr>
                   </tbody>
                 </table>
@@ -176,21 +163,18 @@
                 <table class="table text-sm">
                   <tbody>
                     <tr>
-                      <th class="text-uppercase fw-normal border-0">Weight</th>
-                      <td class="text-muted border-0">dolor sit amet                                </td>
+                      <th class="text-uppercase fw-normal "><b>Variedad</b></th>
+                      <td class="text-muted "><b>{{ product.title }}</b></td>
                     </tr>
                     <tr>
-                      <th class="text-uppercase fw-normal ">Sunt in culpa qui</th>
-                      <td class="text-muted ">Lorem ipsum dolor sit amet                                </td>
+                      <th class="text-uppercase fw-normal border-0"><b>Codigo</b></th>
+                      <td class="text-muted border-0"><b>{{ product._id }}</b></td>
                     </tr>
                     <tr>
-                      <th class="text-uppercase fw-normal ">Product #</th>
-                      <td class="text-muted ">Lorem ipsum dolor sit amet                                </td>
+                      <th class="text-uppercase fw-normal "><b>Fecha</b></th>
+                      <td class="text-muted "><b>{{ converDate(product.createdAt) }}</b></td>
                     </tr>
-                    <tr>
-                      <th class="text-uppercase fw-normal ">Available packaging</th>
-                      <td class="text-muted ">LOLDuis aute irure dolor in reprehenderit                                </td>
-                    </tr>
+                    
                   </tbody>
                 </table>
               </div>
@@ -388,12 +372,16 @@
 <script>
 import { init_carrusel } from "../../../public/assets/js/theme.d7b4a888";
 import axios from 'axios';
+import currency_formatter from 'currency-formatter';
+import moment from 'moment';
 export default {
     
     name: 'ShowProductsPage',
     data(){
         return {
           gallery: '',
+          product: '',
+          varieties: [],
         }
     },
 
@@ -405,9 +393,20 @@ export default {
           }
         }).then( (result)=> {
           this.gallery = result.data.gallery;
+          this.product = result.data.product;
+          this.varieties = result.data.varieties;
           console.log(this.gallery)
         })
+      },
+
+      convertCurrency(number) {
+        return currency_formatter.format(number, { code: 'USD' });
+      },
+
+      converDate(date){
+        return moment(date).format('YYYY-MM-DD')
       }
+
     },
 
     beforeMount(){
@@ -418,3 +417,11 @@ export default {
     }
 }
 </script>
+
+<style>
+link.active, .detail-nav-link.nav-link:hover, .detail-nav-link.nav-link:focus {
+    color: #ffffff;
+    border-color: #fff #fff #7dcaf6 !important;
+    background-color: #7dcaf6 !important;
+}
+</style>
