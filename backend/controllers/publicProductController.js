@@ -2,6 +2,7 @@ const Product = require("../models/products");
 const Category = require("../models/category");
 const Subcategory = require("../models/subcategory");
 const Varieties = require('../models/variety');
+const Gallery = require('../models/gallery');
 
 const get_new_product = async (req, res) => {
   const product = await Product.find({ state: true })
@@ -58,9 +59,23 @@ const list_category_product = async (req, res) => {
   res.status(200).send(categories);
 };
 
+const get_product_slug = async (req, res) => {
+  const slug = req.params['slug'];
+
+  const product = await Product.findOne({slug:slug});
+  const varieties = await Varieties.find({product:product._id});
+  const gallery = await Gallery.find({product:product._id});
+
+  res.status(200).send({product, varieties, gallery});
+  console.log(product);
+  console.log(varieties);
+  console.log(gallery);
+};
+
 module.exports = {
   get_new_product,
   get_product_recommended,
   get_product_shop,
   list_category_product,
+  get_product_slug
 };

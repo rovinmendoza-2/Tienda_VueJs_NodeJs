@@ -357,7 +357,7 @@
 
 <script>
 import { init_carrusel } from "../../../public/assets/js/theme.d7b4a888";
-
+import axios from 'axios';
 export default {
     
     name: 'ShowProductsPage',
@@ -367,8 +367,22 @@ export default {
         }
     },
 
+    methods: {
+      init_data(){
+        axios.get(this.$url+'/get_product_slug/'+this.$route.params.slug, {
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }).then( (result)=> {
+          console.log(result);
+        })
+      }
+    },
+
     beforeMount(){
-        init_carrusel.init_galery()
+      console.log(this.$route.params.slug)
+        init_carrusel.init_galery();
+        this.init_data();
     }
 }
 </script>
