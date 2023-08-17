@@ -7,23 +7,53 @@
             <div class="row">   
               <div class="d-none d-md-block col-md-2 pe-0">
                 <div class="owl-thumbs" data-slider-id="1">
-                  <button class="owl-thumb-item detail-thumb-item mb-3"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-596319-detail-1.jpg" alt="Modern Jacket 0"></button>
-                  <button class="owl-thumb-item detail-thumb-item mb-3"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-596319-detail-2.jpg" alt="Modern Jacket 1"></button>
-                  <button class="owl-thumb-item detail-thumb-item mb-3"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-596319-detail-3.jpg" alt="Modern Jacket 2"></button>
-                  <button class="owl-thumb-item detail-thumb-item mb-3"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-594535-unsplash-detail-3.jpg" alt="Modern Jacket 3"></button>
-                  <button class="owl-thumb-item detail-thumb-item mb-3"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-594535-unsplash-detail-4.jpg" alt="Modern Jacket 4"></button>
+                  <button class="owl-thumb-item detail-thumb-item mb-3" v-if="gallery[0]">
+                    <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[0].imagen">
+                  </button>
+                  <button class="owl-thumb-item detail-thumb-item mb-3" v-if="gallery[1]">
+                    <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[1].imagen">
+                  </button>
+                  <button class="owl-thumb-item detail-thumb-item mb-3" v-if="gallery[2]">
+                    <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[2].imagen">
+                  </button>
+                  <button class="owl-thumb-item detail-thumb-item mb-3" v-if="gallery[3]">
+                    <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[3].imagen">
+                  </button>
+                  <button class="owl-thumb-item detail-thumb-item mb-3" v-if="gallery[4]">
+                    <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[4].imagen">
+                  </button>
                 </div>
               </div>
               <div class="col-12 col-md-10 detail-carousel">
                 <div class="ribbon ribbon-info">Fresh</div>
                 <div class="ribbon ribbon-primary">Sale</div>
                 <div class="owl-carousel detail-slider owl-theme owl-dots-modern" data-slider-id="1">
-                  <div class="item"><a class="glightbox" href="img/photo/kyle-loftus-596319-detail-1.jpg" data-title="Modern Jacket 1 - Caption text" data-gallery="product-gallery"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-596319-detail-1.jpg" alt="Modern Jacket 1"></a></div>
-                  <div class="item"><a class="glightbox" href="img/photo/kyle-loftus-596319-detail-2.jpg" data-title="Modern Jacket 2 - Caption text" data-gallery="product-gallery"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-596319-detail-2.jpg" alt="Modern Jacket 2"></a></div>
-                  <div class="item"><a class="glightbox" href="img/photo/kyle-loftus-596319-detail-3.jpg" data-title="Modern Jacket 3 - Caption text" data-gallery="product-gallery"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-596319-detail-3.jpg" alt="Modern Jacket 3"></a></div>
-                  <div class="item"><a class="glightbox" href="img/photo/kyle-loftus-594535-unsplash-detail-3.jpg" data-title="Modern Jacket 4 - Caption text" data-gallery="product-gallery"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-594535-unsplash-detail-3.jpg" alt="Modern Jacket 4"></a></div>
-                  <div class="item"><a class="glightbox" href="img/photo/kyle-loftus-594535-unsplash-detail-4.jpg" data-title="Modern Jacket 5 - Caption text" data-gallery="product-gallery"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/kyle-loftus-594535-unsplash-detail-4.jpg" alt="Modern Jacket 5"></a></div>
-                </div>
+                  <div class="item" v-if="gallery[0]">
+                    <a class="glightbox" :href="$url+'/get_gallery_product/'+gallery[0].imagen" data-title="Modern Jacket 1 - Caption text" data-gallery="product-gallery">
+                      <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[0].imagen" alt="Modern Jacket 1">
+                    </a>
+                  </div>
+                  <div class="item" v-if="gallery[1]">
+                    <a class="glightbox" :href="$url+'/get_gallery_product/'+gallery[1].imagen" data-title="Modern Jacket 1 - Caption text" data-gallery="product-gallery">
+                      <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[1].imagen" alt="Modern Jacket 1">
+                    </a>
+                  </div>
+                  <div class="item" v-if="gallery[2]">
+                    <a class="glightbox" :href="$url+'/get_gallery_product/'+gallery[2].imagen" data-title="Modern Jacket 1 - Caption text" data-gallery="product-gallery">
+                      <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[2].imagen" alt="Modern Jacket 1">
+                    </a>
+                  </div>
+                  <div class="item" v-if="gallery[3]">
+                    <a class="glightbox" :href="$url+'/get_gallery_product/'+gallery[3].imagen" data-title="Modern Jacket 1 - Caption text" data-gallery="product-gallery">
+                      <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[3].imagen" alt="Modern Jacket 1">
+                    </a>
+                  </div>
+                  <div class="item" v-if="gallery[4]">
+                    <a class="glightbox" :href="$url+'/get_gallery_product/'+gallery[4].imagen" data-title="Modern Jacket 1 - Caption text" data-gallery="product-gallery">
+                      <img class="img-fluid" :src="$url+'/get_gallery_product/'+gallery[4].imagen" alt="Modern Jacket 1">
+                    </a>
+                  </div>
+                 </div>
               </div>
             </div>
           </div>
@@ -363,7 +393,7 @@ export default {
     name: 'ShowProductsPage',
     data(){
         return {
-
+          gallery: '',
         }
     },
 
@@ -374,7 +404,8 @@ export default {
             'Content-Type': 'application/json'
           }
         }).then( (result)=> {
-          console.log(result);
+          this.gallery = result.data.gallery;
+          console.log(this.gallery)
         })
       }
     },
@@ -382,6 +413,7 @@ export default {
     beforeMount(){
       console.log(this.$route.params.slug)
         init_carrusel.init_galery();
+        init_carrusel.init_zoom();
         this.init_data();
     }
 }
