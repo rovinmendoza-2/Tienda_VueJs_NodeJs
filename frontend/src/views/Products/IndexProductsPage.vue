@@ -43,19 +43,22 @@
           <div class="row" id="my-table">
             <!-- product-->
             <div class="col-xl-4 col-6" v-for="item in itemsForList">
-              <div class="product">
-                <div class="product-image">
-                  <div class="ribbon ribbon-danger" v-if="item.discount">Oferta</div><img class="img-fluid"
-                    :src="$url + '/get_frontPage_product/' + item.frontPage" alt="product" />
+              <router-link :to="{name: 'product-shop', params: {slug: item.slug}}">
+                <div class="product">
+                  <div class="product-image">
+                    <div class="ribbon ribbon-danger" v-if="item.discount">Oferta</div><img class="img-fluid"
+                      :src="$url + '/get_frontPage_product/' + item.frontPage" alt="product" />
+                  </div>
+                  <div class="py-2">
+                    <p class="text-muted text-sm mb-1">{{ item.category }}</p>
+                    <h3 class="h6 text-uppercase mb-1"
+                      style="text-overflow: ellipsis; overflow: hidden white-space: nowrap;;"><a class="text-dark"
+                        href="detail.html">{{ item.title }}</a></h3><span class="text-muted">{{
+                          convertCurrency(item.price)
+                        }}</span>
+                  </div>
                 </div>
-                <div class="py-2">
-                  <p class="text-muted text-sm mb-1">{{ item.category }}</p>
-                  <h3 class="h6 text-uppercase mb-1"
-                    style="text-overflow: ellipsis; overflow: hidden white-space: nowrap;;"><a class="text-dark"
-                      href="detail.html">{{ item.title }}</a></h3><span class="text-muted">{{ convertCurrency(item.price)
-                      }}</span>
-                </div>
-              </div>
+              </router-link>
             </div>
           </div>
           <!-- Pagination-->
@@ -77,7 +80,7 @@
                     <template v-if="item.category._id == category_active">
                       <div>
                         <div class="sidebar-menu-item mb-2 active" data-bs-toggle="collapse"
-                        :data-bs-target="'#subcategories_' + index" aria-expanded="true" aria-controls="subcategories_0"
+                          :data-bs-target="'#subcategories_' + index" aria-expanded="true" aria-controls="subcategories_0"
                           role="menuitem">
                           <a class="nav-link active" href="#!">
                             <div class="row">
@@ -113,9 +116,11 @@
                         </div>
                         <div class="collapse" :id="'subcategories_' + index">
                           <div class="nav nav-pills flex-column ms-3">
-                            <a style="cursor: pointer" class="nav-link mb-2" 
+                            <a style="cursor: pointer" class="nav-link mb-2"
                               v-on:click="redirectCategory(item.category.title)">Ver todos</a>
-                            <a style="cursor: pointer" class="nav-link mb-2" v-bind:class="{'subcategory': subitem.title == subcategory_active}" v-for="subitem in item.subcategory"
+                            <a style="cursor: pointer" class="nav-link mb-2"
+                              v-bind:class="{ 'subcategory': subitem.title == subcategory_active }"
+                              v-for="subitem in item.subcategory"
                               v-on:click="redirectSubcategory(subitem.title, item.category._id)">{{ subitem.title }}</a>
                           </div>
                         </div>
@@ -207,7 +212,8 @@
                 </div>
                 <div class="mb-1">
                   <div class="form-check">
-                    <input class="form-check-input" id="size3" type="radio" value="x-large" name="size" v-on:change="selectedSizes($event)">
+                    <input class="form-check-input" id="size3" type="radio" value="x-large" name="size"
+                      v-on:change="selectedSizes($event)">
                     <label class="form-check-label" for="size3">X-Large</label>
                   </div>
                 </div>
@@ -222,28 +228,25 @@
               <div class="mt-4 mt-lg-0">
                 <ul class="list-inline mb-0 colours-wrapper">
                   <li class="list-inline-item">
-                    <label class="btn-colour" for="colour_sidebar_Blue" style="background-color: #000000" v-on:click="selectedColor('negro')"
-                    > </label>
-                    <input class="input-invisible" type="checkbox" name="colour" value="negro"
-                      id="colour_sidebar_negro">
+                    <label class="btn-colour" for="colour_sidebar_Blue" style="background-color: #000000"
+                      v-on:click="selectedColor('negro')"> </label>
+                    <input class="input-invisible" type="checkbox" name="colour" value="negro" id="colour_sidebar_negro">
                   </li>
                   <li class="list-inline-item">
-                    <label class="btn-colour" for="colour_sidebar_White" style="background-color: #ff0000" v-on:click="selectedColor('rojo')"
-                    > </label>
-                    <input class="input-invisible" type="checkbox" name="colour" value="rojo"
-                      id="colour_sidebar_rojo">
+                    <label class="btn-colour" for="colour_sidebar_White" style="background-color: #ff0000"
+                      v-on:click="selectedColor('rojo')"> </label>
+                    <input class="input-invisible" type="checkbox" name="colour" value="rojo" id="colour_sidebar_rojo">
                   </li>
                   <li class="list-inline-item">
-                    <label class="btn-colour" for="colour_sidebar_Violet" style="background-color: #ffffff" v-on:click="selectedColor('blanco')"
-                    > </label>
+                    <label class="btn-colour" for="colour_sidebar_Violet" style="background-color: #ffffff"
+                      v-on:click="selectedColor('blanco')"> </label>
                     <input class="input-invisible" type="checkbox" name="colour" value="blanco"
                       id="colour_sidebar_blanco">
                   </li>
                   <li class="list-inline-item">
-                    <label class="btn-colour" for="colour_sidebar_Red" style="background-color: #008000" v-on:click="selectedColor('verde')"
-                    > </label>
-                    <input class="input-invisible" type="checkbox" name="colour" value="verde"
-                      id="colour_sidebar_verde">
+                    <label class="btn-colour" for="colour_sidebar_Red" style="background-color: #008000"
+                      v-on:click="selectedColor('verde')"> </label>
+                    <input class="input-invisible" type="checkbox" name="colour" value="verde" id="colour_sidebar_verde">
                   </li>
                 </ul>
               </div>
@@ -357,8 +360,8 @@ export default {
         }
       }).then((result) => {
         this.categories = result.data;
-        if(this.$route.query.subcategory){
-          this.category_active = this.categories.filter(item => item.subcategory.some(subcat=> subcat.title == this.$route.query.subcategory))[0].category._id;
+        if (this.$route.query.subcategory) {
+          this.category_active = this.categories.filter(item => item.subcategory.some(subcat => subcat.title == this.$route.query.subcategory))[0].category._id;
         }
         console.log(this.category_active);
       })
@@ -386,28 +389,28 @@ export default {
       this.product = this.product_const.filter(item => item.category == this.$route.query.category)
     },
 
-    selectedColor(value){
+    selectedColor(value) {
       this.product = this.product_const.filter(item => item.varieties.some(subitem => subitem.variety == value))
     },
 
-    selectedSizes($event){
+    selectedSizes($event) {
       this.product = this.product_const.filter(item => item.varieties.some(subitem => subitem.variety == $event.target.value))
     }
   },
   watch: {
-    $route(to, from){
-      if (!this.$route.query.subcategory && !this.$route.query.category ) {
+    $route(to, from) {
+      if (!this.$route.query.subcategory && !this.$route.query.category) {
         this.product = this.product_const;
       }
     },
 
-    minRange: function(value){
+    minRange: function (value) {
       console.log(value);
       this.product = this.product_const.filter(item => item.price >= value);
 
     },
 
-    maxRange: function(value){
+    maxRange: function (value) {
       console.log(value);
       this.product = this.product_const.filter(item => item.price <= value);
 
@@ -442,7 +445,7 @@ export default {
   border: none !important;
 }
 
-.subcategory{
+.subcategory {
   background-color: #683370 !important;
 }
 </style>
