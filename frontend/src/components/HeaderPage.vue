@@ -16,6 +16,10 @@
                     </div>
                     <div class="col-sm-5 d-flex justify-content-end">
                         <!-- Language Dropdown-->
+
+                        <a style="cursor: pointer" v-if="$store.state.token" v-on:click="logout()">
+                            <span><b>Cerrar Sesion</b></span>
+                        </a>
                         <div class="dropdown border-end px-3"><a class="dropdown-toggle topbar-link" id="langsDropdown"
                                 href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-haspopup="true"
                                 aria-expanded="false"><img class="topbar-flag"
@@ -282,10 +286,14 @@
                         </div>
                         <!-- User Not Logged - link to login page-->
                         <div class="nav-item">
-                            <routerLink to="/login" class="navbar-icon-link"><img src="/assets/icons/user.png" style="width: 25px;" />
+                            <routerLink v-if="!$store.state.token" to="/login" class="navbar-icon-link"><img src="/assets/icons/user.png" style="width: 25px;" />
                                 <span
                                     class="text-sm ms-2 ms-lg-0 text-uppercase text-sm fw-bold d-none d-sm-inline d-lg-none">Log
                                     in </span>
+                            </routerLink>
+                            <routerLink v-if="$store.state.token" to="/login" class="navbar-icon-link"><img src="/assets/icons/user.png" style="width: 25px;" />
+                                <span
+                                    class="text-sm ms-2 ms-lg-0 text-uppercase text-sm fw-bold d-none d-sm-inline"> &nbsp; {{ user.name.split(' ')[0] }}</span>
                             </routerLink>
                         </div>
                         <!-- Cart Dropdown-->
@@ -407,12 +415,22 @@ export default {
     name: 'HeaderPage',
     data() {
         return {
-
+            user: JSON.parse(this.$store.state.user)
         }
     },
 
     methods: {
-
+        logout(){
+            this.$store.dispatch('logout');
+            this.$router.push({ name: 'login' });
+        }
     }
 }
 </script>
+
+<style>
+.navbar-fixed-light.fixed-top .navbar-nav .nav-link {
+    color: rgb(78 23 99 / 65%) !important;
+}
+
+</style>

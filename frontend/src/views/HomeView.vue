@@ -39,20 +39,21 @@
         <div class="row">
           <!-- product-->
           <div class="col-lg-3 col-md-4 col-6" v-for="item in new_product">
-            <div class="product">
-              <div class="product-image">
-                <div class="ribbon ribbon-danger" v-if="item.discount">Oferta</div><img class="img-fluid"
-                  :src="$url+'/get_frontPage_product/'+item.frontPage"
-                  alt="product" />
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
+            <router-link :to="{ name: 'product-shop', params: { slug: item.slug } }">
+              <div class="product">
+                <div class="product-image">
+                  <div class="ribbon ribbon-danger" v-if="item.discount">Oferta</div><img class="img-fluid"
+                    :src="$url + '/get_frontPage_product/' + item.frontPage" alt="product" />
+                  <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
+                  </div>
+                </div>
+                <div class="py-2">
+                  <p class="text-muted text-sm mb-1">{{ item.category }}</p>
+                  <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">{{ item.title }}</a></h3>
+                  <span class="text-muted">{{ convertCurrency(item.price) }}</span>
                 </div>
               </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">{{ item.category }}</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">{{ item.title }}</a></h3><span
-                  class="text-muted">{{ convertCurrency(item.price) }}</span>
-              </div>
-            </div>
+            </router-link>
           </div>
           <!-- /product-->
         </div>
@@ -100,20 +101,23 @@
         </div>
       </div>
     </section>
-    <section class="dark-overlay py-7 d-flex align-items-center justify-content-center"><img class="bg-image" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/photo-1534126511673-b6899657816a.jpg" alt="">
+    <section class="dark-overlay py-7 d-flex align-items-center justify-content-center"><img class="bg-image"
+        src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/photo/photo-1534126511673-b6899657816a.jpg" alt="">
       <div class="overlay-content w-100">
         <div class="container">
           <div class="row">
             <div class="col-xl-6 text-white">
               <h6 class="text-uppercase text-white letter-spacing-5 mb-3"> About us</h6>
               <h1 class="display-3 fw-bold text-shadow mb-5">We are Sell</h1>
-              <p class="text-lg">One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections</p>
+              <p class="text-lg">One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in
+                his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he
+                could see his brown belly, slightly domed and divided by arches into stiff sections</p>
             </div>
           </div>
         </div>
       </div>
     </section>
-</div>
+  </div>
 </template>
 
 <script>
@@ -125,9 +129,9 @@ import axios from 'axios';
 
 export default {
   name: 'HomeView',
-  data(){
+  data() {
     return {
-      new_product : [],
+      new_product: [],
       load_new_product: true,
       product_recommended: [],
       load_product_recommended: true,
@@ -135,10 +139,10 @@ export default {
   },
 
   methods: {
-    init_new_product(){
+    init_new_product() {
       this.load_new_product = true;
-      axios.get(this.$url+'/get_new_product', {
-        headers:{
+      axios.get(this.$url + '/get_new_product', {
+        headers: {
           'Content-Type': 'application/json'
         }
       }).then((result) => {
@@ -148,10 +152,10 @@ export default {
       })
     },
 
-    init_product_recommended(){
+    init_product_recommended() {
       this.load_product_recommended = true;
-      axios.get(this.$url+'/get_product_recommended', {
-        headers:{
+      axios.get(this.$url + '/get_product_recommended', {
+        headers: {
           'Content-Type': 'application/json'
         }
       }).then((result) => {
@@ -166,7 +170,7 @@ export default {
     },
   },
 
-  beforeMount(){
+  beforeMount() {
     this.init_new_product();
     this.init_product_recommended();
     init_carrusel.init();
@@ -179,14 +183,14 @@ export default {
 </script>
 
 <style>
-.product-image{
+.product-image {
   display: block !important;
   overflow: hidden !important;
   border-bottom: 2px solid #9f4aa8 !important;
   border-radius: 10px !important;
 }
 
-.img-fluid{
+.img-fluid {
   height: auto !important;
   display: block !important;
   vertical-align: middle !important;

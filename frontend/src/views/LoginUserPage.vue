@@ -99,6 +99,12 @@ export default {
         }
     },
 
+    beforeMount(){
+        if(this.$store.state.token){
+            this.$touter.push({name: 'home'});
+        }
+    },
+
     methods:{
         // Registro de usuario y validacion
         registerUserEcomerce(){
@@ -147,6 +153,7 @@ export default {
                     this.msm_error_login = result.data.message;
                 }else{
                     this.$store.dispatch('saveToken', result.data.token);
+                    this.$store.dispatch('saveUser', JSON.stringify(result.data.userLog));
                     console.log(result)
                     this.$router.push({ name: 'home' });
                 }
