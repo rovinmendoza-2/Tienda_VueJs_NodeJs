@@ -8,5 +8,6 @@ api.get('/get_product_recommended', publicProductController.get_product_recommen
 api.get('/get_product_shop', publicProductController.get_product_shop);
 api.get('/list_category_product', publicProductController.list_category_product);
 api.get('/get_product_slug/:slug', publicProductController.get_product_slug);
+api.get('/get_product_category/:category', publicProductController.get_product_category);
 
 module.exports = api;

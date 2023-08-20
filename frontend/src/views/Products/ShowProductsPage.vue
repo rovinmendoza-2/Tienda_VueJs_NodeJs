@@ -146,7 +146,7 @@
                   <tbody>
                     <tr>
                       <th class="text-uppercase fw-normal border-0"><b>Producto</b></th>
-                      <td class="text-muted border-0" :title="product.title"><b>{{ product.title.substr(0, 30) }}...</b></td>
+                      <td class="text-muted border-0" v-if="product.title" :title="product.title"><b>{{ product.title.substr(0, 30) }}...</b></td>
                     </tr>
                     <tr>
                       <th class="text-uppercase fw-normal "><b>Categoria</b></th>
@@ -266,103 +266,23 @@
         </header>
         <div class="row">
           <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
+          <div class="col-lg-2 col-md-4 col-6" v-for="item in product_related">
             <div class="product">
               <div class="product-image">
-                <div class="ribbon ribbon-info">Fresh</div><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/serrah-galos-494312-unsplash.jpg" alt="product"/>
+                <div class="ribbon ribbon-danger" v-if="item.discount">Oferta</div><img class="img-fluid"
+                  :src="$url+'/get_frontPage_product/'+item.frontPage"
+                  alt="product" />
                 <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
                 </div>
               </div>
               <div class="py-2">
-                <p class="text-muted text-sm mb-1">Jackets</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">White Tee</a></h3><span class="text-muted">$40.00</span>
+                <p class="text-muted text-sm mb-1">{{ item.category }}</p>
+                <h3 class="h6 text-uppercase mb-1" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;" :title="item.title"><a class="text-dark" href="detail.html">{{ item.title }}</a></h3><span
+                  class="text-muted">{{ convertCurrency(item.price) }}</span>
               </div>
             </div>
           </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/kyle-loftus-590881-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Denim</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Black blouse</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image">
-                <div class="ribbon ribbon-primary">Sale</div><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/kyle-loftus-596319-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Accessories</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">College jacket</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/ethan-haddox-484912-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Denim</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Carrot-fit jeans</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/serrah-galos-494231-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Jackets</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Striped T-Shirt</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
-          <!-- product-->
-          <div class="col-lg-2 col-md-4 col-6">
-            <div class="product">
-              <div class="product-image"><img class="img-fluid" src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/averie-woodard-319832-unsplash.jpg" alt="product"/>
-                <div class="product-hover-overlay"><a class="product-hover-overlay-link" href="detail.html"></a>
-                  <div class="product-hover-overlay-buttons"><a class="btn btn-dark btn-buy" href="detail.html"><i class="fa-search fa"></i><span class="btn-buy-label ms-2">View</span></a>
-                  </div>
-                </div>
-              </div>
-              <div class="py-2">
-                <p class="text-muted text-sm mb-1">Shirts</p>
-                <h3 class="h6 text-uppercase mb-1"><a class="text-dark" href="detail.html">Short top</a></h3><span class="text-muted">$40.00</span>
-              </div>
-            </div>
-          </div>
-          <!-- /product-->
+          
         </div>
       </div>
     </section>  
@@ -382,6 +302,7 @@ export default {
           gallery: '',
           product: '',
           varieties: [],
+          product_related: [],
         }
     },
 
@@ -395,7 +316,19 @@ export default {
           this.gallery = result.data.gallery;
           this.product = result.data.product;
           this.varieties = result.data.varieties;
+          this. init_product_related(this.product.category);
           console.log(this.gallery)
+        })
+      },
+
+      init_product_related(category){
+        axios.get(this.$url+'/get_product_category/'+category, {
+          headers:{
+            'Content-Type': 'application/json'
+          }
+        }).then( (result)=> {
+          this.product_related = result.data.product
+          console.log(result);
         })
       },
 

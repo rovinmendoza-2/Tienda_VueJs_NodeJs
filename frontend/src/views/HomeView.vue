@@ -182,7 +182,6 @@ export default {
 .product-image{
   display: block !important;
   overflow: hidden !important;
-  height: 320px !important;
   border-bottom: 2px solid #9f4aa8 !important;
   border-radius: 10px !important;
 }

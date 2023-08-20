@@ -72,10 +72,20 @@ const get_product_slug = async (req, res) => {
   console.log(gallery);
 };
 
+const get_product_category = async (req, res) => {
+  const category = req.params['category'];
+
+  const product = await Product.find({category:category}).limit(6);
+  
+  res.status(200).send({product});
+  console.log(product);
+};
+
 module.exports = {
   get_new_product,
   get_product_recommended,
   get_product_shop,
   list_category_product,
-  get_product_slug
+  get_product_slug,
+  get_product_category 
 };
