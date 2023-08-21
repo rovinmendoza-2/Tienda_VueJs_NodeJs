@@ -91,13 +91,12 @@
               </div>
             </div>
             <p class="mb-4 text-muted">{{ product.description }}</p>
-            <form action="#">
-              <div class="row">
+            <div class="row">
                 <div class="col-sm-6 col-lg-12 detail-option mb-3">
                   <h6 class="detail-option-heading">{{ product.variety }}</h6>
                   <label v-for="item in varieties" class="btn btn-sm btn-outline-secondary detail-option-btn-label"
-                    :for="'variety_' + item._id">{{ item.variety }}
-                    <input class="input-invisible" type="radio" name="size" value="value_0" :id="'variety_' + item._id"
+                  :id="'variety_' + item._id" :for="'variety_' + item._id" v-on:click="getVariety(item._id)">{{ item.variety }}
+                    <input class="input-invisible" type="radio" name="size" :value="item._id" :id="'variety_' + item._id"
                       required>
                   </label>
                 </div>
@@ -125,17 +124,17 @@
                 </div> -->
                 <div class="col-12 col-lg-6 detail-option mb-5">
                   <label class="detail-option-heading fw-bold">Cantidad</label>
-                  <input class="form-control detail-quantity" name="items" type="number" value="1">
+                  <input class="form-control detail-quantity" name="items" type="number" v-model="obj_car.amount">
                 </div>
               </div>
               <ul class="list-inline">
                 <li class="list-inline-item">
-                  <button class="btn btn-dark btn-lg mb-1" type="submit"> <i class="fa fa-shopping-cart me-2"></i>Agregar
+                  <button class="btn btn-dark btn-lg mb-1" type="button" v-on:click="addToCar()"> <i class="fa fa-shopping-cart me-2"></i>Agregar
                     al carrito</button>
                 </li>
                 <!-- <li class="list-inline-item"><a class="btn btn-outline-secondary mb-1" href="#"> <i class="far fa-heart me-2"></i>Add to wishlist</a></li> -->
               </ul>
-            </form>
+              <span class="text-danger" v-if="msj_err">{{ msj_err }}</span>
           </div>
         </div>
       </div>
@@ -334,15 +333,22 @@ import { init_carrusel } from "../../../public/assets/js/theme.d7b4a888";
 import axios from 'axios';
 import currency_formatter from 'currency-formatter';
 import moment from 'moment';
+import $ from 'jquery';
+
 export default {
 
   name: 'ShowProductsPage',
   data() {
     return {
+      msj_err: '',
       gallery: '',
       product: '',
       varieties: [],
       product_related: [],
+      obj_car: {
+        amount: 1
+      },
+      user_data: JSON.parse(this.$store.state.user),
     }
   },
 
@@ -353,11 +359,14 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then((result) => {
-        this.gallery = result.data.gallery;
         this.product = result.data.product;
+
+        this.obj_car.product = this.product._id;
+        this.obj_car.customer = this.user_data._id;
+
+        this.gallery = result.data.gallery;
         this.varieties = result.data.varieties;
         this.init_product_related(this.product.category);
-        console.log(this.gallery)
       })
     },
 
@@ -378,12 +387,34 @@ export default {
 
     converDate(date) {
       return moment(date).format('YYYY-MM-DD')
-    }
+    },
 
+    getVariety(value){
+      this.obj_car.variety = value;
+      setTimeout( () => {
+        
+        $('.detail-option-btn-label').removeClass ('bg_variety');
+        $('#variety_'+value).addClass('bg_variety');
+      }, 50)
+      console.log(this.obj_car);
+    },
+
+    addToCar(){
+      if(!this.obj_car.variety){
+        this.msj_err = 'Seleccione la variedad'; 
+      }else if(!this.obj_car.amount){
+        this.msj_err = 'Ingrese la cantidad';
+      }else if(this.obj_car.amount <= 0 ){
+          this.msj_err = 'Ingrese una cantidad valida';
+      }else{
+        this.msj_err = '';
+        console.log(this.obj_car);
+      }
+      
+    }
   },
 
   beforeMount() {
-    console.log(this.$route.params.slug)
     init_carrusel.init_galery();
     init_carrusel.init_zoom();
     this.init_data();
@@ -397,4 +428,12 @@ export default {
   color: #ffffff;
   border-color: #fff #fff #7dcaf6 !important;
   background-color: #7dcaf6 !important;
-}</style>
+}
+
+.bg_variety{
+  background-color: #7dcaf6 !important;
+  color: white !important;
+  border: none !important;
+}
+
+</style>
