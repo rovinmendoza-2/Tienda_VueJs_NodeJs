@@ -7,6 +7,7 @@ const customer_router = require("./routes/customer");
 const users_router = require("./routes/users");
 const products_router = require("./routes/product");
 const public_product = require("./routes/public");
+const customer_ecomerce_router = require(".routes/customerEcomerce");
 
 app.use(bodyparser.urlencoded({ limit: "50mb", extended: true }));
 app.use(bodyparser.json({ limit: "50mb", extended: true }));
@@ -41,5 +42,6 @@ app.use("/api", customer_router);
 app.use("/api", users_router);
 app.use("/api", products_router);
 app.use("/api", public_product);
+app.use("/api", customer_ecomerce_router);
 
 module.exports = app;
