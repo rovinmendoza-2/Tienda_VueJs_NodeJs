@@ -1,6 +1,7 @@
 const Car = require('../models/car');
 const Variety = require('../models/variety');
 
+// crear carrito de compras de un cliente
 const create_product_car = async(req, res) => {
     if(req.user){
         let data = req.body;
@@ -22,6 +23,18 @@ const create_product_car = async(req, res) => {
     }
 };
 
+// obtener el carrito de compras de un cliente
+const get_product_car = async(req, res) => {
+    if(req.user){
+        let shopping = await Car.find({customer: req.user.sub})
+        .populate('product').populate('variety').sort({createdAt: -1}).limit(5);
+        res.status(200).send(shopping);
+    }else{
+        res.status(500).send({data: undefined, message: 'Error token'});
+    }
+};
+
 module.exports = {
     create_product_car,
+    get_product_car
 }
