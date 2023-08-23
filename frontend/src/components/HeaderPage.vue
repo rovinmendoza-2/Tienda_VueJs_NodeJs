@@ -308,7 +308,7 @@
                                 <a class="navbar-icon-link" id="cartdetails" href="cart.html" data-bs-target="#"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src="/assets/icons/cart.png" style="width: 25px;" />
-                                    <div class="navbar-icon-link-badge">3</div>
+                                    <div class="navbar-icon-link-badge">{{ car_length }}</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-animated dropdown-menu-end p-4"
                                     aria-labelledby="cartdetails" style="max-width: 350px !important">
@@ -329,7 +329,7 @@
                                                     </router-link>
                                                     <small class="d-block text-muted">{{ item.product.variety }}: {{ item.variety.variety }} </small>
                                                     <small class="d-block text-muted">Cantidad: {{ item.amount }} </small>
-                                                    <strong class="d-block text-sm">{{ convertCurrency(item.product.price) }} </strong></div>
+                                                    <strong class="d-block text-sm">{{ convertCurrency(item.product.price * item.amount) }} </strong></div>
                                             </div>
                                         </div>
                                         </div>
@@ -338,7 +338,7 @@
                                 <!-- total price-->
                                 <div class="navbar-cart-total"><span
                                         class="text-uppercase text-muted">Total</span><strong
-                                        class="text-uppercase">$75.00</strong></div>
+                                        class="text-uppercase">{{ convertCurrency(total) }}</strong></div>
                                 <!-- buttons-->
                                 <div class="d-flex justify-content-between">
                                     <a class="btn btn-link text-dark me-3" href="cart.html">View Cart
@@ -389,6 +389,8 @@ export default {
         return {
             user: JSON.parse(this.$store.state.user),
             shopping_car: [],
+            total: 0,
+            car_length: 0
         }
     },
 
@@ -404,7 +406,13 @@ export default {
                 'Content-Type': 'application/json'
             }
             }).then((result) => {
-                this.shopping_car = result.data;
+                this.shopping_car = result.data.shopping;
+                this.car_length = result.data.shopping_all.length;
+                // Total al carrito
+                for(let item of result.data.shopping_all){
+                    const subtotal = item.product.price * item.amount;
+                    this.total = this.total + subtotal;
+                }
                 console.log(this.shopping_car);
             })
         },

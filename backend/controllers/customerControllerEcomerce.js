@@ -28,7 +28,10 @@ const get_product_car = async(req, res) => {
     if(req.user){
         let shopping = await Car.find({customer: req.user.sub})
         .populate('product').populate('variety').sort({createdAt: -1}).limit(5);
-        res.status(200).send(shopping);
+        let shopping_all = await Car.find({customer: req.user.sub})
+        .populate('product').populate('variety').sort({createdAt: -1})
+
+        res.status(200).send({shopping, shopping_all});
     }else{
         res.status(500).send({data: undefined, message: 'Error token'});
     }
