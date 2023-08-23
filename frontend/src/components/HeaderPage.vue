@@ -17,9 +17,6 @@
                     <div class="col-sm-5 d-flex justify-content-end">
                         <!-- Language Dropdown-->
 
-                        <a style="cursor: pointer" v-if="$store.state.token" v-on:click="logout()">
-                            <span><b>Cerrar Sesion</b></span>
-                        </a>
                         <div class="dropdown border-end px-3"><a class="dropdown-toggle topbar-link" id="langsDropdown"
                                 href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-haspopup="true"
                                 aria-expanded="false"><img class="topbar-flag"
@@ -291,10 +288,16 @@
                                     class="text-sm ms-2 ms-lg-0 text-uppercase text-sm fw-bold d-none d-sm-inline d-lg-none">Log
                                     in </span>
                             </routerLink>
-                            <routerLink v-if="$store.state.token" to="/login" class="navbar-icon-link"><img src="/assets/icons/user.png" style="width: 25px;" />
+                            <a v-if="$store.state.token" class="navbar-icon-link dropdown"><img src="/assets/icons/user.png" style="width: 25px;" />
                                 <span
-                                    class="text-sm ms-2 ms-lg-0 text-uppercase text-sm fw-bold d-none d-sm-inline"> &nbsp; {{ user.name.split(' ')[0] }}</span>
-                            </routerLink>
+                                    class="text-sm ms-2 ms-lg-0 text-uppercase text-sm fw-bold d-none d-sm-inline dropdown-toggle" data-bs-target="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> &nbsp; {{ user.name.split(' ')[0] }}
+                                </span>
+                                <div class="dropdown-menu dropdown-menu-animated" aria-labelledby="categoryDropdownMenuLink" style="left:-50px !important;">
+                                    <a class="dropdown-item" href="category.html">Category - left sidebar   </a>
+                                    <a class="dropdown-item" href="category-right.html">Category - right sidebar   </a>
+                                    <a class="dropdown-item" v-on:click="logout()">Cerrar sesión</a>
+                                </div>
+                            </a>
                         </div>
                         <!-- Cart Dropdown-->
                         <div class="nav-item dropdown">
@@ -397,7 +400,8 @@ export default {
     methods: {
         logout(){
             this.$store.dispatch('logout');
-            this.$router.push({ name: 'login' });
+            if(this.$route.path !== '/') this.$router.push({ name: 'home' });
+            window.location.reload();
         },
 
         init_data() {
