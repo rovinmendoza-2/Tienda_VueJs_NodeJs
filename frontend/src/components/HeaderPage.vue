@@ -326,9 +326,9 @@
                                         <!-- cart item-->
                                         <div class="navbar-cart-product" v-for="item in shoppind_car">
                                             <div class="d-flex align-items-center">
-                                                <a href="detail.html"><img class="img-fluid navbar-cart-product-image"
+                                                <router-link :to="{ name: 'product-shop', params: { slug: item.product.slug } }"><img class="img-fluid navbar-cart-product-image"
                                                         :src="$url + '/get_frontPage_product/' + item.product.frontPage"
-                                                        alt="..." /></a>
+                                                        alt="..." /></router-link>
                                                 <div class="w-100">
                                                     <a class="navbar-cart-product-close" href="#">
                                                         <img src="/assets/icons/close.png" style="width: 15px;" />

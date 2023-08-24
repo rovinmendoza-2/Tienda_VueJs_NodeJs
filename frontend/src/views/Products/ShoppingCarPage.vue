@@ -35,33 +35,44 @@
                                         <div class="col-1"></div>
                                     </div>
                                 </div>
-                                <div class="cart-body" style="background-color: white !important">
+                                <div class="cart-body" style="background-color: white !important"  v-if="!load_data">
                                     <!-- Product-->
-                                    <div class="cart-item">
+                                    <div class="cart-item" v-for="item in shopping_car">
                                         <div class="row d-flex align-items-center text-center">
                                             <div class="col-5">
-                                                <div class="d-flex align-items-center"><a href="detail.html"><img
+                                                <div class="d-flex align-items-center">
+                                                    <router-link :to="{ name: 'product-shop', params: { slug: item.product.slug } }"><img
                                                             class="cart-item-img"
-                                                            src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-ian-dooley-347968-unsplash.jpg"
-                                                            alt="..."></a>
-                                                    <div class="cart-title text-start"><a class="text-uppercase text-dark"
-                                                            href="detail.html"><strong>Skull Tee</strong></a><br><span
-                                                            class="text-muted text-sm">Size:
-                                                            Large</span><br><span class="text-muted text-sm">Colour:
-                                                            Green</span>
+                                                            :src="$url + '/get_frontPage_product/' + item.product.frontPage"
+                                                            alt="...">
+                                                    </router-link>
+                                                    <div class="cart-title text-start">
+                                                        <router-link class="text-uppercase text-dark"
+                                                        :to="{ name: 'product-shop', params: { slug: item.product.slug } }">
+                                                        <strong>{{ item.product.title.subst(0,20) }}...</strong>
+                                                        </router-link>
+                                                        <br>
+                                                        <span class="text-muted text-sm">{{ item.product.variet }}: {{ item.variety.variety }}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-2">$65.00</div>
+                                            <div class="col-2">{{convertCurrency(item.product.price) }}</div>
                                             <div class="col-2">
-                                                4
+                                                {{ item.amount }}
                                             </div>
-                                            <div class="col-2 text-center">$260.00</div>
+                                            <div class="col-2 text-center">{{convertCurrency(item.product.price * item.amount) }}</div>
                                             <div class="col-1 text-center">
                                                 <a class="cart-remove" href="#">
                                                     <img src="/assets/media/borrar.png" style="18px">
                                                 </a>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="background-color: white !important" v-if="load_data">
+                                    <div class="row">
+                                        <div class="col-12 text-center">
+                                            <img src="/assets/media/borrar.png" style="width:60px">
                                         </div>
                                     </div>
                                 </div>
@@ -78,18 +89,15 @@
                     <div class="col-lg-4">
                         <div class="block mb-5">
                             <div class="block-header">
-                                <h6 class="text-uppercase mb-0">Order Summary</h6>
+                                <h6 class="text-uppercase mb-0">Detalle de orden</h6>
                             </div>
                             <div class="block-body bg-light pt-1">
-                                <p class="text-sm">Shipping and additional costs are calculated based on values you have
-                                    entered.</p>
+                                <p class="text-sm">😁</p>
                                 <ul class="order-summary mb-0 list-unstyled">
-                                <li class="order-summary-item"><span>Order Subtotal </span><span>$390.00</span></li>
-                                <li class="order-summary-item"><span>Shipping and handling</span><span>$10.00</span>
-                                </li>
-                                <li class="order-summary-item"><span>Tax</span><span>$0.00</span></li>
+                                <li class="order-summary-item"><span>Subtotal </span><span>{{ convertCurrency(total) }}</span></li>
+                                <li class="order-summary-item"><span>Envio</span><span>{{ convertCurrency($envio) }}</span></li>
                                 <li class="order-summary-item border-0"><span>Total</span><strong
-                                        class="order-summary-total">$400.00</strong></li>
+                                        class="order-summary-total">{{ convertCurrency(total + $envio) }}</strong></li>
                             </ul>
                         </div>
                     </div>
@@ -100,17 +108,47 @@
 </div></template>
 
 <script>
+import axios from 'axios';
+import currency_formatter from 'currency-formatter';
 
 export default {
     name: 'ShoppingCartPage',
     data(){
         return {
-
+            total: 0,
+            shopping_car: [],
+            load_data: true,
         }
     },
 
     methods: {
+        init_data() {
+            this.load_data = true;
+            if (this.$store.state.token != null) {
+                axios.get(this.$url + '/get_product_car', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': this.$store.state.token
+                    }
+                }).then((result) => {
+                    // Total al carrito
+                    for (let item of result.data.shopping_all) {
+                        const subtotal = item.product.price * item.amount;
+                        this.total = this.total + subtotal;
+                    }
+                    this.shopping_car = result.data.shopping_all
+                    console.log(this.shopping_car);
+                    this.load_data = false;
+                })
+            }
+        },
 
+        convertCurrency(number) {
+            return currency_formatter.format(number, { code: 'USD' });
+        },
+    },
+    beforeMount() {
+        this.init_data();
     }
 }
 </script>

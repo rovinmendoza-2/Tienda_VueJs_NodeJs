@@ -23,7 +23,7 @@ Vue.use(new VueSocketIO({
   },
 }))
 //---------------------------------------//
-
+Vue.prototype.$envio = 20;
 //Para usar la url servidor
 Vue.prototype.$url = 'http://localhost:4200/api';
 
