@@ -358,9 +358,9 @@
                                                 convertCurrency(total) }}</strong></div>
                                     <!-- buttons-->
                                     <div class="d-flex justify-content-between">
-                                        <a class="btn btn-link text-dark me-3" href="cart.html">View Cart
+                                        <router-link class="btn btn-link text-dark me-3" to="shopping">Carrito de compras
                                             <img src="/assets/icons/shopping-bag.png" style="width: 15px;">
-                                        </a>
+                                        </router-link>
                                         <a class="btn btn-outline-dark" href="checkout1.html">Checkout</a>
                                     </div>
                                 </div>
@@ -449,7 +449,7 @@ export default {
             this.$socket.emit('emit_method', 'Hola socket');
         }
     },
-    
+
     created() {
         this.sockets.subscribe('listen_', (data) => {
             console.log(data);
