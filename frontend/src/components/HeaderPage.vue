@@ -71,12 +71,12 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                        <router-link class="nav-link" to="/">Inicio</router-link>
+                            <router-link class="nav-link" to="/">Inicio</router-link>
                         </li>
                         <li class="nav-item">
-                        <router-link class="nav-link" :to="{name:'shop'}">Tienda</router-link>
+                            <router-link class="nav-link" :to="{ name: 'shop' }">Tienda</router-link>
                         </li>
-                        
+
                         <!-- Megamenu-->
                         <li class="nav-item dropdown position-static"><a class="nav-link dropdown-toggle " href="#"
                                 data-bs-toggle="dropdown">Categorias</a>
@@ -284,18 +284,23 @@
                         </div>
                         <!-- User Not Logged - link to login page-->
                         <div class="nav-item">
-                            <routerLink v-if="!$store.state.token" to="/login" class="navbar-icon-link"><img src="/assets/icons/user.png" style="width: 25px;" />
+                            <routerLink v-if="!$store.state.token" to="/login" class="navbar-icon-link"><img
+                                    src="/assets/icons/user.png" style="width: 25px;" />
                                 <span
                                     class="text-sm ms-2 ms-lg-0 text-uppercase text-sm fw-bold d-none d-sm-inline d-lg-none">Log
                                     in </span>
                             </routerLink>
-                            <a v-if="$store.state.token" class="navbar-icon-link dropdown"><img src="/assets/icons/user.png" style="width: 25px;" />
+                            <a v-if="$store.state.token" class="navbar-icon-link dropdown"><img src="/assets/icons/user.png"
+                                    style="width: 25px;" />
                                 <span
-                                    class="text-sm ms-2 ms-lg-0 text-uppercase text-sm fw-bold d-none d-sm-inline dropdown-toggle" data-bs-target="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> &nbsp; {{ user.name.split(' ')[0] }}
+                                    class="text-sm ms-2 ms-lg-0 text-uppercase text-sm fw-bold d-none d-sm-inline dropdown-toggle"
+                                    data-bs-target="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    &nbsp; {{ user.name.split(' ')[0] }}
                                 </span>
-                                <div class="dropdown-menu dropdown-menu-animated" aria-labelledby="categoryDropdownMenuLink" style="left:-50px !important;">
-                                    <a class="dropdown-item" href="category.html">Category - left sidebar   </a>
-                                    <a class="dropdown-item" href="category-right.html">Category - right sidebar   </a>
+                                <div class="dropdown-menu dropdown-menu-animated" aria-labelledby="categoryDropdownMenuLink"
+                                    style="left:-50px !important;">
+                                    <a class="dropdown-item" href="category.html">Category - left sidebar </a>
+                                    <a class="dropdown-item" href="category-right.html">Category - right sidebar </a>
                                     <a class="dropdown-item" v-on:click="logout()">Cerrar sesión</a>
                                 </div>
                             </a>
@@ -316,72 +321,81 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-animated dropdown-menu-end p-4"
                                     aria-labelledby="cartdetails" style="max-width: 350px !important">
-                                    <div class="navbar-cart-product-wrapper" style="overflow-x: hidden !important; max-height: 340px !important;">
+                                    <div class="navbar-cart-product-wrapper"
+                                        style="overflow-x: hidden !important; max-height: 340px !important;">
                                         <!-- cart item-->
                                         <div class="navbar-cart-product" v-for="item in shoppind_car">
                                             <div class="d-flex align-items-center">
                                                 <a href="detail.html"><img class="img-fluid navbar-cart-product-image"
-                                                    :src="$url + '/get_frontPage_product/' + item.product.frontPage"
-                                                    alt="..." /></a>
-                                            <div class="w-100">
-                                                <a class="navbar-cart-product-close" href="#">
-                                                    <img src="/assets/icons/close.png" style="width: 15px;" />
-                                                </a>
-                                                <div class="ps-3">
-                                                    <router-link :to="{name: 'product-shop', params: {slug: item.product.slug}}" class="navbar-cart-product-link"
-                                                        style="text-overflow: ellipsis; overflow: hidden white-space: nowrap;">{{ item.product.title }}
-                                                    </router-link>
-                                                    <small class="d-block text-muted">{{ item.product.variety }}: {{ item.variety.variety }} </small>
-                                                    <small class="d-block text-muted">Cantidad: {{ item.amount }} </small>
-                                                    <strong class="d-block text-sm">{{ convertCurrency(item.product.price * item.amount) }} </strong></div>
+                                                        :src="$url + '/get_frontPage_product/' + item.product.frontPage"
+                                                        alt="..." /></a>
+                                                <div class="w-100">
+                                                    <a class="navbar-cart-product-close" href="#">
+                                                        <img src="/assets/icons/close.png" style="width: 15px;" />
+                                                    </a>
+                                                    <div class="ps-3">
+                                                        <router-link
+                                                            :to="{ name: 'product-shop', params: { slug: item.product.slug } }"
+                                                            class="navbar-cart-product-link"
+                                                            style="text-overflow: ellipsis; overflow: hidden white-space: nowrap;">{{
+                                                                item.product.title }}
+                                                        </router-link>
+                                                        <small class="d-block text-muted">{{ item.product.variety }}: {{
+                                                            item.variety.variety }} </small>
+                                                        <small class="d-block text-muted">Cantidad: {{ item.amount }}
+                                                        </small>
+                                                        <strong class="d-block text-sm">{{
+                                                            convertCurrency(item.product.price * item.amount) }} </strong>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        </div>
-                                    
-                                </div>
-                                <!-- total price-->
-                                <div class="navbar-cart-total"><span
-                                        class="text-uppercase text-muted">Total</span><strong
-                                        class="text-uppercase">{{ convertCurrency(total) }}</strong></div>
-                                <!-- buttons-->
-                                <div class="d-flex justify-content-between">
-                                    <a class="btn btn-link text-dark me-3" href="cart.html">View Cart
-                                        <img src="/assets/icons/shopping-bag.png" style="width: 15px;">
-                                    </a>
-                                    <a class="btn btn-outline-dark" href="checkout1.html">Checkout</a>
+
+                                    </div>
+                                    <!-- total price-->
+                                    <div class="navbar-cart-total"><span
+                                            class="text-uppercase text-muted">Total</span><strong class="text-uppercase">{{
+                                                convertCurrency(total) }}</strong></div>
+                                    <!-- buttons-->
+                                    <div class="d-flex justify-content-between">
+                                        <a class="btn btn-link text-dark me-3" href="cart.html">View Cart
+                                            <img src="/assets/icons/shopping-bag.png" style="width: 15px;">
+                                        </a>
+                                        <a class="btn btn-outline-dark" href="checkout1.html">Checkout</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
-        </div>
-    </nav>
-    <!-- /Navbar -->
-    <!-- Fullscreen search area-->
-    <div class="search-area-wrapper">
-        <div class="search-area d-flex align-items-center justify-content-center">
-            <div class="close-btn">
-                <svg class="svg-icon svg-icon-light w-3rem h-3rem">
-                    <use xlink:href="#close-1"> </use>
-                </svg>
-            </div>
-            <form class="search-area-form" action="#">
-                <div class="mb-4 position-relative">
-                    <input class="search-area-input" type="search" name="search" id="search"
-                        placeholder="What are you looking for?">
-                    <button class="search-area-button" type="submit">
-                        <svg class="svg-icon">
-                            <use xlink:href="#search-1"> </use>
-                        </svg>
-                    </button>
                 </div>
-            </form>
+            </div>
+        </nav>
+        <!-- /Navbar -->
+        <!-- Fullscreen search area-->
+        <div class="search-area-wrapper">
+            <div class="search-area d-flex align-items-center justify-content-center">
+                <div class="close-btn">
+                    <svg class="svg-icon svg-icon-light w-3rem h-3rem">
+                        <use xlink:href="#close-1"> </use>
+                    </svg>
+                </div>
+                <form class="search-area-form" action="#">
+                    <div class="mb-4 position-relative">
+                        <input class="search-area-input" type="search" name="search" id="search"
+                            placeholder="What are you looking for?">
+                        <button class="search-area-button" type="submit">
+                            <svg class="svg-icon">
+                                <use xlink:href="#search-1"> </use>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    <!-- /Fullscreen search area-->
-</header></template>
+        <!-- /Fullscreen search area-->
+    </header>
+</template>
 
 <script>
 import axios from 'axios';
@@ -399,52 +413,57 @@ export default {
     },
 
     methods: {
-        logout(){
+        logout() {
             this.$store.dispatch('logout');
-            if(this.$route.path !== '/') this.$router.push({ name: 'home' });
-            window.location.reload();
+            if (this.$route.path !== '/') this.$router.push({ name: 'home' });
+            //window.location.reload();
+            this.shopping_car = [];
+            this.car_length = 0;
         },
 
         init_data() {
-            axios.get(this.$url + '/get_product_car', {
-            headers: {
-                'Content-Type': 'application/json'
+            if (this.$store.state.token != null) {
+                axios.get(this.$url + '/get_product_car', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': this.$store.state.token
+                    }
+                }).then((result) => {
+                    this.shopping_car = result.data.shopping;
+                    this.car_length = result.data.shopping_all.length;
+                    // Total al carrito
+                    for (let item of result.data.shopping_all) {
+                        const subtotal = item.product.price * item.amount;
+                        this.total = this.total + subtotal;
+                    }
+                    console.log(this.shopping_car);
+                })
             }
-            }).then((result) => {
-                this.shopping_car = result.data.shopping;
-                this.car_length = result.data.shopping_all.length;
-                // Total al carrito
-                for(let item of result.data.shopping_all){
-                    const subtotal = item.product.price * item.amount;
-                    this.total = this.total + subtotal;
-                }
-                console.log(this.shopping_car);
-            })
         },
 
         convertCurrency(number) {
             return currency_formatter.format(number, { code: 'USD' });
         },
 
-        emit_event(){
+        emit_event() {
             this.$socket.emit('emit_method', 'Hola socket');
         }
     },
+    
     created() {
-        this.sockets.subscribe('semit_method', (data) => {
-            this.msg = data.message;
+        this.sockets.subscribe('listen_', (data) => {
+            console.log(data);
+            this.init_data();
+            this.user = JSON.parse(this.$store.state.user);
         });
     },
 
-    beforeMount(){
+    beforeMount() {
         this.init_data();
     }
 }
 </script>
 
-<style>
-.navbar-fixed-light.fixed-top .navbar-nav .nav-link {
+<style>.navbar-fixed-light.fixed-top .navbar-nav .nav-link {
     color: rgb(78 23 99 / 65%) !important;
-}
-
-</style>
+}</style>

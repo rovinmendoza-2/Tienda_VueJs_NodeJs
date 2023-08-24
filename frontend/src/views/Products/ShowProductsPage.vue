@@ -415,6 +415,7 @@ export default {
           'Authorization': this.$store.state.token
         }
       }).then((result) => {
+        this.$socket.emit('send_car', true)
         console.log(result);
       })
       }

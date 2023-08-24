@@ -156,6 +156,7 @@ export default {
                     this.$store.dispatch('saveUser', JSON.stringify(result.data.userLog));
                     console.log(result)
                     this.$router.push({ name: 'home' });
+                    this.$socket.emit('send_car', true)
                 }
             }).catch( (err)=> {
                 console.log(err);

@@ -14,9 +14,9 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket) => {
-  socket.on('emit_method', function(data) {
+  socket.on('send_car', function(data) {
     console.log(data);
-    io.emit('semit_method', data);
+    io.emit('listen_car', data);
   })
 });
 /////////////////////////////////////////////////////
