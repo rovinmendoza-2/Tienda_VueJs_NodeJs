@@ -37,7 +37,18 @@ const get_product_car = async(req, res) => {
     }
 };
 
+const delete_product_car = async(req, res) => {
+    if(req.user){
+        const id = req.params['id'];
+        const reg = await Car.findByIdAndRemove({_id:id});
+        res.status(200).send(reg);
+    }else{
+        res.status(500).send({data: undefined, message: 'Error token'});
+    }
+};
+
 module.exports = {
     create_product_car,
-    get_product_car
+    get_product_car,
+    delete_product_car
 }

@@ -62,7 +62,7 @@
                                             </div>
                                             <div class="col-2 text-center">{{convertCurrency(item.product.price * item.amount) }}</div>
                                             <div class="col-1 text-center">
-                                                <a class="cart-remove" href="#">
+                                                <a class="cart-remove" style="cursor: pointer" v-on:click="delete_product_car(item._id)">
                                                     <img src="/assets/media/borrar.png" style="18px">
                                                 </a>
                                             </div>
@@ -132,6 +132,7 @@ export default {
                     }
                 }).then((result) => {
                     // Total al carrito
+                    this.total = 0;
                     for (let item of result.data.shopping_all) {
                         const subtotal = item.product.price * item.amount;
                         this.total = this.total + subtotal;
@@ -146,7 +147,21 @@ export default {
         convertCurrency(number) {
             return currency_formatter.format(number, { code: 'USD' });
         },
+
+        delete_product_car(id){
+            axios.get(this.$url + '/delete_product_car/'+id, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': this.$store.state.token
+                    }
+                }).then((result) => {
+                    console.log(result);
+                    this.init_data();
+                    this.$socket.emit('send_car', true)
+                })
+        }
     },
+
     beforeMount() {
         this.init_data();
     }

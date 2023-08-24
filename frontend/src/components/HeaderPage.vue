@@ -431,8 +431,9 @@ export default {
                 }).then((result) => {
                     this.shopping_car = result.data.shopping;
                     this.car_length = result.data.shopping_all.length;
+                    this.total = 0;
                     // Total al carrito
-                    for (let item of result.data.shopping_all) {
+                    for (var item of result.data.shopping_all) {
                         const subtotal = item.product.price * item.amount;
                         this.total = this.total + subtotal;
                     }
