@@ -17,6 +17,7 @@
                     <div class="col-sm-5 d-flex justify-content-end">
                         <!-- Language Dropdown-->
 
+                        <button v-on:click="emit_event()">emit</button>
                         <div class="dropdown border-end px-3"><a class="dropdown-toggle topbar-link" id="langsDropdown"
                                 href="#" data-bs-toggle="dropdown" data-bs-display="static" aria-haspopup="true"
                                 aria-expanded="false"><img class="topbar-flag"
@@ -424,6 +425,15 @@ export default {
         convertCurrency(number) {
             return currency_formatter.format(number, { code: 'USD' });
         },
+
+        emit_event(){
+            this.$socket.emit('emit_method', 'Hola socket');
+        }
+    },
+    created() {
+        this.sockets.subscribe('semit_method', (data) => {
+            this.msg = data.message;
+        });
     },
 
     beforeMount(){

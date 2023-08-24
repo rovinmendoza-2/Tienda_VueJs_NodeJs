@@ -3,6 +3,24 @@ const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const app = express();
 
+///////////////////////////////////////////////
+//Socket
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+  cors: { origin: '*'}
+});
+
+io.on("connection", (socket) => {
+  socket.on('emit_method', function(data) {
+    console.log(data);
+    io.emit('semit_method', data);
+  })
+});
+/////////////////////////////////////////////////////
+
 const customer_router = require("./routes/customer");
 const users_router = require("./routes/users");
 const products_router = require("./routes/product");
@@ -19,7 +37,7 @@ mongoose
   .connect("mongodb://127.0.0.1:27017/tienda")
   .then(() => {
     console.log("Conexión exitosa a la base de datos");
-    app.listen(port, () => {
+    httpServer.listen(port, () => {
       console.log("El servidor se ejecuto en el puerto 4200");
     });
   })
