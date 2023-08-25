@@ -6,5 +6,6 @@ const api = express.Router();
 
 api.post('/create_product_car', cauthenticate.decodeToken, customerController.create_product_car);
 api.get('/get_product_car', cauthenticate.decodeToken, customerController.get_product_car);
+api.dele('/delete_product_car/:id', cauthenticate.decodeToken, customerController.delete_product_car);
 
 module.exports = api;
