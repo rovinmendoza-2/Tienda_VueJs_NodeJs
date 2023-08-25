@@ -300,7 +300,7 @@
                                 <div class="dropdown-menu dropdown-menu-animated" aria-labelledby="categoryDropdownMenuLink"
                                     style="left:-50px !important;">
                                     <a class="dropdown-item" href="category.html">Category - left sidebar </a>
-                                    <a class="dropdown-item" href="category-right.html">Category - right sidebar </a>
+                                    <router-link class="dropdown-item" to="/cuenta/direcciones">Direcciones</router-link>
                                     <a class="dropdown-item" v-on:click="logout()">Cerrar sesión</a>
                                 </div>
                             </a>

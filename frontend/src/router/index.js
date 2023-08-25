@@ -6,6 +6,8 @@ import IndexProductsPage from '../views/Products/IndexProductsPage.vue';
 import ShowProductsPage from '../views/Products/ShowProductsPage.vue';
 import ShoppingCarPage from '../views/Products/ShoppingCarPage.vue';
 
+import AddressPage from '../views/Address/AddressPage.vue';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -14,6 +16,10 @@ const routes = [
   { path: '/shop', name: 'shop', component: IndexProductsPage },
   { path: '/produt/:slug', name: 'product-shop', component: ShowProductsPage },
   { path: '/shopping', name: 'shopping-car', component: ShoppingCarPage },
+
+
+  // rutas para direcciones
+  { path: '/cuenta/direcciones', name: 'direccion', component: AddressPage },
 ]
 
 const router = new VueRouter({
