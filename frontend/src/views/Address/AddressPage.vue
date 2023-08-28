@@ -80,12 +80,44 @@
                         <div class="text-center" v-if="mess_err">
                             <span class="text-danger">{{ mess_err }}</span>
                         </div>
-                        <div class="table table-bordered table-striped" style="margin-top: 5rem !important; background-color: white !important;">
-                            <thead class="table-dark">
+
+                        <table v-if="addres_data.length >= 1" class="table table-bordered table-striped" style="margin-top: 5rem !important; background-color: white !important;">
+                            <thead class="table-green">
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">Receptor</th>
+                                    <th scope="col">Localizacion</th>
+                                    <th scope="col">Direcciones</th>
+                                    <th scope="col">Opciones</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <tr v-for="item in addres_data">
+                                    <th scope="row">
+                                        <small>{{ item.name }} {{ item.lastName }}</small><br>
+                                        <small>{{ item.phone }}</small>
+                                    </th>
+                                    <td>
+                                        <small>{{ item.country }} {{ item.city }}</small><br>
+                                        <small>{{ item.code }}</small>
+                                    </td>
+                                    <td>{{ item.address }}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-danger btn-sm">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div class="card" v-if="addres_data.length == 0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <img src="/assets/media/tailandes.gif" style="width: 40px">
+                                        <h3>Aun no tienes direcciones</h3>
+                                        <span>Ingresa tu direccion</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Customer Sidebar-->
@@ -145,6 +177,8 @@ export default {
                 city: ''
             },
             mess_err: '',
+            addres_data: [],
+
         }
     },
 
@@ -174,10 +208,25 @@ export default {
                     }
                 }).then( (result) => {
                     console.log(result);
+                    this.init_data();
                 })
             }
             
+        },
+        init_data(){
+            axios.get(this.$url+'/get_addres_customer', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization' : this.$store.state.token
+                }
+                }).then( (result) => {
+                console.log(result);
+                this.addres_data = result.data;
+            })
         }
+    },
+    beforeMount(){
+        this.init_data();
     }
 }
 </script>
