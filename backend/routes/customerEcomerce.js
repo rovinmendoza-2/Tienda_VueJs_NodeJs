@@ -11,5 +11,6 @@ api.delete('/delete_product_car/:id', cauthenticate.decodeToken, customerControl
 
 api.post('/create_addres_customer', cauthenticate.decodeToken, customerController.create_addres_customer);
 api.get('/get_addres_customer', cauthenticate.decodeToken, customerController.get_addres_customer);
+api.delete('/delete_addres_customer/:id', cauthenticate.decodeToken, customerController.delete_addres_customer);
 
 module.exports = api;

@@ -102,7 +102,7 @@
                                     </td>
                                     <td>{{ item.address }}</td>
                                     <td class="text-center">
-                                        <button class="btn btn-danger btn-sm">Eliminar</button>
+                                        <button class="btn btn-danger btn-sm" v-on:click="delete_address(item._id)">Eliminar</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -174,7 +174,7 @@ export default {
     data() {
         return {
             address: {
-                city: ''
+                country: ''
             },
             mess_err: '',
             addres_data: [],
@@ -209,6 +209,9 @@ export default {
                 }).then( (result) => {
                     console.log(result);
                     this.init_data();
+                    this.address = {
+                        country: ''
+                    }
                 })
             }
             
@@ -223,7 +226,19 @@ export default {
                 console.log(result);
                 this.addres_data = result.data;
             })
-        }
+        },
+
+        delete_address(id){
+            axios.delete(this.$url+'/delete_addres_customer/'+id, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization' : this.$store.state.token
+                }
+                }).then( (result) => {
+                console.log(result);
+                this.init_data();
+            })
+        },
     },
     beforeMount(){
         this.init_data();
