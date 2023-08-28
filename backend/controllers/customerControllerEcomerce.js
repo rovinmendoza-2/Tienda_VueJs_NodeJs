@@ -60,10 +60,20 @@ const create_addres_customer = async(req, res) => {
     }
 };
 
+const get_addres_customer = async(req, res) => {
+    if(req.user){
+        const address = await Address.find({customer: req.user.sub});
+        res.status(200).send(address);
+    }else{
+        res.status(500).send({data: undefined, message: 'Error token'});
+    }
+};
+
 
 module.exports = {
     create_product_car,
     get_product_car,
     delete_product_car,
-    create_addres_customer
+    create_addres_customer,
+    get_addres_customer
 }
