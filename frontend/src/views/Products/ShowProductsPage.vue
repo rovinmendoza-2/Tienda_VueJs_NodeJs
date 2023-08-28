@@ -409,10 +409,10 @@ export default {
       }else{
         this.msj_err = '';
         console.log(this.obj_car);
-        axios.post(this.$url + '/create_product_car/', this.obj_car, {
+        axios.post(this.$url + '/create_product_car', this.obj_car, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': this.$store.state.token
+          'Authorization' : this.$store.state.token
         }
       }).then((result) => {
         this.$socket.emit('send_car', true)

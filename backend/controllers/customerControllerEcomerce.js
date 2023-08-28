@@ -1,9 +1,11 @@
-const Car = require('../models/car');
+const Address = require('../models/address');
+const Car = require('../models/shopping');
 const Variety = require('../models/variety');
 
 // crear carrito de compras de un cliente
 const create_product_car = async(req, res) => {
     if(req.user){
+        console.log("verifi", req.user);
         let data = req.body;
 
         const variety = await Variety.findById({_id:data.variety}).populate('product');
@@ -47,8 +49,21 @@ const delete_product_car = async(req, res) => {
     }
 };
 
+const create_addres_customer = async(req, res) => {
+    if(req.user){
+        const data = req.body;
+        data.customer = req.user.sub;
+        const address = await Address.create(data);
+        res.status(200).send(address);
+    }else{
+        res.status(500).send({data: undefined, message: 'Error token'});
+    }
+};
+
+
 module.exports = {
     create_product_car,
     get_product_car,
-    delete_product_car
+    delete_product_car,
+    create_addres_customer
 }

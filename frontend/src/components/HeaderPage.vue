@@ -324,7 +324,7 @@
                                     <div class="navbar-cart-product-wrapper"
                                         style="overflow-x: hidden !important; max-height: 340px !important;">
                                         <!-- cart item-->
-                                        <div class="navbar-cart-product" v-for="item in shoppind_car">
+                                        <div class="navbar-cart-product" v-for="item in shopping_car">
                                             <div class="d-flex align-items-center">
                                                 <router-link :to="{ name: 'product-shop', params: { slug: item.product.slug } }"><img class="img-fluid navbar-cart-product-image"
                                                         :src="$url + '/get_frontPage_product/' + item.product.frontPage"
@@ -461,6 +461,7 @@ export default {
 
     beforeMount() {
         this.init_data();
+        console.log("token header", this.$store.state.token)
     }
 }
 </script>

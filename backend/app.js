@@ -25,7 +25,7 @@ const customer_router = require("./routes/customer");
 const users_router = require("./routes/users");
 const products_router = require("./routes/product");
 const public_product = require("./routes/public");
-const customer_ecomerce_router = require(".routes/customerEcomerce");
+const customer_ecomerce_router = require("./routes/customerEcomerce");
 
 app.use(bodyparser.urlencoded({ limit: "50mb", extended: true }));
 app.use(bodyparser.json({ limit: "50mb", extended: true }));

@@ -8,7 +8,7 @@ const IncomeSchema = Schema({
     total_amount:       {type: String, required: true},
     series:             {type: Number, required: false},
     resulting_amount:   {type: String, required: true},
-    user:               {type: Schema.ObjectId, ref: 'usuario', require: true},
+    user:               {type: Schema.ObjectId, ref: 'user', require: true},
     createdAt:          {type: Date, default: Date.now}
 });
 

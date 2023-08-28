@@ -10,7 +10,7 @@ exports.decodeToken = (req, res, next) => {
     }
     const token = req.headers.authorization;
     const segment = token.split('.');
-    console.log(token);
+    console.log("ctoken", token);
     //validamos que el token tenga las tres partes
     if(segment.length != 3){
         return res.status(403).send({message: 'InvalidToken'});
@@ -18,7 +18,7 @@ exports.decodeToken = (req, res, next) => {
         //Validamos que el token sea correcto
         try{
             var payload = jwt.decode(token, secret);
-            console.log(payload);
+            console.log("cauthenticate",payload);
         }catch (error){
             console.log(error);
             return res.status(403).send({message: 'ErrorToken'});

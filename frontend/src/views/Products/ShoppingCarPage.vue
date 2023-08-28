@@ -125,10 +125,10 @@ export default {
         init_data() {
             this.load_data = true;
             if (this.$store.state.token != null) {
-                axios.get(this.$url + '/get_product_car', {
+                axios.get(this.$url+'/get_product_car',{
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': this.$store.state.token
+                        'Authorization' : this.$store.state.token
                     }
                 }).then((result) => {
                     // Total al carrito
@@ -163,7 +163,8 @@ export default {
     },
 
     beforeMount() {
-        this.init_data();
+        //this.init_data();
+        console.log("token", this.$store.state.token)
     }
 }
 </script>

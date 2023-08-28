@@ -1,7 +1,7 @@
 const jwt = require('jwt-simple');
 const moment = require('moment');
 
-const secret = 'customer123';
+const secret = '123456';
 
 exports.createToken = (customer) => {
     const payload = {

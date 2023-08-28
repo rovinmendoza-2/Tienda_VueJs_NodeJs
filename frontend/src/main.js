@@ -24,6 +24,7 @@ Vue.use(new VueSocketIO({
 }))
 //---------------------------------------//
 Vue.prototype.$envio = 20;
+Vue.prototype.$country = ['Honduras', 'El Salvador', 'Nicaragua', 'Costa Rica', 'Panama']
 //Para usar la url servidor
 Vue.prototype.$url = 'http://localhost:4200/api';
 

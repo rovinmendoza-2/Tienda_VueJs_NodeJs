@@ -28,44 +28,44 @@
                                 <div class="row">
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label" for="fullname_invoice"><b>Nombres</b></label>
-                                        <input class="form-control" type="text" name="fullname_invoice"
-                                            placeholder="Joe" id="fullname_invoice" />
+                                        <input class="form-control" type="text" placeholder="Joe" v-model="address.name"/>
                                     </div>
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label" for="emailaddress_invoice"><b>Apellidos</b></label>
-                                        <input class="form-control" type="text" name="emailaddress_invoice"
-                                            placeholder="black" id="emailaddress_invoice" />
+                                        <input class="form-control" type="text"
+                                            placeholder="black" v-model="address.lastName"/>
                                     </div>
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label" for="street_invoice"><b>Documento</b></label>
-                                        <input class="form-control" type="text" name="street_invoice"
-                                            placeholder="10282000292" id="street_invoice" />
+                                        <input class="form-control" type="text"
+                                            placeholder="10282000292" v-model="address.idDocument" />
                                     </div>
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label" for="city_invoice"><b>Telefono</b></label>
-                                        <input class="form-control" type="text" name="city_invoice" placeholder="(+504) 86967340"
-                                            id="city_invoice" />
+                                        <input class="form-control" type="text" placeholder="(+504) 86967340"
+                                        v-model="address.phone"/>
                                     </div>
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label" for="zip_invoice"><b>Pais</b></label>
-                                        <select name="" class="form-control" id="">
+                                        <select class="form-control" v-model="address.country">
                                             <option value="" disabled selected>Seleccionar</option>
+                                            <option :value="item" v-for="item in $country">{{ item }}</option>
                                         </select>
                                     </div>
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label" for="state_invoice"><b>Region/Ciudad</b></label>
-                                        <input class="form-control" type="text" name="state_invoice" placeholder="Fracisco Morazan/Tegucigalpa"
-                                            id="state_invoice" />
+                                        <input class="form-control" type="text" placeholder="Fracisco Morazan/Tegucigalpa"
+                                        v-model="address.city"/>
                                     </div>
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label" for="phonenumber_invoice"><b>Codigo Postal</b></label>
-                                        <input class="form-control" type="text" name="12526"
-                                            placeholder="Phone Number" id="phonenumber_invoice" />
+                                        <input class="form-control" type="text"
+                                            placeholder="Phone Number" v-model="address.code" />
                                     </div>
                                     <div class="form-group col-md-6 mb-3">
                                         <label class="form-label" for="state_invoice"><b>Direccion</b></label>
-                                        <input class="form-control" type="text" name="state_invoice" placeholder="Miraflores"
-                                            id="state_invoice" />
+                                        <input class="form-control" type="text"  placeholder="Miraflores"
+                                        v-model="address.address"/>
                                     </div>
                                 </div>
                                 <!-- /Invoice Address-->
@@ -73,9 +73,12 @@
                             
                         </div>
                         <div class="mb-4 mt-3 text-center mb-5">
-                            <button class="btn btn-dark" type="submit">
+                            <button class="btn btn-dark" type="button" v-on:click="create_address()">
                                 <i class="far fa-save me-2"></i>Guardar direccion
                             </button>
+                        </div>
+                        <div class="text-center" v-if="mess_err">
+                            <span class="text-danger">{{ mess_err }}</span>
                         </div>
                         <div class="table table-bordered table-striped" style="margin-top: 5rem !important; background-color: white !important;">
                             <thead class="table-dark">
@@ -132,16 +135,49 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'AddressPage',
     data() {
         return {
-
+            address: {
+                city: ''
+            },
+            mess_err: '',
         }
     },
 
     methods: {
-
+        create_address(){
+            if(!this.address.name){
+                this.mess_err = 'Ingrese los nombres por favor';
+            }else if(!this.address.lastName){
+                this.mess_err = 'Ingrese sus apellidos por favor';
+            }else if(!this.address.idDocument){
+                this.mess_err = 'Ingrese su ID por favor';
+            }else if(!this.address.phone){
+                this.mess_err = 'Ingrese su numero por favor';
+            }else if(!this.address.country){
+                this.mess_err = 'Seleccione el pais por favor';
+            }else if(!this.address.city){
+                this.mess_err = 'Ingres la region o ciudad';
+            }else if(!this.address.code){
+                this.mess_err = 'Ingrese el codigo postal por favor';
+            }else if(!this.address.address){
+                this.mess_err = 'Ingrese la direccion por favor';
+            }else{
+                axios.post(this.$url+'/create_addres_customer', this.address, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization' : this.$store.state.token
+                    }
+                }).then( (result) => {
+                    console.log(result);
+                })
+            }
+            
+        }
     }
 }
 </script>
