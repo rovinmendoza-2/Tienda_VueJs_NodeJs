@@ -69,11 +69,22 @@ const get_addres_customer = async(req, res) => {
     }
 };
 
+const delete_addres_customer = async(req, res) => {
+    if(req.user){
+        const id = req.params['id']
+        const address = await Address.findByIdAndRemove({_id:id});
+        res.status(200).send(address);
+    }else{
+        res.status(500).send({data: undefined, message: 'Error token'});
+    }
+};
+
 
 module.exports = {
     create_product_car,
     get_product_car,
     delete_product_car,
     create_addres_customer,
-    get_addres_customer
+    get_addres_customer,
+    delete_addres_customer
 }
