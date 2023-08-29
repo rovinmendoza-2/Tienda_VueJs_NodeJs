@@ -31,29 +31,13 @@
                             </div>
                             <div class="block-body" style="background-color:  #f7ece4 !important">
                                 <div class="row">
-                                    <div class="mb-4 col-md-6 d-flex align-items-center">
-                                        <input type="radio" name="shippping" id="option0">
-                                        <label class="ms-3" for="option0"><strong class="d-block text-uppercase mb-2">Usps
-                                                next day</strong><span class="text-muted text-sm">Get it right on next day -
-                                                fastest option possible.</span></label>
-                                    </div>
-                                    <div class="mb-4 col-md-6 d-flex align-items-center">
-                                        <input type="radio" name="shippping" id="option1">
-                                        <label class="ms-3" for="option1"><strong class="d-block text-uppercase mb-2">Usps
-                                                next day</strong><span class="text-muted text-sm">Get it right on next day -
-                                                fastest option possible.</span></label>
-                                    </div>
-                                    <div class="mb-4 col-md-6 d-flex align-items-center">
-                                        <input type="radio" name="shippping" id="option2">
-                                        <label class="ms-3" for="option2"><strong class="d-block text-uppercase mb-2">Usps
-                                                next day</strong><span class="text-muted text-sm">Get it right on next day -
-                                                fastest option possible.</span></label>
-                                    </div>
-                                    <div class="mb-4 col-md-6 d-flex align-items-center">
-                                        <input type="radio" name="shippping" id="option3">
-                                        <label class="ms-3" for="option3"><strong class="d-block text-uppercase mb-2">Usps
-                                                next day</strong><span class="text-muted text-sm">Get it right on next day -
-                                                fastest option possible.</span></label>
+                                    <div class="mb-4 col-md-6 d-flex align-items-center" v-for="item in addres_data">
+                                        <input type="radio" name="shippping" id="option0" :value="item._id" v-on:change="selected_address($event)">
+                                        <label class="ms-3" for="option0">
+                                            <strong class="d-block text-uppercase mb-2">{{ item.country }}, {{ item.city }}</strong>
+                                            <span class="text-muted text-sm">{{ item.address }}</span><br>
+                                            <span class="text-muted text-sm">{{ item.name }}, {{ item.lastName }}, {{ item.phone }}</span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -217,17 +201,35 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 export default {
     name: 'CheckoutPage',
     data() {
         return {
-
+            addres_data: [],
+            sales: {},
         }
     },
 
     methods: {
-
+        init_data(){
+            axios.get(this.$url+'/get_addres_customer', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization' : this.$store.state.token
+                }
+                }).then( (result) => {
+                console.log(result);
+                this.addres_data = result.data;
+            })
+        },
+        selected_address($event){
+            console.log($event.target.value);
+            this.sales = $event.target.value;
+        }
+    },
+    beforeMount(){
+        this.init_data();
     }
 }
 </script>
