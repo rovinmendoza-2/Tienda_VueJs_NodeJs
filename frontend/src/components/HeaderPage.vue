@@ -361,7 +361,7 @@
                                         <router-link class="btn btn-link text-dark me-3" to="shopping">Carrito de compras
                                             <img src="/assets/icons/shopping-bag.png" style="width: 15px;">
                                         </router-link>
-                                        <a class="btn btn-outline-dark" href="checkout1.html">Checkout</a>
+                                        <router-link to="/checkout" class="btn btn-outline-dark" >Checkout</router-link>
                                     </div>
                                 </div>
                             </div>

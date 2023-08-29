@@ -21,7 +21,7 @@
 
                         <div class="block">
                             <!-- Invoice Address-->
-                            <div class="block-header" style="background-color: aqua">
+                            <div class="block-header" style="background-color: #7dcaf6">
                                 <h6 class="text-uppercase mb-0 text-white">Nueva direccion</h6>
                             </div>
                             <div class="block-body">

@@ -7,6 +7,7 @@ import ShowProductsPage from '../views/Products/ShowProductsPage.vue';
 import ShoppingCarPage from '../views/Products/ShoppingCarPage.vue';
 
 import AddressPage from '../views/Address/AddressPage.vue';
+import CheckoutPage from '../views/CheckoutPage.vue';
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,9 @@ const routes = [
 
   // rutas para direcciones
   { path: '/cuenta/direcciones', name: 'direccion', component: AddressPage },
+
+  // rutas para mercado pago
+  { path: '/checkout', name: 'checkout', component: CheckoutPage},
 ]
 
 const router = new VueRouter({

@@ -81,9 +81,9 @@
                         <div class="my-5 d-flex justify-content-between flex-column flex-lg-row">
                             <router-link class="btn btn-link text-muted" to="/shop">Continuar comprando
                             </router-link>
-                            <a class="btn btn-dark">Proceed to checkout
+                            <router-link to="/checkout"  class="btn btn-dark">Proceed to checkout
                                 <i class="fa fa-chevron-right"></i>
-                            </a>
+                            </router-link>
                         </div>
                     </div>
                     <div class="col-lg-4">
