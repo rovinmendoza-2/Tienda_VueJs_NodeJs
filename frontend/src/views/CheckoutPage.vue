@@ -173,6 +173,7 @@ export default {
             total: 0,
             product: [],
             load_data: true,
+            items: [],
 
         }
     },
@@ -208,7 +209,21 @@ export default {
                     for (let item of result.data.shopping_all) {
                         const subtotal = item.product.price * item.amount;
                         this.total = this.total + subtotal;
+
+                        
+                        this.items.push({
+                            title: item.product.title,
+                            quantity: item.amount,
+                            unit_price: item.product.price,
+                            currency_id: 'USD'
+                        })
                     }
+                    this.items.push({
+                            title: 'Envio',
+                            quantity: 1,
+                            unit_price: this.$envio,
+                            currency_id: 'USD'
+                        })
                     this.product = result.data.shopping_all
                     console.log(this.product);
                     this.load_data = false;
@@ -219,6 +234,26 @@ export default {
         convertCurrency(number) {
             return currency_formatter.format(number, { code: 'USD' });
         },
+
+        // paymentMarket(){
+        //     let data = {
+        //         back_urls: {
+        //             success: 'http://localhost:8080/check/success',
+        //             pending: 'http://localhost:8080/check/pending',
+        //             failure: 'http://localhost:8080/check/failure'
+        //         },
+        //         items: this.items,
+        //         auto_return: 'approved',
+        //     }
+        //     axios.post('http://', data, {
+        //         headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'Authorization' : 'Beares TEST'
+        //             }
+        //     }).then( (result)=> {
+        //         console.log(result);
+        //     })
+        // }
     },
     beforeMount(){
         this.init_data();
