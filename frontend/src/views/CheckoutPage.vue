@@ -65,68 +65,28 @@
                                     </div>
                                     <div class="cart-body" style="background-color:  #f7ece4 !important">
                                         <!-- Product-->
-                                        <div class="cart-item">
+                                        <div class="cart-item" v-for="item in product">
                                             <div class="row d-flex align-items-center text-center">
                                                 <div class="col-6">
-                                                    <div class="d-flex align-items-center"><a href="detail.html"><img
-                                                                class="cart-item-img"
-                                                                src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-ian-dooley-347968-unsplash.jpg"
-                                                                alt="..."></a>
-                                                        <div class="cart-title text-start"><a
+                                                    <div class="d-flex align-items-center">
+                                                        <a href="detail.html">
+                                                            <img class="cart-item-img"
+                                                            :src="$url + '/get_frontPage_product/' + item.product.frontPage" alt="...">
+                                                        </a>
+                                                        <div class="cart-title text-start">
+                                                            <a
                                                                 class="text-uppercase text-dark"
-                                                                href="detail.html"><strong>Skull Tee</strong></a><br><span
-                                                                class="text-muted text-sm">Size: Large</span><br><span
-                                                                class="text-muted text-sm">Colour: Green</span>
+                                                                href="detail.html"><strong>{{ item.product.title.substring(0, 20) }}......</strong>
+                                                            </a>
+                                                            <br>
+                                                            <span class="text-muted text-sm">{{ item.product.variety }}: {{ item.variety.variety }}</span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-2">$65.00</div>
-                                                <div class="col-2">4
+                                                <div class="col-2">{{convertCurrency(item.product.price) }}</div>
+                                                <div class="col-2">{{ item.amount }}
                                                 </div>
-                                                <div class="col-2 text-center">$260.00</div>
-                                            </div>
-                                        </div>
-                                        <!-- Product-->
-                                        <div class="cart-item">
-                                            <div class="row d-flex align-items-center text-center">
-                                                <div class="col-6">
-                                                    <div class="d-flex align-items-center"><a href="detail.html"><img
-                                                                class="cart-item-img"
-                                                                src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-kyle-loftus-596319-unsplash.jpg"
-                                                                alt="..."></a>
-                                                        <div class="cart-title text-start"><a
-                                                                class="text-uppercase text-dark"
-                                                                href="detail.html"><strong>Transparent
-                                                                    Blouse</strong></a><br><span
-                                                                class="text-muted text-sm">Size: Medium</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">$55.00</div>
-                                                <div class="col-2">3
-                                                </div>
-                                                <div class="col-2 text-center">$165.00</div>
-                                            </div>
-                                        </div>
-                                        <!-- Product-->
-                                        <div class="cart-item">
-                                            <div class="row d-flex align-items-center text-center">
-                                                <div class="col-6">
-                                                    <div class="d-flex align-items-center"><a href="detail.html"><img
-                                                                class="cart-item-img"
-                                                                src="https://d19m59y37dris4.cloudfront.net/sell/2-0/img/product/product-square-serrah-galos-494312-unsplash.jpg"
-                                                                alt="..."></a>
-                                                        <div class="cart-title text-start"><a
-                                                                class="text-uppercase text-dark"
-                                                                href="detail.html"><strong>White Tee</strong></a><br><span
-                                                                class="text-muted text-sm">Size: Medium</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2">$55.00</div>
-                                                <div class="col-2">3
-                                                </div>
-                                                <div class="col-2 text-center">$165.00</div>
+                                                <div class="col-2 text-center">{{convertCurrency(item.product.price * item.amount) }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -147,11 +107,11 @@
                                 <p class="text-sm">Shipping and additional costs are calculated based on values you have
                                     entered.</p>
                                 <ul class="order-summary mb-0 list-unstyled">
-                                    <li class="order-summary-item"><span>Subtotal </span><span>$390.00</span></li>
-                                    <li class="order-summary-item"><span>Envio</span><span>$10.00</span></li>
+                                    <li class="order-summary-item"><span>Subtotal </span><span>{{ convertCurrency(total) }}</span></li>
+                                    <li class="order-summary-item"><span>Envio</span><span>{{ convertCurrency($envio) }}</span></li>
 
                                     <li class="order-summary-item border-0"><span>Total</span><strong
-                                            class="order-summary-total">$400.00</strong></li>
+                                            class="order-summary-total">{{ convertCurrency(total + $envio) }}</strong></li>
                                 </ul>
                             </div>
                         </div>
@@ -202,12 +162,18 @@
 
 <script>
 import axios from 'axios';
+import currency_formatter from 'currency-formatter';
+
 export default {
     name: 'CheckoutPage',
     data() {
         return {
             addres_data: [],
             sales: {},
+            total: 0,
+            product: [],
+            load_data: true,
+
         }
     },
 
@@ -226,10 +192,37 @@ export default {
         selected_address($event){
             console.log($event.target.value);
             this.sales = $event.target.value;
-        }
+        },
+
+        init_data_shopping(){
+            this.load_data = true;
+            if (this.$store.state.token != null) {
+                axios.get(this.$url+'/get_product_car',{
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization' : this.$store.state.token
+                    }
+                }).then((result) => {
+                    // Total al carrito
+                    this.total = 0;
+                    for (let item of result.data.shopping_all) {
+                        const subtotal = item.product.price * item.amount;
+                        this.total = this.total + subtotal;
+                    }
+                    this.product = result.data.shopping_all
+                    console.log(this.product);
+                    this.load_data = false;
+                })
+            }
+        },
+
+        convertCurrency(number) {
+            return currency_formatter.format(number, { code: 'USD' });
+        },
     },
     beforeMount(){
         this.init_data();
+        this.init_data_shopping()
     }
 }
 </script>

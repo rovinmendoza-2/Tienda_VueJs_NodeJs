@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="cart-body" style="background-color: white !important"  v-if="!load_data">
                                     <!-- Product-->
-                                    <div class="cart-item" v-for="item in shopping_car">
+                                    <div class="cart-item" v-for="item in product">
                                         <div class="row d-flex align-items-center text-center">
                                             <div class="col-5">
                                                 <div class="d-flex align-items-center">
@@ -49,10 +49,10 @@
                                                     <div class="cart-title text-start">
                                                         <router-link class="text-uppercase text-dark"
                                                         :to="{ name: 'product-shop', params: { slug: item.product.slug } }">
-                                                        <strong>{{ item.product.title.subst(0,20) }}...</strong>
+                                                        <strong>{{ item.product.title.substring(0, 20) }}...</strong>
                                                         </router-link>
                                                         <br>
-                                                        <span class="text-muted text-sm">{{ item.product.variet }}: {{ item.variety.variety }}</span>
+                                                        <span class="text-muted text-sm">{{ item.product.variety }}: {{ item.variety.variety }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -63,7 +63,7 @@
                                             <div class="col-2 text-center">{{convertCurrency(item.product.price * item.amount) }}</div>
                                             <div class="col-1 text-center">
                                                 <a class="cart-remove" style="cursor: pointer" v-on:click="delete_product_car(item._id)">
-                                                    <img src="/assets/media/borrar.png" style="18px">
+                                                    <img src="/assets/media/borrar.png" style="width: 30px">
                                                 </a>
                                             </div>
                                         </div>
@@ -72,7 +72,7 @@
                                 <div class="card-body" style="background-color: white !important" v-if="load_data">
                                     <div class="row">
                                         <div class="col-12 text-center">
-                                            <img src="/assets/media/borrar.png" style="width:60px">
+                                            <img src="/assets/media/borrar.png" style="width:20px">
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@ export default {
     data(){
         return {
             total: 0,
-            shopping_car: [],
+            product: [],
             load_data: true,
         }
     },
@@ -137,8 +137,8 @@ export default {
                         const subtotal = item.product.price * item.amount;
                         this.total = this.total + subtotal;
                     }
-                    this.shopping_car = result.data.shopping_all
-                    console.log(this.shopping_car);
+                    this.product = result.data.shopping_all
+                    console.log(this.product);
                     this.load_data = false;
                 })
             }
@@ -163,7 +163,7 @@ export default {
     },
 
     beforeMount() {
-        //this.init_data();
+        this.init_data();
         console.log("token", this.$store.state.token)
     }
 }
