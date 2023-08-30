@@ -28,6 +28,7 @@ api.delete('/delete_variety_product/:id', authetication.decodeToken, productCont
 api.post('/register_income', [authetication.decodeToken, path_ingreso], productController.register_income);
 api.get('/get_income_admin/:start/:end', authetication.decodeToken, productController.get_income_admin);
 api.get('/get_frontPage_income/:name', productController.get_frontPage_income);
+api.get('/get_income_details/:id', authetication.decodeToken, productController.get_income_details);
 
 // Ruta para subir imagen
 api.post('/register_imagen', [authetication.decodeToken, path_img], productController.register_imagen);

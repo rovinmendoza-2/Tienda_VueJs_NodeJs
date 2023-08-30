@@ -62,6 +62,7 @@
             <th>Serie</th>
             <th>Monto</th>
             <th>Documento</th>
+            <th>*</th>
             </tr>
         </thead>
         <tbody class="fs-base" v-if="incomes.length >= 1">
@@ -79,6 +80,12 @@
                     <a :href="$url+'/get_frontPage_income/'+item.document" target="_blank">
                         <span class="badge bg-success">Abrir documento</span>
                     </a>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-sm">
+                        <router-link style="color: white;" :to="{name: 'income-detail', params: {id: item._id}}">ver detalles</router-link>
+                    </button>
+                    
                 </td>
             </tr>
             

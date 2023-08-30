@@ -511,7 +511,19 @@ const get_frontPage_income = async(req, res) => {
         }
     })
         
-}
+};
+const get_income_details = async(req, res)=> {
+    if(req.user){
+        const id = req.params['id'];
+
+        const income = await Income.findById({_id:id});
+        const income_details = await IncomeDetails.find({income:id}).populate('product').populate('variety')
+        res.status(200).send({income, income_details});
+    }else{
+      res.status(500).send({data:undefined, message: 'Error token'})
+    }
+  
+};
 
 
 module.exports = {
@@ -535,5 +547,6 @@ module.exports = {
     delete_subcategory,
     change_status_to_product,
     get_income_admin,
-    get_frontPage_income
+    get_frontPage_income,
+    get_income_details
 }

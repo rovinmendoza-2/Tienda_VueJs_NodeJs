@@ -17,7 +17,7 @@ import GalleryProductsPage from '../views/Products/GalleryProductsPage.vue';
 import CreateIncomePage from '../views/Incomes/CreateIncomePage.vue';
 import IndexCategoryPage from '../views/Categories/IndexCategoryPage.vue';
 import IndexIncomePage from '../views/Incomes/IndexIncomePage.vue';
-
+import DetailsIncomePage from '../views/Incomes/DetailsIncomePage.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -37,7 +37,8 @@ const routes = [
   {path: '/income', name: 'income-index', component: IndexIncomePage,  meta: { requiresAuth: true }},
   {path: '/income/create', name: 'income-create', component: CreateIncomePage,  meta: { requiresAuth: true }},
   {path: '/categorias', name: 'categorias', component: IndexCategoryPage,  meta: { requiresAuth: true }},
-
+  {path: '/income/:id', name: 'income-detail', component: DetailsIncomePage,  meta: { requiresAuth: true }},
+  
 ]
 
 const router = new VueRouter({
