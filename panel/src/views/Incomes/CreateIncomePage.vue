@@ -24,7 +24,7 @@
                                         <!-- Nav -->
                                         <ul class="nav nav-tabs nav-overflow header-tabs">
                                             <li class="nav-item">
-                                                <a class="nav-link">Ingresos</a>
+                                                <router-link to="/income" class="nav-link" >Ingresos</router-link>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link active">Nuevo ingreso</a>

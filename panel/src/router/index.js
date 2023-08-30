@@ -15,7 +15,8 @@ import EditProductsPage from '../views/Products/EditProductsPage.vue';
 import GalleryProductsPage from '../views/Products/GalleryProductsPage.vue';
 
 import CreateIncomePage from '../views/Incomes/CreateIncomePage.vue';
-import IndexCategoryPage from '../views//Categories/IndexCategoryPage.vue';
+import IndexCategoryPage from '../views/Categories/IndexCategoryPage.vue';
+import IndexIncomePage from '../views/Incomes/IndexIncomePage.vue';
 
 Vue.use(VueRouter)
 
@@ -33,7 +34,8 @@ const routes = [
   {path: '/product/gallery/:id', name: 'product-gallery', component: GalleryProductsPage,  meta: { requiresAuth: true }},
 
   // Rutas de ingresos
-  {path: '/income/create/', name: 'income-create', component: CreateIncomePage,  meta: { requiresAuth: true }},
+  {path: '/income', name: 'income-index', component: IndexIncomePage,  meta: { requiresAuth: true }},
+  {path: '/income/create', name: 'income-create', component: CreateIncomePage,  meta: { requiresAuth: true }},
   {path: '/categorias', name: 'categorias', component: IndexCategoryPage,  meta: { requiresAuth: true }},
 
 ]

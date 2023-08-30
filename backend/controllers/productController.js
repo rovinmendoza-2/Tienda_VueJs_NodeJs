@@ -478,7 +478,40 @@ const change_status_to_product = async(req, res)=> {
       res.status(500).send({data:undefined, message: 'Error token'})
     }
   
-  }
+};
+
+const get_income_admin = async(req, res)=> {
+    if(req.user){
+        const start = req.params['start'];
+        const end = req.params['end'];
+
+        const incomes = await Income.find({
+            createdAt:{
+                $gte: new Date(start+'T00:00:00'),
+                $lt: new Date(end+'T00:00:00'),
+            }
+        })
+        console.log(incomes);
+      res.status(200).send(incomes);
+    }else{
+      res.status(500).send({data:undefined, message: 'Error token'})
+    }
+  
+};
+
+const get_frontPage_income = async(req, res) => {
+    let name = req.params['name']
+    fs.stat('./uploads/facturas/'+name, (error) => {
+        if(error){
+            let img_path = './uploads/default.jpg';
+            res.status(200).sendFile(path.resolve(img_path));
+        }else{
+            let img_path = './uploads/facturas/'+name;
+            res.status(200).sendFile(path.resolve(img_path));
+        }
+    })
+        
+}
 
 
 module.exports = {
@@ -500,5 +533,7 @@ module.exports = {
     list_category,
     create_subcategory,
     delete_subcategory,
-    change_status_to_product
+    change_status_to_product,
+    get_income_admin,
+    get_frontPage_income
 }

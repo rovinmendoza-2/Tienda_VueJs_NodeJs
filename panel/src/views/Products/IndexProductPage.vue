@@ -162,11 +162,6 @@
                               <p class="text-muted mb-4">
                                 Looks like you ended up here by accident?
                               </p>
-
-                              <!-- Button -->
-                              <a href="index.html" class="btn btn-lg btn-primary text-white">
-                                Return to your dashboard
-                              </a>
                             </div>
                           </div>
                         </div>
