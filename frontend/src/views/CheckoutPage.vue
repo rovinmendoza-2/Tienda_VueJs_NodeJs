@@ -148,7 +148,7 @@
 
                         </div>
                         <div class="block-footer">
-                            <a class="btn btn-dark" id="btnBuy" style="cursor: pointer;width: 100%;">PAGAR</a>
+                            <router-link to="/verify/:state" class="btn btn-dark" id="btnBuy" style="cursor: pointer;width: 100%;" v-on:click="paymentMarket()">PAGAR</router-link>
                             <!--  <button class="btn btn-dark btnBuy" style="cursor: pointer" disabled>Procesando...</button> -->
 
                         </div>
@@ -235,7 +235,7 @@ export default {
             return currency_formatter.format(number, { code: 'USD' });
         },
 
-        // paymentMarket(){
+        paymentMarket(){
         //     let data = {
         //         back_urls: {
         //             success: 'http://localhost:8080/check/success',
@@ -253,7 +253,7 @@ export default {
         //     }).then( (result)=> {
         //         console.log(result);
         //     })
-        // }
+        }
     },
     beforeMount(){
         this.init_data();

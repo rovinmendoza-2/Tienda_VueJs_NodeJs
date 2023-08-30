@@ -8,6 +8,7 @@ import ShoppingCarPage from '../views/Products/ShoppingCarPage.vue';
 
 import AddressPage from '../views/Address/AddressPage.vue';
 import CheckoutPage from '../views/CheckoutPage.vue';
+import VerificationPage from '../views/VerificationPage.vue';
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,8 @@ const routes = [
 
   // rutas para mercado pago
   { path: '/checkout', name: 'checkout', component: CheckoutPage},
+
+  { path: '/verify/:state', name: 'verify', component: VerificationPage},
 ]
 
 const router = new VueRouter({
